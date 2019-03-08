@@ -9,15 +9,18 @@ class Test extends Model
     //
     protected $table = "test";
 
-    public function class{
+    public function class()
+    {
     	return $this->hasMany('App\Class_Test','id_test','id');
     }
 
-    public function user{
+    public function user()
+    {
     	return $this->hasMany('App\Test_User','id_test','id');
     }
 
-    public function question{
+    public function question()
+    {
     	return $this->belongsToMany('App\Question','question_test','id_test','id_question');
     }
 }
