@@ -14,23 +14,28 @@ class QuestionController extends Controller
     }
     public function getEdit($id)
     {
-    	$question = Question::find($id);
-    	return view('admin.question.list',['question'=>$question]);
+    	 $question = Question::find($id);
+    	return view('admin.question.edit',['question'=>$question]);
+        // return $question;
     }
     public function postEdit(Request $request, $id)
     {
     	$question =  Question::find($id);
     	$this->validate($request,[
-    		'Ten'=>'required|unique:tintuc,Ten|min:3|max:100'
+    		'content'=>'unique:question,content|min:3'
     	],
     	[
-    		'Ten.required'=> 'Ban chua nhap ten the loai',
-    		'Ten.unique'=> 'Ten the loai nay da ton tai',
-    		'Ten.min'=>'Ten the loai phai lon hon 3',
-    		'Ten.max'=>'Ten the loai phai nho hon 100'
+    		'content.unique'=> 'This question already exists!',
+    		'content.min'=>'The content of the question must not be too short',
     	]);
-    	$tintuc->save();
-    	return redirect('admin/tintuc/sua/' .$id)->with('thongbao','Sua thanh cong');
+        $question->content = $request->content;
+        $question->answer_1 = $request->answer_1;
+        $question->answer_2 = $request->answer_2;
+        $question->answer_3 = $request->answer_3;
+        $question->answer_4 = $request->answer_4;
+        $question->correct_answer =  $request->correct_answer;
+    	$question->save();
+    	return redirect('admin/question/edit/' .$id)->with('message','The question was successfully edited');
     }
 
 }

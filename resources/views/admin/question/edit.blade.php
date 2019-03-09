@@ -1,40 +1,69 @@
 @extends('admin.layouts.index')
 @section('content')
-<div id="page-wrapper">
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-lg-12">
-				<h1 class="page-header">The Loai
-				<small>{{$theloai->Ten}}</small>
-				</h1>
-			</div>
+<div class="row list_table">
+	<div class="card col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<div class="card-body">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 fix-top">
+				<h1 class="page-header">
+				<i class="mdi mdi-comment-question-outline"><b>   Question </b></i></h1>
+			</div><br>
 			<!-- /.col-lg-12 -->
 			<div class="col-lg-7" style="padding-bottom:120px">
 				@if(count($errors) > 0)
-					<div class="alert alert-danger">
-						@foreach($errors->all() as $err)
-							{{$err}}<br>
-						@endforeach
-					</div>
-				@endif
-				@if(session('thongbao'))
-					<div class="alert alert-success">
-					{{session('thongbao')}}
-					</div>
-				@endif
-				<form action="admin/theloai/sua/{{$theloai->id}}" method="POST">
-					<input type="hidden" name="_token" value="{{csrf_token()}}" />
-					<div class="form-group">
-						<label>Ten The Loai</label>
-						<input class="form-control" name="Ten" placeholder="Dien ten the loai" value="{{$theloai->Ten}}" />
-					</div>
-					<button type="submit" class="btn btn-default">Sua</button>
-					<button type="reset" class="btn btn-default">Reset</button>
-					<form>
-					</div>
+				<div class="alert alert-danger">
+					@foreach($errors->all() as $err)
+					{{$err}}<br>
+					@endforeach
 				</div>
-				<!-- /.row -->
+				@endif
+				@if(session('message'))
+				<div class="alert alert-success">
+					{{session('message')}}
+				</div>
+				@endif
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<form action="admin/question/edit/{{$question->id}}" method="POST" name="form">
+						<input type="hidden" name="_token" value="{{csrf_token()}}" />
+						<div class="form-group">
+							<label>Question Content</label>
+							<input class="form-control" name="content" required="required" value="{{$question->content}}" /><br>
+							<label>Answer 1</label>
+							<input class="form-control" name="answer_1" required="required" value="{{$question->answer_1}}" /><br>
+							<label>Answer 2</label>
+							<input class="form-control" name="answer_2" required="required" value="{{$question->answer_2}}" /><br>
+							<label>Answer 3</label>
+							<input class="form-control" name="answer_3" required="required" value="{{$question->answer_3}}" /><br>
+							<label>Answer 4</label>
+							<input class="form-control" name="answer_4" required="required" value="{{$question->answer_4}}" /><br>
+							<label>Correct Answer</label>
+							<input class="form-control" name=" correct_answer" required="required" value="{{$question->correct_answer}}" />
+						</div>
+						<button type="submit" class="btn btn-inverse-success" onClick=" return checkform(form);">Apply</button>
+						<a type= "button" href="admin/question" class="btn btn-inverse-dark">Cancel</a>
+					</form>
+				</div>
 			</div>
-			<!-- /.container-fluid -->
 		</div>
+	</div>
+</div>
+@endsection
+@section('script')
+<script>
+	function checkform(form){
+		if(form.correct_answer.value != form.answer_1.value){
+			if(form.correct_answer.value != form.answer_2.value){
+				if(form.correct_answer.value != form.answer_3.value){
+					if(form.correct_answer.value != form.answer_4.value){
+						alert("This Correct Answer is not same!");
+						form.correct_answer.focus();
+					}
+				}
+			}
+		}else{
+			alert("ok");
+			window.location.assign("admin/question/edit/{{$question->id}}");
+		}
+	}
+</script>
+
 @endsection

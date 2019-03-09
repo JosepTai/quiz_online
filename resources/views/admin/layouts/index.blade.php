@@ -23,6 +23,7 @@
         </div>
       </div>
     </div>
+    @yield('script')
     <script src="admin_asset/vendors/js/vendor.bundle.base.js"></script>
     <script src="admin_asset/vendors/js/vendor.bundle.addons.js"></script>
     <script src="admin_asset/js/off-canvas.js"></script>
