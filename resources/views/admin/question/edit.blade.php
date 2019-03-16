@@ -26,7 +26,7 @@
 						<input type="hidden" name="_token" value="{{csrf_token()}}" />
 						<div class="form-group">
 							<label>Question Content</label>
-							<input class="form-control" name="content" required="required" value="{{$question->content}}" /><br>
+							<textarea rows="5" class="form-control" name="content" required="required"/>{{$question->content}}</textarea><br>
 							<label>Answer 1</label>
 							<input class="form-control" name="answer_1" required="required" value="{{$question->answer_1}}" /><br>
 							<label>Answer 2</label>

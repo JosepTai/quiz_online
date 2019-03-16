@@ -42,4 +42,16 @@ Route::group(['prefix'=>'admin'],function(){
 		Route::get('delete/{id}','QuestionController@getDelete');
 
 	});
+    Route::group(['prefix'=>'question'],function(){
+        Route::get('/','QuestionController@getList');
+
+        Route::get('edit/{id}','QuestionController@getEdit');
+        Route::post('edit/{id}','QuestionController@postEdit');
+
+        Route::get('add','QuestionController@getAdd');
+        Route::post('add','QuestionController@postAdd');
+
+        Route::get('delete/{id}','QuestionController@getDelete');
+
+    });
 });

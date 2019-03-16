@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="admin_asset/vendors/css/vendor.bundle.base.css">
     <link rel="stylesheet" href="admin_asset/css/style.css">
     <link rel="stylesheet" href="admin_asset/css/my.css">
-    <link rel="shortcut icon" href="admin_asset/images/favicon.png" />
   </head>
   <body>
     <div class="container-scroller">
@@ -24,10 +23,16 @@
       </div>
     </div>
     @yield('script')
+    <script src="admin_asset/js/jquery-3.3.1.js"></script>
     <script src="admin_asset/vendors/js/vendor.bundle.base.js"></script>
     <script src="admin_asset/vendors/js/vendor.bundle.addons.js"></script>
     <script src="admin_asset/js/off-canvas.js"></script>
     <script src="admin_asset/js/misc.js"></script>
     <script src="admin_asset/js/dashboard.js"></script>
+    <script>
+       setTimeout(function () {
+        document.getElementById('message').style.display='none';
+    }, 1000);
+    </script>
   </body>
 </html>

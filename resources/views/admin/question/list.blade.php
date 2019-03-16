@@ -1,8 +1,8 @@
 @extends('admin.layouts.index')
 @section('content')
-@if(session('thongbao'))
-<div class="alert alert-success">
-    {{session('thongbao')}}
+@if(session('message'))
+<div class="alert alert-success" id="message">
+    {{session('message')}}
 </div>
 @endif
 <div class="row list_table">
@@ -12,43 +12,10 @@
                 <h1 class="page-header">
                 <i class="mdi mdi-comment-question-outline"><b>   Question</b></i>
                 
-                <button class="btn btn-outline-success btn-fw" href='#modal-id' data-toggle="modal" >Add New Question</button>
+                <a type= "button" href="admin/question/add" class="btn btn-outline-success">Add New Question</a>
                 </h1>
                 {{-- modal --}}
-                <div class="modal fade" id="modal-id">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title ">Add new Question</h4>
-                            </div>
-                            <form action="admin/question/" method="POST" class="form-group">
-                                <div class="modal-body">
-                                    <label>Question Content</label>
-                                    <input class="form-control" name="content" required="required" /><br>
-                                    <label>Level of difficult</label>
-                                    <select name="level" class="form_control">
-                                        <option value="easy">Easy</option>
-                                        <option value="hard">Hard</option>
-                                    </select><br>
-                                    <label>Answer 1</label>
-                                    <input class="form-control" name="answer_1" required="required" /><br>
-                                    <label>Answer 2</label>
-                                    <input class="form-control" name="answer_2" required="required" /><br>
-                                    <label>Answer 3</label>
-                                    <input class="form-control" name="answer_3" required="required" /><br>
-                                    <label>Answer 4</label>
-                                    <input class="form-control" name="answer_4" required="required" /><br>
-                                    <label>Correct Answer</label>
-                                    <input class="form-control" name=" correct_answer" required="required"/>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    <button type="sunmit" class="btn btn-primary">Add</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+
             </div>
             <table class="table">
                 <thead>
