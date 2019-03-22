@@ -1,0 +1,217 @@
+Table "chapters" {
+  "id" int
+  "module_id" int
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Table "classes" {
+  "id" int
+  "name" varchar
+  "user_id" int
+  "module_id" int
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Table "class_user" {
+  "class_id" int
+  "user_id" int
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Table "exams" {
+  "id" int
+  "title" varchar
+  "class_id" int
+  "test_id" int
+  "duration" int
+  "ststus" text
+  "endtime" datetime
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Table "exam_question" {
+  "exam_id" int
+  "question_id" int
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Table "exam_user" {
+  "id" int
+  "exam_id" int
+  "user_id" int
+  "score" double
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Table "exam_user_status" {
+  "status_id" int
+  "exam_user_id" int
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Table "modules" {
+  "id" int
+  "user_id" int
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Table "parts" {
+  "id" int
+  "chapter_id" int
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Table "part_question" {
+  "part_id" int
+  "question_id" int
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Table "questions" {
+  "id" int
+  "level" text
+  "user_id" int
+  "content" varchar
+  "answer_1" varchar
+  "answer_2" varchar
+  "answer_3" varchar
+  "answer_4" varchar
+  "correct_answer" varchar
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Table "results" {
+  "id" int
+  "exam_user_id" int
+  "question_id" int
+  "user_selected" varchar
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Table "status" {
+  "id" int
+  "name" varchar
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+
+Table "users" {
+  "id" int
+  "name" varchar
+  "email" varchar
+  "email_verified_at" timestamp
+  "password" varchar
+  "remember_token" varchar
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+ref{
+  questions.id > exam_question.question_id
+}
+ref{
+  questions.id > part_question.question_id
+}
+ref{
+  questions.id > results.question_id
+}
+ref{
+  status.id > exam_user_status.status_id
+}
+ref{
+  exam_user.id > results.exam_user_id
+}
+ref{
+  exam_user.id > exam_user_status.exam_user_id
+}
+ref{
+  users.id > questions.user_id
+}
+ref{
+  users.id > classes.user_id
+}
+ref{
+  users.id > class_user.user_id
+}
+ref{
+  users.id > exam_user.user_id
+}
+ref{
+  users.id > modules.user_id
+}
+ref{
+  exams.id > exam_user.exam_id
+}
+ref{
+  exams.id > exam_question.exam_id
+}
+ref{
+  classes.id > exams.class_id
+}
+ref{
+  classes.id > class_user.class_id
+}
+ref{
+  modules.id > classes.module_id
+}
+ref{
+  modules.id > chapters.module_id
+}
+ref{
+  chapters.id > parts.chapter_id
+}
+ref{
+  parts.id > part_question.part_id
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

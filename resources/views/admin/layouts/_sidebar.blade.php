@@ -8,6 +8,13 @@
               <i class="mdi mdi-view-dashboard  menu-icon"></i>
             </a>
           </li>
+          {{-- Module --}}
+          <li class="nav-item">
+            <a class="nav-link" href="admin/module">
+              <span class="menu-title">Module</span>
+              <i class="mdi mdi-bank  menu-icon"></i>
+            </a>
+          </li>
           {{-- Class --}}
           <li class="nav-item">
             <a class="nav-link" href="admin/class">
@@ -24,7 +31,7 @@
           </li>
           {{-- Question --}}
           <li class="nav-item">
-            <a class="nav-link" href="admin/question">
+            <a class="nav-link" href="admin/questions">
               <span class="menu-title">Question</span>
               <i class="mdi mdi-comment-question-outline  menu-icon"></i>
             </a>
