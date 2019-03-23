@@ -12,7 +12,7 @@
                 <h1 class="page-header">
                 <i class="mdi mdi-comment-question-outline"><b>   Question</b></i>
                 
-                <a type= "button" href="admin/question/add" class="btn btn-outline-success">Add New Question</a>
+                <a type="button" href="admin/questions/add"  class="btn btn-outline-success btn-fw">Add New Question</a>
                 </h1>
                 {{-- modal --}}
 
@@ -31,19 +31,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($questions as $questions)
+                    @foreach($questions as $question)
                     <tr class="odd gradeX" align="center">
-                        <td>{{$questions->id}}</td>
-                        <td>{{$questions->content}}</td>
-                        <td>{{$questions->level}}</td>
-                        <td>{{$questions->answer_1}}</td>
-                        <td>{{$questions->answer_2}}</td>
-                        <td>{{$questions->answer_3}}</td>
-                        <td>{{$questions->answer_4}}</td>
-                        <td>{{$questions->correct_answer}}</td>
-                        <td>{{$questions->create_at}}</td>
-                        {{--<td class="center action"><a type="button" class="btn btn-outline-danger btn-icon-text" href="admin/question/delete/{{$questions->id}}"><i class="mdi mdi-delete "></i></a></td>--}}
-                        {{--<td class="center action"><a type="button" class="btn btn-outline-success btn-icon-text" href="admin/question/edit/{{$questions->id}}"><i class="mdi mdi-grease-pencil "></i></a></td>--}}
+                        <td>{{$question->id}}</td>
+                        <td>{{$question->content}}</td>
+                        <td>{{$question->level}}</td>
+                        <td>{{$question->answer_1}}</td>
+                        <td>{{$question->answer_2}}</td>
+                        <td>{{$question->answer_3}}</td>
+                        <td>{{$question->answer_4}}</td>
+                        <td>{{$question->correct_answer}}</td>
+                        <td>{{$question->create_at}}</td>
+                        {{--<td class="center action"><a type="button" class="btn btn-outline-danger btn-icon-text" href="admin/question/delete/{{$question->id}}"><i class="mdi mdi-delete "></i></a></td>--}}
+                        {{--<td class="center action"><a type="button" class="btn btn-outline-success btn-icon-text" href="admin/question/edit/{{$question->id}}"><i class="mdi mdi-grease-pencil "></i></a></td>--}}
                     </tr>
                     @endforeach
                 </tbody>

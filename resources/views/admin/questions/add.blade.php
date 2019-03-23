@@ -23,7 +23,7 @@
                 </div>
                 @endif
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <form action="admin/question/add" method="POST" name="form">
+                    <form action="admin/questions/add" method="POST" name="form">
                         <input type="hidden" name="_token" value="{{csrf_token()}}" />
                         <div class="form-group">
                             <label>Question Content</label>
@@ -45,7 +45,7 @@
                             <input class="form-control" name=" correct_answer" required="required"/>
                         </div>
                         <button type="submit" class="btn btn-inverse-success" onClick=" return checkform(form);">Add</button>
-                        <a type= "button" href="admin/question" class="btn btn-inverse-dark">Cancel</a>
+                        <a type= "button" href="admin/questions" class="btn btn-inverse-dark">Cancel</a>
                     </form>
                 </div>
             </div>

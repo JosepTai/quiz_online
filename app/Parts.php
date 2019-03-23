@@ -14,6 +14,6 @@ class Parts extends Model
     }
 
     public function questions(){
-        return $this->belongsToMany('App\Questions','part_question','part_id','id');
+       return $this->hasMany('App\Questions','part_id','id');
     }
 }

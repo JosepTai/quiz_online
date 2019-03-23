@@ -17,12 +17,11 @@ class CreateExamsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->integer('class_id')->unsigned();
-            $table->integer('test_id')->unsigned();
             $table->foreign('class_id')->references('id')->on('classes');
-            $table->foreign('test_id')->references('id')->on('tests');
             $table->integer('duration');
-            $table->text('ststus');
-            $table->DateTime('endtime');
+            $table->text('status');
+            $table->DateTime('start_time');
+            $table->DateTime('end_time');
             $table->timestamps();
         });
     }

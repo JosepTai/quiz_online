@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateChaptersTable extends Migration
+class CreatePartsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateChaptersTable extends Migration
      */
     public function up()
     {
-        Schema::create('chapters', function (Blueprint $table) {
+        Schema::create('parts', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer("module_id")->unsigned();
-            $table->foreign('module_id')->references('id')->on('modules');
+            $table->string('name');
+            $table->integer('chapter_id')->unsigned();
+            $table->foreign('chapter_id')->references('id')->on('chapters');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateChaptersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('chapters');
+        Schema::dropIfExists('parts');
     }
 }

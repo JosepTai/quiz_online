@@ -79,18 +79,11 @@ CREATE TABLE `parts`
 	`updated_at` timestamp
 );
 
-CREATE TABLE `part_question` 
-(
-	`part_id` int,
-	`question_id` int,
-	`created_at` timestamp,
-	`updated_at` timestamp
-);
-
 CREATE TABLE `questions` 
 (
 	`id` int,
 	`level` text,
+	`part_id` int,
 	`user_id` int,
 	`content` varchar(255),
 	`answer_1` varchar(255),
@@ -134,8 +127,6 @@ CREATE TABLE `users`
 
 ALTER TABLE `questions` ADD FOREIGN KEY (`id`) REFERENCES `exam_question` (`question_id`);
 
-ALTER TABLE `questions` ADD FOREIGN KEY (`id`) REFERENCES `part_question` (`question_id`);
-
 ALTER TABLE `questions` ADD FOREIGN KEY (`id`) REFERENCES `results` (`question_id`);
 
 ALTER TABLE `status` ADD FOREIGN KEY (`id`) REFERENCES `exam_user_status` (`status_id`);
@@ -168,4 +159,4 @@ ALTER TABLE `modules` ADD FOREIGN KEY (`id`) REFERENCES `chapters` (`module_id`)
 
 ALTER TABLE `chapters` ADD FOREIGN KEY (`id`) REFERENCES `parts` (`chapter_id`);
 
-ALTER TABLE `parts` ADD FOREIGN KEY (`id`) REFERENCES `part_question` (`part_id`);
+ALTER TABLE `parts` ADD FOREIGN KEY (`id`) REFERENCES `questions` (`part_id`);

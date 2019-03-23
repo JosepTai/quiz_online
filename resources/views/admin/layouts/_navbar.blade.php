@@ -12,7 +12,7 @@
                 <img src="images/faces/face1.jpg" alt="image">         
               </div>
               <div class="nav-profile-text">
-                <p class="mb-1 text-black">Admin</p>
+                <p class="mb-1 text-black">{{auth()->user()->name}}</p>
               </div>
             </a>
             <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">

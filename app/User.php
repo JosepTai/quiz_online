@@ -29,13 +29,23 @@ class User extends Authenticatable
     ];
 
 
-    public function class()
+    public function student()
     {
         return $this->belongsToMany('App\Class','class_user','id_user','id_class');
     }
 
-    public function test()
+    public function teacher()
     {
-        return $this->hasMany('App\Test_User','id_user','id');
+        return $this->hasMany('App\Classes','user_id','id');
+    }
+
+    public function exam_user()
+    {
+        return $this->hasMany('App\Exam_User','user_id','id');
+    }
+
+    public function module()
+    {
+        return $this->hasMany('App\Modules','user_id','id');
     }
 }

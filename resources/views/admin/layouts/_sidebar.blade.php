@@ -10,23 +10,16 @@
           </li>
           {{-- Module --}}
           <li class="nav-item">
-            <a class="nav-link" href="admin/module">
+            <a class="nav-link" href="admin/modules">
               <span class="menu-title">Module</span>
               <i class="mdi mdi-bank  menu-icon"></i>
             </a>
           </li>
           {{-- Class --}}
           <li class="nav-item">
-            <a class="nav-link" href="admin/class">
+            <a class="nav-link" href="admin/classes">
               <span class="menu-title">Class</span>
               <i class="mdi mdi-bank  menu-icon"></i>
-            </a>
-          </li>
-          {{-- Test --}}
-          <li class="nav-item">
-            <a class="nav-link" href="admin/test">
-              <span class="menu-title">Test</span>
-              <i class="mdi mdi-book-minus  menu-icon"></i>
             </a>
           </li>
           {{-- Question --}}
@@ -34,13 +27,6 @@
             <a class="nav-link" href="admin/questions">
               <span class="menu-title">Question</span>
               <i class="mdi mdi-comment-question-outline  menu-icon"></i>
-            </a>
-          </li>
-          {{-- User --}}
-          <li class="nav-item">
-            <a class="nav-link" href="admin/user">
-              <span class="menu-title">User</span>
-              <i class="mdi mdi-account-card-details  menu-icon"></i>
             </a>
           </li>
         </ul>
