@@ -1,6 +1,7 @@
 CREATE TABLE `chapters` 
 (
 	`id` int,
+	`name` varchar(255),
 	`module_id` int,
 	`created_at` timestamp,
 	`updated_at` timestamp
@@ -29,10 +30,10 @@ CREATE TABLE `exams`
 	`id` int,
 	`title` varchar(255),
 	`class_id` int,
-	`test_id` int,
 	`duration` int,
-	`ststus` text,
-	`endtime` datetime,
+	`status` text,
+	`start_time` datetime,
+	`end_time` datetime,
 	`created_at` timestamp,
 	`updated_at` timestamp
 );
@@ -66,6 +67,7 @@ CREATE TABLE `exam_user_status`
 CREATE TABLE `modules` 
 (
 	`id` int,
+	`name` varchar(255),
 	`user_id` int,
 	`created_at` timestamp,
 	`updated_at` timestamp
@@ -74,6 +76,7 @@ CREATE TABLE `modules`
 CREATE TABLE `parts` 
 (
 	`id` int,
+	`name` varchar(255),
 	`chapter_id` int,
 	`created_at` timestamp,
 	`updated_at` timestamp
@@ -134,8 +137,6 @@ ALTER TABLE `status` ADD FOREIGN KEY (`id`) REFERENCES `exam_user_status` (`stat
 ALTER TABLE `exam_user` ADD FOREIGN KEY (`id`) REFERENCES `results` (`exam_user_id`);
 
 ALTER TABLE `exam_user` ADD FOREIGN KEY (`id`) REFERENCES `exam_user_status` (`exam_user_id`);
-
-ALTER TABLE `users` ADD FOREIGN KEY (`id`) REFERENCES `questions` (`user_id`);
 
 ALTER TABLE `users` ADD FOREIGN KEY (`id`) REFERENCES `classes` (`user_id`);
 
