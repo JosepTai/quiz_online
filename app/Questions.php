@@ -12,11 +12,11 @@ class Questions extends Model
         return $this->belongsTo('App\Parts','part_id','id');
     }
 
-    public function exam(){
-        return $this->belongsToMany('App\Exams','exam_question','question_id','id');
+    public function results(){
+        return $this->hasMany('App\Results','question_id','id');
     }
 
-    public function result(){
-        return $this->hasMany('App\Results','question_id','id');
+    public function tests(){
+        return $this->belongsToMany('App\Tests','question_test','question_id','test_id');
     }
 }

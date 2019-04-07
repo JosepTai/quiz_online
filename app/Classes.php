@@ -10,7 +10,7 @@ class Classes extends Model
     protected $table = "classes";
 
     public function teacher(){
-        return $this->belongsTo('App\Users','user_id','id');
+        return $this->belongsTo('App\User','user_id','id');
     }
 
     public function module(){
@@ -22,6 +22,6 @@ class Classes extends Model
     }
 
     public function students(){
-        return $this->belongsToMany('App\Users','class_user','class_id','id');
+        return $this->belongsToMany('App\User','class_user','class_id','user_id')->withPivot('updated_at');
     }
 }

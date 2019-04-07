@@ -2,21 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Chapters;
+use App\Modules;
+use App\Parts;
 use Illuminate\Http\Request;
 use App\Questions;
 class QuestionsController extends Controller
 {
-    //getList
-    public function getList(){
-        $questions = Questions::all();
-        return view('admin.questions.list',['questions'=>$questions]);
+    public function __construct()
+    {
+        $this->middleware('auth');
     }
-    //getAdd
-    public function getAdd(){
-        return view('admin.questions.add');
+    //getList
+    public function index(){
+        $modules = Modules::where('user_id',auth()->id())->get();
+        $chapters = Chapters::all();
+        $parts = auth()->user()->parts();
+        $questions = Questions::where('user_id',auth()->id())->get();
+        return view('questions.index',['modules'=>$modules,'chapters'=>$chapters,'parts'=>$parts,'questions'=>$questions]);
     }
     //postAdd
-    public function postAdd(Request $request){
+    public function store(Request $request){
         $this->validate($request,[
             'content'=>'required|unique:Questions,content|min:3'
         ],
@@ -25,15 +31,17 @@ class QuestionsController extends Controller
             ]);
        $questions = new Questions();
        $questions->content = $request->get('content', '');
-       $questions->level = $request->level;
-       $questions->answer_1 = $request->answer_1;
-       $questions->answer_2 = $request->answer_2;
-       $questions->answer_3 = $request->answer_3;
-       $questions->answer_4 = $request->answer_4;
-       $questions->correct_answer = $request->correct_answer;
+       $questions->level = $request->get('level', '');
+       $questions->user_id = auth()->id();
+       $questions->part_id = $request->get('part', '');
+       $questions->answer_1 = $request->get('answer_1', '');
+       $questions->answer_2 = $request->get('answer_2', '');
+       $questions->answer_3 = $request->get('answer_3', '');
+       $questions->answer_4 = $request->get('answer_4', '');
+       $questions->correct_answer = $request->get('correct_answer', '');
 
        $questions->save();
 
-        return redirect('admin/questions/add')->with('message','Add new question success');
+        return redirect('questions')->with('message','Add new question success');
     }
 }

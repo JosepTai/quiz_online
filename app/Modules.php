@@ -18,6 +18,6 @@ class Modules extends Model
     }
 
     public function chapters(){
-        return $this->hasMany('App\Chapter','module_id','id');
+        return $this->hasMany('App\Chapters','module_id','id');
     }
 }

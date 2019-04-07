@@ -13,11 +13,11 @@ class Exams extends Model
         return $this->belongsTo('App\Classes','class_id','id');
     }
 
-    public function user(){
+    public function users(){
         return $this->hasMany('App\Exam_User','exam_id','id');
     }
 
-    public function questions(){
-        return $this->belongsToMany('App\Questions','exam_question','exam_id','id');
+    public function tests(){
+        return $this->hasMany('App\Test','exam_id','id');
     }
 }

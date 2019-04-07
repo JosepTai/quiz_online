@@ -12,74 +12,51 @@
 */
 
 Auth::routes();
-
 Route::get('/', 'HomeController@index')->name('home');
-Route::get('admin', function(){
-		return view('admin.layouts.index');
+//  Modules
+Route::group(['prefix' => 'modules','as'=>'modules.'], function () {
+    Route::get('/', 'ModulesController@index')->name('index');
+    Route::post('create', 'ModulesController@store')->name('create');
+    Route::get('/{module_id}/chapters','ModulesController@show')->name('show');
 });
-//Admin
-Route::group(['prefix'=>'admin'],function(){
-//    Class
-	Route::group(['prefix'=>'classes'],function(){
-		Route::get('/','ClassesController@getList');
-
-		Route::get('edit/{id}','ClassesController@getEdit');
-		Route::post('edit/{id}','ClassesController@postEdit');
-
-		Route::get('add','ClassesController@getAdd');
-		Route::post('add','ClassesController@postAdd');
-
-		Route::get('delete/{id}','ClassesController@getDelete');
-
-	});
-//	Question
-	Route::group(['prefix'=>'questions'],function(){
-		Route::get('/','QuestionsController@getList');
-
-		Route::get('edit/{id}','QuestionsController@getEdit');
-		Route::post('edit/{id}','QuestionsController@postEdit');
-
-		Route::get('add','QuestionsController@getAdd');
-		Route::post('add','QuestionsController@postAdd');
-
-		Route::get('delete/{id}','QuestionsController@getDelete');
-
-	});
-//	Modules
-    Route::group(['prefix'=>'modules'],function(){
-        Route::get('/','ModulesController@getList');
-
-        Route::get('edit/{id}','ModulesController@getEdit');
-        Route::post('edit/{id}','ModulesController@postEdit');
-
-        Route::get('add','ModulesController@getAdd');
-        Route::post('add','ModulesController@postAdd');
-
-        Route::get('delete/{id}','ModulesController@getDelete');
-//Chapters
-        Route::group(['prefix'=>'chapters'],function() {
-            Route::get('/{id}','ChaptersController@getList');
-
-            Route::get('edit/{id}','ChaptersController@getEdit');
-            Route::post('edit/{id}','ChaptersController@postEdit');
-
-            Route::get('add','ChaptersController@getAdd');
-            Route::post('add','ChaptersController@postAdd');
-
-            Route::get('delete/{id}','ChaptersController@getDelete');
-//Parts
-            Route::group(['prefix'=>'parts'],function() {
-                Route::get('/','PartsController@getList');
-
-                Route::get('edit/{id}','PartsController@getEdit');
-                Route::post('edit/{id}','PartsController@postEdit');
-
-                Route::get('add','PartsController@getAdd');
-                Route::post('add','PartsController@postAdd');
-
-                Route::get('delete/{id}','PartsController@getDelete');
-             });
-        });
-
-    });
+//  Chapters
+Route::group(['prefix' => 'chapters','as'=>'chapters.'], function () {
+    Route::get('/', 'ChaptersController@index')->name('index');
+    Route::post('create', 'ChaptersController@store')->name('create');
+    Route::get('/{chapter_id}/parts','ChaptersController@show')->name('show');
+});
+//  Parts
+Route::group(['prefix' => 'parts','as'=>'parts.'], function () {
+    Route::get('/', 'PartsController@index')->name('index');
+    Route::post('create', 'PartsController@store')->name('create');
+    Route::get('{part_id}/questions', 'PartsController@show')->name('show');
+});
+//Classes
+Route::group(['prefix' => 'classes','as'=>'classes.'], function () {
+    Route::get('/', 'ClassesController@index')->name('index');
+    Route::post('create', 'ClassesController@store')->name('create');
+    Route::get('{class_id}/students', 'ClassesController@show')->name('show');
+});
+//Participated
+Route::group(['prefix' => 'participated','as'=>'participated.'], function () {
+    Route::get('/', 'ParticipatedController@index')->name('index');
+    Route::get('{participate_id}/students', 'ParticipatedController@show')->name('show');
+    Route::post('join', 'ParticipatedController@joinClass')->name('join');
+    Route::get('leave/{class_id}','ParticipatedController@leaveClass')->name('leave');
+});
+//Question
+Route::group(['prefix' => 'questions','as'=>'questions.'], function () {
+    Route::get('/', 'QuestionsController@index')->name('index');
+    Route::post('create', 'QuestionsController@store')->name('create');
+});
+//Exams
+Route::group(['prefix' => 'exams','as'=>'exams.'], function () {
+    Route::get('/', 'ExamsController@index')->name('index');
+    Route::post('create', 'ExamsController@store')->name('create');
+});
+// Ajax
+Route::group(['prefix'=>'ajax', 'as'=>'ajax.'],function(){
+    Route::post('chapters','AjaxController@getChapter');
+    Route::post('class','AjaxController@getClass');
+    Route::post('parts','AjaxController@getPart');
 });

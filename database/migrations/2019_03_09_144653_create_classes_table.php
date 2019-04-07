@@ -20,6 +20,7 @@ class CreateClassesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->integer('module_id')->unsigned();
             $table->foreign('module_id')->references('id')->on('modules');
+            $table->string('code');
             $table->timestamps();
         });
     }

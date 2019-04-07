@@ -4,19 +4,27 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Modules;
+use App\Chapters;
 class ModulesController extends Controller
 {
-    //getList
-    public function getList(){
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    //index
+    public function index(){
         $modules = Modules::where('user_id',auth()->id())->get();
-        return view('admin.modules.list',['modules'=>$modules]);
+        return view('modules.index',['modules'=>$modules]);
     }
-    //getAdd
-    public function getAdd(){
-        return view('admin.modules.add');
+    //show
+    public function show($module_id){
+        $modules = Modules::where('user_id',auth()->id())->get();
+        $chapters = Chapters::where('module_id',$module_id)->get();
+        return view('chapters.index',['chapters'=>$chapters,'modules'=>$modules]);
     }
-    //postAdd
-    public function postAdd(Request $request){
+
+    //store
+    public function store(Request $request){
         $this->validate($request,[
             'name'=>'string|min:3'
         ],
@@ -28,6 +36,6 @@ class ModulesController extends Controller
         $modules->user_id = auth()->id();
         $modules->save();
 
-        return redirect('admin/modules/add')->with('message','Add new question success');
+        return redirect('modules')->with('message','Add new question success');
     }
 }
