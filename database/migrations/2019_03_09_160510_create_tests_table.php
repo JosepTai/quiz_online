@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateExamQuestionTable extends Migration
+class CreateTestsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -19,6 +19,7 @@ class CreateExamQuestionTable extends Migration
             $table->integer('part_id')->unsigned();
             $table->foreign('exam_id')->references('id')->on('exams');
             $table->foreign('part_id')->references('id')->on('parts');
+            $table->integer('amount');
             $table->timestamps();
         });
     }
