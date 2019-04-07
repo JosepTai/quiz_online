@@ -6,6 +6,7 @@ use App\Chapters;
 use App\Classes;
 use App\Exams;
 use App\Modules;
+use App\Parts;
 use Illuminate\Http\Request;
 
 class ExamsController extends Controller
@@ -41,8 +42,11 @@ class ExamsController extends Controller
 
         return redirect('exams')->with('message','Add new exam success');
     }
-    public function show($exam_id){
-
+    public function config($exam_id){
+        $exam = Exams::where('id',$exam_id);
+        $chapters = $exam->belongsToClass;
+//        $parts = Parts::all();
+//        return view('exams.config',['chapters'=>$chapters,'parts'=>$parts,'exam'=>exam]);
     }
 
 }

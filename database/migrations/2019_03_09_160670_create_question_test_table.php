@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class QuestionTestTable extends Migration
+class CreateQuestionTestTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class QuestionTestTable extends Migration
     public function up()
     {
         //
-        Schema::create('tests', function (Blueprint $table) {
+        Schema::create('question_test', function (Blueprint $table) {
             $table->integer('test_id')->unsigned();
             $table->integer('question_id')->unsigned();
             $table->foreign('test_id')->references('id')->on('tests');

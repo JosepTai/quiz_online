@@ -20,4 +20,8 @@ class Modules extends Model
     public function chapters(){
         return $this->hasMany('App\Chapters','module_id','id');
     }
+    public function parts()
+    {
+        return $this->hasManyThrough('App\Parts','App\Chapters','module_id','chapter_id','id','');
+    }
 }

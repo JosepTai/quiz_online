@@ -9,7 +9,7 @@ class Exams extends Model
     //
     protected $table = "exams";
 
-    public function class(){
+    public function belongsToClass(){
         return $this->belongsTo('App\Classes','class_id','id');
     }
 
