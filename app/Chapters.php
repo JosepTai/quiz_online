@@ -12,4 +12,7 @@ class Chapters extends Model
     public function module(){
         return $this->belongsTo('App\Modules','module_id','id');
     }
+    public function parts(){
+        return $this->hasMany('App\Parts','chapter_id','id');
+    }
 }

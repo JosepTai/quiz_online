@@ -7,6 +7,7 @@ use App\Classes;
 use App\Exams;
 use App\Modules;
 use App\Parts;
+use App\Tests;
 use Illuminate\Http\Request;
 
 class ExamsController extends Controller
@@ -16,37 +17,83 @@ class ExamsController extends Controller
     {
         $this->middleware('auth');
     }
+
     //
-    public function index(){
-        $classes = Classes::where('user_id',auth()->id())->get();
+    public function index()
+    {
+        $classes = Classes::where('user_id', auth()->id())->get();
         $exams = auth()->user()->exams;
-        return view('exams.index',['exams'=>$exams,'classes'=>$classes]);
+        return view('exams.index', ['exams' => $exams, 'classes' => $classes]);
     }
-    public function store(Request $request){
-        $start_time = substr($request->start_time,6,4).'-'.substr($request->start_time,0,2).'-'.substr($request->start_time,3,2).' 00:00:00';
-        $end_time = substr($request->end_time,6,4).'-'.substr($request->end_time,0,2).'-'.substr($request->end_time,3,2).' 23:59:59';
-        $this->validate($request,[
-            'title'=>'string|min:3'
+
+    public function store(Request $request)
+    {
+        $start_time = substr($request->start_time, 6, 4) . '-' . substr($request->start_time, 0, 2) . '-' . substr($request->start_time, 3, 2) . ' 00:00:00';
+        $end_time = substr($request->end_time, 6, 4) . '-' . substr($request->end_time, 0, 2) . '-' . substr($request->end_time, 3, 2) . ' 23:59:59';
+        $this->validate($request, [
+            'title' => 'string|min:3'
         ],
             [
-                'title.min'=>'This name too shot'
+                'title.min' => 'This name too shot'
             ]);
-        $exams = new Exams();
-        $exams->title = $request->get('title','');
-        $exams->class_id = $request->get('class','');
-        $exams->duration = $request->get('duration','');
-        $exams->status = 'close';
-        $exams->start_time = $start_time;
-        $exams->end_time = $end_time;
-        $exams->save();
+        $exam = new Exams();
+        $exam->title = $request->get('title', '');
+        $exam->class_id = $request->get('class', '');
+        $exam->duration = $request->get('duration', '');
+        $exam->status = 'close';
+        $exam->start_time = $start_time;
+        $exam->end_time = $end_time;
+        $exam->save();
 
-        return redirect('exams')->with('message','Add new exam success');
-    }
-    public function config($exam_id){
-        $exam = Exams::where('id',$exam_id);
-        $chapters = $exam->belongsToClass;
-//        $parts = Parts::all();
-//        return view('exams.config',['chapters'=>$chapters,'parts'=>$parts,'exam'=>exam]);
+        return redirect('exams')->with('message', 'Add new exam success');
     }
 
+    public function config($exam_id)
+    {
+        $exam = Exams::where('id', $exam_id)->first();
+        $chapters = $exam->belongsToClass->module->chapters;
+        $parts = Parts::all();
+        return view('exams.config', ['chapters' => $chapters, 'parts' => $parts, 'exam' => $exam]);
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function storeConfig(Request $request)
+    {
+        $input = $request->input();
+        $exam = $request->get('exam', '');
+        $part = $input['part'];
+        $dem = 0;
+        $part_id = 0;
+        $easy = 0;
+        $hard = 0;
+        Tests::where('exam_id',$exam)->delete();
+        foreach ($part as $key => $item) {
+            if ($dem == 0) {
+                $part_id = $item;
+                $dem++;
+            } elseif ($dem == 1) {
+                $easy = $item;
+                $dem++;
+            } elseif ($dem == 2) {
+                $hard = $item;
+                $dem = 0;
+//            add questions esay amount
+                $test1 = new Tests();
+                $test1->exam_id = $exam;
+                $test1->part_id = $part_id;
+                $test1->level = "easy";
+                $test1->amount = $easy;
+//                add questions hard amount
+                $test2 = new Tests();
+                $test2->exam_id = $exam;
+                $test2->part_id = $part_id;
+                $test2->level = "hard";
+                $test2->amount = $hard;
+                $test1->save();
+                $test2->save();
+            }
+        }
+    }
 }

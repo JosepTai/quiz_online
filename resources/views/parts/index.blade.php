@@ -15,7 +15,10 @@
                         <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                                 <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                                <li class="breadcrumb-item"><a href="#">Modules</a></li>
+                                <li class="breadcrumb-item"><a href="{{route('modules.index')}}">Modules</a></li>
+                                @if (isset($title))
+                                    <li class="breadcrumb-item"><a>{{$title->name}}</a></li>
+                                @endif
                                 <li class="breadcrumb-item active" aria-current="page">Parts</li>
                             </ol>
                         </nav>
@@ -126,17 +129,15 @@
     </div>
 
 @endsection
-
 {{--Ajax load chapter when choose module--}}
 @section('script')
     <script type="text/javascript">
-        var url = "{{ url('ajax/parts') }}";
-        console.log(url);
+        var url1 = "{{ url('ajax/chapters') }}";
         $("select[name='module']").change(function () {
             var module_id = $(this).val();
             var token = $("input[name='_token']").val();
             $.ajax({
-                url: url,
+                url: url1,
                 method: 'POST',
                 data: {
                     module_id: module_id,
@@ -144,6 +145,10 @@
                 },
                 success: function (data) {
                     $("select[name='chapter']").html('');
+                    $("select[name='part']").html('');
+                    $("select[name='chapter']").append(
+                        "<option >-- Choose Chapter --</option>"
+                    );
                     $.each(data, function (key, value) {
                         $("select[name='chapter']").append(
                             "<option value=" + value.id + ">" + value.name + "</option>"

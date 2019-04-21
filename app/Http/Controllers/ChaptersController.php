@@ -30,11 +30,12 @@ class ChaptersController extends Controller
         $chapters->module_id = $request->get('module','');
         $chapters->save();
 
-        return redirect('chapters')->with('message','Add new question success');
+        return redirect()->back()->with('message','Add new question success');
+//        return redirect('chapters')->with('message','Add new question success');
     }
     public function show($chapter_id){
-        $title = Parts::find($chapter_id);
-        $modules = Modules::all();
+        $title = Chapters::find($chapter_id);
+        $modules = Modules::where('user_id',auth()->id())->get();
         $parts = Parts::where('chapter_id',$chapter_id)->get();
         return view('parts.index',['modules'=>$modules,'parts'=>$parts,'count'=>1,'title'=>$title]);
     }

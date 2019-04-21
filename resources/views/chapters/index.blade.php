@@ -17,6 +17,9 @@
                                 <li class="breadcrumb-item"><a href="{{route('home')}}"><i class="fas fa-home"></i></a>
                                 </li>
                                 <li class="breadcrumb-item"><a href="{{route('modules.index')}}">Modules</a></li>
+                                @if (isset($title))
+                                    <li class="breadcrumb-item"><a>{{$title->name}}</a></li>
+                                @endif
                                 <li class="breadcrumb-item active" aria-current="page">Chapters</li>
                             </ol>
                         </nav>

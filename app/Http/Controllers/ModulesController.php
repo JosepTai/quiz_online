@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Parts;
 use Illuminate\Http\Request;
 use App\Modules;
 use App\Chapters;
@@ -18,9 +19,10 @@ class ModulesController extends Controller
     }
     //show
     public function show($module_id){
+        $title = Modules::find($module_id);
         $modules = Modules::where('user_id',auth()->id())->get();
         $chapters = Chapters::where('module_id',$module_id)->get();
-        return view('chapters.index',['chapters'=>$chapters,'modules'=>$modules]);
+        return view('chapters.index',['chapters'=>$chapters,'modules'=>$modules,'title'=>$title]);
     }
 
     //store

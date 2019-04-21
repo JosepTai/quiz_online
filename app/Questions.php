@@ -8,6 +8,7 @@ class Questions extends Model
 {
     //
     protected $table = 'questions';
+    protected $guarded=[];
     public function part(){
         return $this->belongsTo('App\Parts','part_id','id');
     }

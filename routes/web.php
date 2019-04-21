@@ -54,6 +54,7 @@ Route::group(['prefix' => 'exams','as'=>'exams.'], function () {
     Route::get('/', 'ExamsController@index')->name('index');
     Route::post('create', 'ExamsController@store')->name('create');
     Route::get('{exam_id}/config', 'ExamsController@config')->name('config');
+    Route::post('config','ExamsController@storeConfig')->name('storeConfig');
 });
 // Ajax
 Route::group(['prefix'=>'ajax', 'as'=>'ajax.'],function(){

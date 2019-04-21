@@ -33,13 +33,15 @@ class PartsController extends Controller
         $parts->chapter_id = $request->get('chapter','');
         $parts->save();
 
-        return redirect('parts')->with('message','Add new question success');
+        return redirect()->back()->with('message','Add new question success');
+//        return redirect('parts')->with('message','Add new question success');
     }
     public function show($part_id){
+        $title = Parts::Find($part_id);
         $questions = Questions::where('part_id',$part_id)->get();
         $modules = Modules::where('user_id',auth()->id())->get();
         $chapters = Chapters::all();
         $parts = auth()->user()->parts();
-        return view('questions.index',['modules'=>$modules,'chapters'=>$chapters,'parts'=>$parts,'questions'=>$questions]);
+        return view('questions.index',['modules'=>$modules,'chapters'=>$chapters,'parts'=>$parts,'questions'=>$questions,'title'=>$title]);
     }
 }

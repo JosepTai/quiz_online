@@ -126,6 +126,7 @@ CREATE TABLE `tests`
   `id` int,
   `exam_id` int,
   `part_id` int,
+  `level` text,
   `amount` int,
   `created_at` timestamp,
   `updated_at` timestamp

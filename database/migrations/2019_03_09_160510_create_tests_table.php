@@ -19,6 +19,7 @@ class CreateTestsTable extends Migration
             $table->integer('part_id')->unsigned();
             $table->foreign('exam_id')->references('id')->on('exams');
             $table->foreign('part_id')->references('id')->on('parts');
+            $table->text('level');
             $table->integer('amount');
             $table->timestamps();
         });
