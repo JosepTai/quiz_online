@@ -139,7 +139,7 @@
                             <td>{{$exam->id}}</td>
                             <td class="next_line">{{$exam->title}}</td>
                             <td class="next_line">{{$exam->belongsToclass->name}}</td>
-                            <td class="next_line">{{$exam->duration}}</td>
+                            <td class="next_line">{{$exam->duration}} minutes</td>
                             <td class="next_line">{{$exam->start_time}}</td>
                             <td class="next_line">{{$exam->end_time}}</td>
                             <td class="next_line">{{$exam->status}}</td>

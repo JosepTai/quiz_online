@@ -52,28 +52,48 @@
                                 <div class="col-md-3 row">
                                     <div class="col-md-2"></div>
                                     <div class="col-md-4">
-                                        <label  style="float: left"
+                                        <label style="float: left"
                                                class="col-form-label form-control-label"> Easy
                                             questions</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="part[]" class="form-control" value="0" type='number' min='0' max='50'
-                                               onkeypress='return false;'/>
+                                        @php( $countEasy = 0)
+                                        @foreach($tests as $test)
+                                            @if ($part->id == $test->part_id && $test->level == "easy")
+                                                <input name="part[]" class="form-control" value="{{$test->amount}}"
+                                                       type='number' min='0' max='50' onkeypress='return false;'/>
+                                                @php( $countEasy = 1)
+                                                @break
+                                            @endif
+                                        @endforeach
+                                        @if($countEasy == 0)
+                                            <input name="part[]" class="form-control" value="0" type='number'
+                                                   min='0' max='50' onkeypress='return false;'/>
+                                        @endif
                                     </div>
-
                                 </div>
-
                                 <div class="col-md-3 row">
                                     <div class="col-md-2"></div>
                                     <div class="col-md-4">
-                                        <label style="float: left" class="col-form-label form-control-label"> Hard
+                                        <label style="float: left" class="col-form-label form-control-label">
+                                            Hard
                                             questions</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="part[]" class="form-control" value="0" type='number' min='0' max='50'
-                                               onkeypress='return false;'/>
+                                        @php( $countHard = 0)
+                                        @foreach($tests as $test)
+                                            @if ($part->id == $test->part_id && $test->level == "hard")
+                                                <input name="part[]" class="form-control" value="{{$test->amount}}"
+                                                       type='number' min='0' max='50' onkeypress='return false;'/>
+                                                @php( $countHard = 1)
+                                                @break
+                                            @endif
+                                        @endforeach
+                                        @if($countHard == 0)
+                                            <input name="part[]" class="form-control" value="0" type='number'
+                                                   min='0' max='50' onkeypress='return false;'/>
+                                        @endif
                                     </div>
-
                                 </div>
                                 <div class="col-md-2"></div>
                             </div>
@@ -81,7 +101,11 @@
                         @endforeach
                     </div>
                 @endforeach
-                <button type="submit">ádfasd</button>
+                <div style="float: right">
+                    <button type="submit" class="btn btn-dark">Cancel</button>
+                    <button type="submit" class="btn btn-success">Apply</button>
+                </div>
+                <br><br>
             </form>
         </div>
     </div>

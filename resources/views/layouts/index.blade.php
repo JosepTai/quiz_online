@@ -30,10 +30,11 @@
   <link rel="stylesheet" href="../../assets/vendor/quill/dist/quill.core.css">
   <!-- Argon CSS -->
   <link rel="stylesheet" href="../../assets/css/argon.mine209.css?v=1.0.0" type="text/css">
-
+  {{----}}
   <link rel="stylesheet" href="../../assets/css/my.css" type="text/css">
-{{--    --}}
-
+  <!-- Page plugins -->
+  <link rel="stylesheet" href="../../assets/vendor/animate.css/animate.min.css">
+  <link rel="stylesheet" href="../../assets/vendor/sweetalert2/dist/sweetalert2.min.css">
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
               new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -74,7 +75,10 @@
 <script src="assets/js/argon.mine209.js?v=1.0.0"></script>
 <!-- Demo JS - remove this in your project -->
 <script src="assets/js/demo.min.js"></script>
-
+<!-- Optional JS -->
+<script src="../../assets/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
+<script src="../../assets/vendor/bootstrap-notify/bootstrap-notify.min.js"></script>
+{{----}}
 <script>
    setTimeout(function () {
     document.getElementById('message').style.display='none';

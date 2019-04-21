@@ -86,7 +86,7 @@
                                     <a href="{{route('exams.index')}}" class="nav-link">My Exams</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">Do Exams</a>
+                                    <a href="{{route('do_exams.index')}}" class="nav-link">Do Exams</a>
                                 </li>
                             </ul>
                         </div>
