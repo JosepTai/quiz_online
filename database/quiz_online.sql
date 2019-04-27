@@ -121,7 +121,7 @@ CREATE TABLE `users`
   `updated_at` timestamp
 );
 
-CREATE TABLE `tests`
+CREATE TABLE `configs`
 (
   `id` int,
   `exam_id` int,
@@ -132,15 +132,17 @@ CREATE TABLE `tests`
   `updated_at` timestamp
 );
 
-CREATE TABLE `question_test`
+CREATE TABLE `config_question`
 (
-  `test_id` int,
+  `config_id` int,
   `question_id` int,
+  `user_id` int,
+  `user_selected` char,
   `created_at` timestamp,
   `updated_at` timestamp
 );
 
-ALTER TABLE `questions` ADD FOREIGN KEY (`id`) REFERENCES `question_test` (`question_id`);
+ALTER TABLE `questions` ADD FOREIGN KEY (`id`) REFERENCES `config_question` (`question_id`);
 
 ALTER TABLE `questions` ADD FOREIGN KEY (`id`) REFERENCES `results` (`question_id`);
 
@@ -160,7 +162,7 @@ ALTER TABLE `users` ADD FOREIGN KEY (`id`) REFERENCES `modules` (`user_id`);
 
 ALTER TABLE `exams` ADD FOREIGN KEY (`id`) REFERENCES `exam_user` (`exam_id`);
 
-ALTER TABLE `exams` ADD FOREIGN KEY (`id`) REFERENCES `tests` (`exam_id`);
+ALTER TABLE `exams` ADD FOREIGN KEY (`id`) REFERENCES `configs` (`exam_id`);
 
 ALTER TABLE `classes` ADD FOREIGN KEY (`id`) REFERENCES `exams` (`class_id`);
 
@@ -174,6 +176,6 @@ ALTER TABLE `chapters` ADD FOREIGN KEY (`id`) REFERENCES `parts` (`chapter_id`);
 
 ALTER TABLE `parts` ADD FOREIGN KEY (`id`) REFERENCES `questions` (`part_id`);
 
-ALTER TABLE `tests` ADD FOREIGN KEY (`id`) REFERENCES `question_test` (`test_id`);
+ALTER TABLE `configs` ADD FOREIGN KEY (`id`) REFERENCES `config_question` (`config_id`);
 
-ALTER TABLE `parts` ADD FOREIGN KEY (`id`) REFERENCES `tests` (`part_id`);
+ALTER TABLE `parts` ADD FOREIGN KEY (`id`) REFERENCES `configs` (`part_id`);

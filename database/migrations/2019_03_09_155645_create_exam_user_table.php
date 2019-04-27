@@ -19,6 +19,8 @@ class CreateExamUserTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->foreign('exam_id')->references('id')->on('exams');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->dateTime('start_time');
+            $table->dateTime('end_time');
             $table->float('score');
             $table->timestamps();
         });

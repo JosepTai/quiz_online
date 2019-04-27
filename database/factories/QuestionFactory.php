@@ -14,7 +14,7 @@ $factory->define(App\Questions::class, function (Faker $faker) {
         'level' => array_random(array ($easy,$hard)),
         'part_id'=>random_int(1,50),
         'content' => $faker->text(100),
-        'user_id'=>random_int(1,10),
+        'user_id'=>1,
         'answer_1' => $answer_1,
         'answer_2' => $answer_2,
         'answer_3' => $answer_3,

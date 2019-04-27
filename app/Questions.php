@@ -17,7 +17,7 @@ class Questions extends Model
         return $this->hasMany('App\Results','question_id','id');
     }
 
-    public function tests(){
-        return $this->belongsToMany('App\Tests','question_test','question_id','test_id');
+    public function configs(){
+        return $this->belongsToMany('App\Configs','config_question','question_id','config_id');
     }
 }

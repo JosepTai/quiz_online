@@ -5,7 +5,73 @@
             {{session('message')}}
         </div>
     @endif
+    {{--    count down time--}}
+    <style>
+        .countdown {
+            z-index: 999;
+            overflow: hidden;
+            float: right;
+            position: fixed;
+            margin-left: 79.5%;
+            border-radius: 5px;
+        }
 
+        #clockdiv {
+            font-family: sans-serif;
+            color: #fff;
+            display: inline-block;
+            font-weight: 100;
+            text-align: center;
+            font-size: 30px;
+        }
+
+        #clockdiv > div {
+            padding: 10px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+
+        #clockdiv div > span {
+            padding: 15px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+
+        .smalltext {
+            padding-top: 5px;
+            font-size: 16px;
+        }
+    </style>
+    <div class="countdown bg-gradient-success card">
+        <div id="clockdiv">
+            <div>
+                <span class="hours"></span>
+                <div class="smalltext">Hours</div>
+            </div>
+            <div>
+                <span class="minutes"></span>
+                <div class="smalltext">Minutes</div>
+            </div>
+            <div>
+                <span class="seconds"></span>
+                <div class="smalltext">Seconds</div>
+            </div>
+        </div>
+        <div class="card-footer row">
+            <div class="col-md-6">
+                <button onclick="clickSave()" type="submit" class="btn btn-primary "> Save</button>
+            </div>
+            <div class="col-md-6">
+                <button onclick="clickSubmit()" type="submit" class="btn btn-success "> End Test</button>
+            </div>
+        </div>
+    </div>
+    @php
+        $seconds = 0;
+        $diff = strtotime($end_time) - strtotime(now());
+        if ($diff >0) $seconds = $diff ;
+    @endphp
+    {{--    end count down time--}}
     <div class="header bg-primary pb-6">
         <div class="container-fluid">
             <div class="header-body">
@@ -15,8 +81,9 @@
                         <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                                 <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                                <li class="breadcrumb-item"><a href="{{route('exams.index')}}">Exams</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Perform</li>
+                                <li class="breadcrumb-item"><a>Exam</a></li>
+                                <li class="breadcrumb-item"><a>Do Exam</a></li>
+                                <li class="breadcrumb-item"><a>{{$title}}</a></li>
                             </ol>
                         </nav>
                     </div>
@@ -26,65 +93,97 @@
     </div>
     <!-- Page content -->
     <div class="container-fluid mt--6">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 card-wrapper">
+        @php($count=1)
+        <form action="{{route('do_exams.index',$exam->id)}}" method="GET" name="form">
+            <input type="hidden" name="_token" value="{{csrf_token()}}"/>
+            @foreach($questions as $question)
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="mb-0">Notifications</h3>
+                        <h3 class="mb-0">Question {{$count}} : {{$question->content}}</h3>
                     </div>
                     <div class="card-body">
-                        <button class="btn btn-default" data-toggle="notify" data-placement="top" data-align="center" data-type="default" data-icon="ni ni-bell-55">Default</button>
-                        <button class="btn btn-info" data-toggle="notify" data-placement="top" data-align="center" data-type="info" data-icon="ni ni-bell-55">Info</button>
-                        <button class="btn btn-success" data-toggle="notify" data-placement="top" data-align="center" data-type="success" data-icon="ni ni-bell-55">Success</button>
-                        <button class="btn btn-warning" data-toggle="notify" data-placement="top" data-align="center" data-type="warning" data-icon="ni ni-bell-55">Warning</button>
-                        <button class="btn btn-danger" data-toggle="notify" data-placement="top" data-align="center" data-type="danger" data-icon="ni ni-bell-55">Danger</button>
+                        <label class="btn btn-default">
+                            <input type="radio" id="1" name="{{$question->config_id}}"
+                                   value="{{$question->answer_1}}"/> {{$question->answer_1}}
+                        </label><br>
+                        <label class="btn btn-default">
+                            <input type="radio" id="2" name="{{$question->config_id}}"
+                                   value="{{$question->answer_2}}"/> {{$question->answer_2}}
+                        </label><br>
+                        <label class="btn btn-default">
+                            <input type="radio" id="3" name="{{$question->config_id}}"
+                                   value="{{$question->answer_3}}"/> {{$question->answer_3}}
+                        </label><br>
+                        <label class="btn btn-default">
+                            <input type="radio" id="4" name="{{$question->config_id}}"
+                                   value="{{$question->answer_4}}"/> {{$question->answer_4}}
+                        </label>
                     </div>
                 </div>
-                <!-- Sweet alerts -->
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="mb-0">Sweet alerts</h3>
-                    </div>
-                    <div class="card-body">
-                        <button class="btn btn-primary" data-toggle="sweet-alert" data-sweet-alert="basic">Basic alert</button>
-                        <button class="btn btn-info" data-toggle="sweet-alert" data-sweet-alert="info">Info alert</button>
-                        <button class="btn btn-success" data-toggle="sweet-alert" data-sweet-alert="success">Success alert</button>
-                        <button class="btn btn-warning" data-toggle="sweet-alert" data-sweet-alert="warning">Warning alert</button>
-                        <button class="btn btn-default" data-toggle="sweet-alert" data-sweet-alert="question">Question</button>
-                        <button class="btn btn-default" data-toggle="sweet-alert" data-sweet-alert="timer">abc</button>
-                    </div>
+                @php($count++)
+            @endforeach
+            <button type="submit" class="btn btn-success">Add</button>
+            <div class="btndiv row">
+                <div class="col-md-6">
+                    <button id="btnSave" type="submit" class="btn btn-success "> Sadfve</button>
+                </div>
+                <div class="col-md-6">
+                    <button id="btnSubmit" type="submit" class="btn btn-success "> End tedfdfst</button>
                 </div>
             </div>
-        </div>
-    </div>
-{{--    --}}
+        </form>
     </div>
 @endsection
 
 {{--Ajax load chapter when choose module--}}
 @section('script')
-    <script type="text/javascript">
-        var url = "{{ url('ajax/parts') }}";
-        console.log(url);
-        $("select[name='module']").change(function () {
-            var module_id = $(this).val();
-            var token = $("input[name='_token']").val();
-            $.ajax({
-                url: url,
-                method: 'POST',
-                data: {
-                    module_id: module_id,
-                    _token: token
-                },
-                success: function (data) {
-                    $("select[name='chapter']").html('');
-                    $.each(data, function (key, value) {
-                        $("select[name='chapter']").append(
-                            "<option value=" + value.id + ">" + value.name + "</option>"
-                        );
-                    });
+    <script>
+        function getTimeRemaining(endtime) {
+            var t = Date.parse(endtime) - Date.parse(new Date());
+            var seconds = Math.floor((t / 1000) % 60);
+            var minutes = Math.floor((t / 1000 / 60) % 60);
+            var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+            return {
+                'total': t,
+                'hours': hours,
+                'minutes': minutes,
+                'seconds': seconds
+            };
+        }
+
+        function initializeClock(id, endtime) {
+            var clock = document.getElementById(id);
+            var daysSpan = clock.querySelector('.days');
+            var hoursSpan = clock.querySelector('.hours');
+            var minutesSpan = clock.querySelector('.minutes');
+            var secondsSpan = clock.querySelector('.seconds');
+
+            function updateClock() {
+                var t = getTimeRemaining(endtime);
+                hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+                minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+                secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+
+                if (t.total <= 0) {
+                    clearInterval(timeinterval);
+                    document.getElementById("btnSubmit").click();
                 }
-            });
-        });
+            }
+            updateClock();
+            var timeinterval = setInterval(updateClock, 1000);
+        }
+
+        var deadline = new Date(Date.parse(new Date()) + '<?= $seconds ?>'* 1000);
+        initializeClock('clockdiv', deadline);
+    </script>
+    <script>
+        function clickSave() {
+            document.getElementById("btnSave").click();
+        }
+
+        function clickSubmit() {
+            document.getElementById("btnSubmit").click();
+        }
+
     </script>
 @endsection

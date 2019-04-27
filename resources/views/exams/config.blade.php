@@ -32,7 +32,7 @@
         <!-- Card body -->
         <div class="card-body">
             <!-- Form groups used in grid -->
-            <form action="{{route('exams.storeConfig')}}" method="POST">
+            <form action="{{route('configs.storeConfig')}}" method="POST">
                 <input type="hidden" name="_token" value="{{csrf_token()}}"/>
                 <input type="hidden" name="exam" value="{{$exam->id}}"/>
                 @foreach($chapters as $chapter)
@@ -58,9 +58,9 @@
                                     </div>
                                     <div class="col-md-6">
                                         @php( $countEasy = 0)
-                                        @foreach($tests as $test)
-                                            @if ($part->id == $test->part_id && $test->level == "easy")
-                                                <input name="part[]" class="form-control" value="{{$test->amount}}"
+                                        @foreach($configs as $config)
+                                            @if ($part->id == $config->part_id && $config->level == "easy")
+                                                <input name="part[]" class="form-control" value="{{$config->amount}}"
                                                        type='number' min='0' max='50' onkeypress='return false;'/>
                                                 @php( $countEasy = 1)
                                                 @break
@@ -81,9 +81,9 @@
                                     </div>
                                     <div class="col-md-6">
                                         @php( $countHard = 0)
-                                        @foreach($tests as $test)
-                                            @if ($part->id == $test->part_id && $test->level == "hard")
-                                                <input name="part[]" class="form-control" value="{{$test->amount}}"
+                                        @foreach($configs as $config)
+                                            @if ($part->id == $config->part_id && $config->level == "hard")
+                                                <input name="part[]" class="form-control" value="{{$config->amount}}"
                                                        type='number' min='0' max='50' onkeypress='return false;'/>
                                                 @php( $countHard = 1)
                                                 @break

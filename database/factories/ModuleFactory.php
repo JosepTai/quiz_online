@@ -6,6 +6,6 @@ $factory->define(\App\Modules::class, function (Faker $faker) {
     return [
         //
         'name'=> $faker->text(15),
-        'user_id'=>random_int(1,10),
+        'user_id'=>1,
     ];
 });

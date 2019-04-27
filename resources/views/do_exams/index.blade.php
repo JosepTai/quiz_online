@@ -35,12 +35,12 @@
                 @else
                     @php($type = "success")
                 @endif
-
                 <div class="col-lg-3">
                     <div class="card ">
                         <!-- Card header -->
                         <div class="card-header bg-gradient-{{$type}}">
-                            <h3 style="color: #ffffff" class="mb-0 fc-content">{{$exam['title']}}</h3>
+                            <h3 style="color: #ffffff; text-align: center;"
+                                class="mb-0 fc-content">{{$exam['title']}}</h3>
                         </div>
                         <!-- Card body -->
                         <div class="card-body">
@@ -50,19 +50,22 @@
                                     <label> Class: </label>
                                 </div>
                                 <div class="col-lg-9">
-                                    <label> abc</label>
+                                    @foreach($classes as $class)
+                                        @if ($exam['class_id']==$class->id)
+                                            <label> {{$class->name}}</label>
+                                        @endif
+                                    @endforeach
                                 </div>
                             </div>
                             <!-- Duration -->
                             <div class="row">
-                                <div class="col-lg-3">
+                                <div class="col-lg-6">
                                     <label> Duration: </label>
                                 </div>
-                                <div class="col-lg-9">
+                                <div class="col-lg-6">
                                     <label> {{$exam['duration']}} minutes</label>
                                 </div>
                             </div>
-                            <br>
                             <!-- Time -->
                             <div class="row">
                                 <div class="col-lg-6">
@@ -76,12 +79,21 @@
                             </div>
                             <div class="card-footer bg-transparent">
                                 @if ($type =="danger")
-                                    <label class="heading-title text-warning mb-0">
-                                        <small> This exam is end</small>
-                                    </label>
+                                    <a href="{{route('do_exams.index')}}" class=" btn btn-outline-danger btn-block">Show
+                                        result</a>
+                                @elseif ($type == "default")
+                                        <div class="row">
+                                            <div class="col-lg-1">
+                                                <i class="ni ni-time-alarm" >
+                                                </i>
+                                            </div>
+                                            <div class="col-lg-11">
+                                                <span>The time for exam has not started</span>
+                                            </div>
+                                        </div>
                                 @else
                                     <a href="{{route('do_exams.perform',$exam['id'])}}"
-                                       class=" btn btn-outline-success">Do
+                                       class=" btn btn-outline-success btn-block">Do
                                         It</a>
                                 @endif
                             </div>
@@ -91,33 +103,5 @@
             @endforeach
         </div>
     </div>
-
 @endsection
 
-{{--Ajax load chapter when choose module--}}
-@section('script')
-    <script type="text/javascript">
-        var url = "{{ url('ajax/parts') }}";
-        console.log(url);
-        $("select[name='module']").change(function () {
-            var module_id = $(this).val();
-            var token = $("input[name='_token']").val();
-            $.ajax({
-                url: url,
-                method: 'POST',
-                data: {
-                    module_id: module_id,
-                    _token: token
-                },
-                success: function (data) {
-                    $("select[name='chapter']").html('');
-                    $.each(data, function (key, value) {
-                        $("select[name='chapter']").append(
-                            "<option value=" + value.id + ">" + value.name + "</option>"
-                        );
-                    });
-                }
-            });
-        });
-    </script>
-@endsection

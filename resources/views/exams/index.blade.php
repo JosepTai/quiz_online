@@ -140,13 +140,13 @@
                             <td class="next_line">{{$exam->title}}</td>
                             <td class="next_line">{{$exam->belongsToclass->name}}</td>
                             <td class="next_line">{{$exam->duration}} minutes</td>
+                            <td class="next_line">{{$exam->status}}</td>
                             <td class="next_line">{{$exam->start_time}}</td>
                             <td class="next_line">{{$exam->end_time}}</td>
-                            <td class="next_line">{{$exam->status}}</td>
                             <td class="next_line">{{$exam->updated_at}}</td>
                             <td>
                                 <a data-toggle="tooltip" data-original-title="Show" class="btn btn-info btn-sm"
-                                   href="{{route('exams.config',$exam->id)}}"><i class="ni ni-fat-add"></i></a>
+                                   href="{{route('configs.index',$exam->id)}}"><i class="ni ni-fat-add"></i></a>
                                 <a data-toggle="tooltip" data-original-title="Delete" class="btn btn-danger btn-sm"
                                    href="modules"><i class="ni ni-fat-remove"></i></a>
                                 <a data-toggle="tooltip" data-original-title="Edit" class="btn btn-primary btn-sm"
