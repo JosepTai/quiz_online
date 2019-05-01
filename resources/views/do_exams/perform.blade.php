@@ -8,12 +8,18 @@
     {{--    count down time--}}
     <style>
         .countdown {
+            opacity: 0.5;
             z-index: 999;
             overflow: hidden;
             float: right;
             position: fixed;
-            margin-left: 79.5%;
+            margin-left: 78%;
+            margin-right: 3%;
             border-radius: 5px;
+        }
+
+        .countdown:hover {
+            opacity: 1;
         }
 
         #clockdiv {
@@ -32,7 +38,7 @@
         }
 
         #clockdiv div > span {
-            padding: 15px;
+            padding: 5px;
             border-radius: 3px;
             display: inline-block;
         }
@@ -57,7 +63,7 @@
                 <div class="smalltext">Seconds</div>
             </div>
         </div>
-        <div class="card-footer row">
+        <div class="card-footer row action">
             <div class="col-md-6">
                 <button onclick="clickSave()" type="submit" class="btn btn-primary "> Save</button>
             </div>
@@ -93,37 +99,59 @@
     </div>
     <!-- Page content -->
     <div class="container-fluid mt--6">
-        @php($count=1)
-        <form action="{{route('do_exams.index',$exam->id)}}" method="GET" name="form">
+        @php
+            $count=1;
+            $num =[1,2,3,4];
+        @endphp
+        <form action="{{route('do_exams.successPerform')}}" method="POST" name="form">
             <input type="hidden" name="_token" value="{{csrf_token()}}"/>
+            <input hidden type="text" id="time_end" name="end_time" value="{{$end_time}}">
+            <input hidden type="text" name="exam" value="{{$exam->id}}">
             @foreach($questions as $question)
                 <div class="card">
                     <div class="card-header">
                         <h3 class="mb-0">Question {{$count}} : {{$question->content}}</h3>
                     </div>
                     <div class="card-body">
-                        <label class="btn btn-default">
-                            <input type="radio" id="1" name="{{$question->config_id}}"
-                                   value="{{$question->answer_1}}"/> {{$question->answer_1}}
-                        </label><br>
-                        <label class="btn btn-default">
-                            <input type="radio" id="2" name="{{$question->config_id}}"
-                                   value="{{$question->answer_2}}"/> {{$question->answer_2}}
-                        </label><br>
-                        <label class="btn btn-default">
-                            <input type="radio" id="3" name="{{$question->config_id}}"
-                                   value="{{$question->answer_3}}"/> {{$question->answer_3}}
-                        </label><br>
-                        <label class="btn btn-default">
-                            <input type="radio" id="4" name="{{$question->config_id}}"
-                                   value="{{$question->answer_4}}"/> {{$question->answer_4}}
-                        </label>
+                        @php
+                            for ($i = 0; $i <= 3; $i++){
+                                if (count($num)!=0){
+                                    $ran = array_random($num);
+                                    $answer = "answer_".$ran;
+                                    $values = $question->$answer;
+                                    foreach ($selects as $select){
+                                        if ($question->id == $select->question_id){
+                                            if ($values == $select->user_selected){
+                                                echo '<label class="btn btn-default ans ">
+                                                        <input checked type="radio" name="ques_'.$question->id.'"
+                                                           value="'.$values.'"/>' .$values .'</label><br>';
+                                                           break;
+                                            }else{
+                                                echo '<label class="btn btn-default ans ">
+                                                        <input type="radio" name="ques_'.$question->id.'"
+                                                           value="'.$values.'"/>' .$values .'</label><br>';
+                                                           break;
+                                            }
+                                        }
+                                    }
+                                    for ($j = 0; $j < count($num) ; $j++){
+                                        if ($num[$j] == $ran){
+                                            unset($num[$j]);
+                                            $num = array_values($num);
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        @endphp
                     </div>
                 </div>
-                @php($count++)
+                @php
+                    $count++;
+                    $num =[1,2,3,4];
+                @endphp
             @endforeach
-            <button type="submit" class="btn btn-success">Add</button>
-            <div class="btndiv row">
+            <div hidden class="btndiv row">
                 <div class="col-md-6">
                     <button id="btnSave" type="submit" class="btn btn-success "> Sadfve</button>
                 </div>
@@ -163,17 +191,17 @@
                 hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
                 minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
                 secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
-
                 if (t.total <= 0) {
                     clearInterval(timeinterval);
                     document.getElementById("btnSubmit").click();
                 }
             }
+
             updateClock();
             var timeinterval = setInterval(updateClock, 1000);
         }
 
-        var deadline = new Date(Date.parse(new Date()) + '<?= $seconds ?>'* 1000);
+        var deadline = new Date(Date.parse(new Date()) + '<?= $seconds ?>' * 1000);
         initializeClock('clockdiv', deadline);
     </script>
     <script>
@@ -182,6 +210,7 @@
         }
 
         function clickSubmit() {
+            document.getElementById("time_end").value = '<?= now()?>';
             document.getElementById("btnSubmit").click();
         }
 
