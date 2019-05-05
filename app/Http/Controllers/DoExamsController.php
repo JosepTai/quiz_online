@@ -120,7 +120,6 @@ class DoExamsController extends Controller
 
             $exam_user->end_time = $request->end_time;
             $exam_user->save();
-
             $questions = $exam->questions($exam->id);
             $answers = Answers::all();
             $arr = array();

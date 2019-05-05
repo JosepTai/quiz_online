@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes;
 use App\Configs;
 use App\Exams;
 use App\Parts;
@@ -15,20 +16,30 @@ class ConfigsController extends Controller
     {
         $this->middleware('auth');
     }
+
     public function index($exam_id)
     {
         $exam = Exams::where('id', $exam_id)->first();
-        $chapters = $exam->belongsToClass->module->chapters;
-        $parts = Parts::all();
-        $configs = Configs::where('exam_id',$exam_id)->get();
-        $count = Configs::where('exam_id',$exam_id)->count();
-        return view('exams.config', ['chapters' => $chapters, 'parts' => $parts, 'exam' => $exam,'configs'=>$configs,'count'=>$count]);
+        if ($exam->status == "configed")
+            return redirect()->back();
+        else {
+            $chapters = $exam->belongsToClass->module->chapters;
+            $parts = Parts::all();
+            $configs = Configs::where('exam_id', $exam_id)->get();
+            $count = Configs::where('exam_id', $exam_id)->count();
+            return view('exams.config', ['chapters' => $chapters, 'parts' => $parts, 'exam' => $exam, 'configs' => $configs, 'count' => $count]);
+        }
+
     }
+
     public function storeConfig(Request $request)
     {
         $input = $request->input();
-        $exam = $request->get('exam', '');
-        $count= $count = Configs::where('exam_id',$exam)->count();
+        $exam_id = $request->get('exam', '');
+        $exam = Exams::where('id', $exam_id)->first();
+        $exam->status = 'configed';
+        $exam->save();
+        $count = $count = Configs::where('exam_id', $exam_id)->count();
         $part = $input['part'];
         $dem = 0;
         $part_id = 0;
@@ -47,13 +58,13 @@ class ConfigsController extends Controller
                 if ($count == 0) {
 //                  add questions esay amount
                     $test1 = new Configs();
-                    $test1->exam_id = $exam;
+                    $test1->exam_id = $exam_id;
                     $test1->part_id = $part_id;
                     $test1->level = "easy";
                     $test1->amount = $easy;
 //                add questions hard amount
                     $test2 = new Configs();
-                    $test2->exam_id = $exam;
+                    $test2->exam_id = $exam_id;
                     $test2->part_id = $part_id;
                     $test2->level = "hard";
                     $test2->amount = $hard;
@@ -62,19 +73,21 @@ class ConfigsController extends Controller
                 } else {
 //                    esay
                     Configs::where([
-                        ['exam_id', '=', $exam],
+                        ['exam_id', '=', $exam_id],
                         ['part_id', '=', $part_id],
                         ['level', '=', 'easy'],
-                    ])->update(['amount'=> $easy]);
+                    ])->update(['amount' => $easy]);
 //                    hard
                     Configs::where([
-                        ['exam_id', '=', $exam],
+                        ['exam_id', '=', $exam_id],
                         ['part_id', '=', $part_id],
                         ['level', '=', 'hard'],
-                    ])->update(['amount'=> $hard]);
+                    ])->update(['amount' => $hard]);
                 }
             }
         }
-        return redirect()->back()->with('message', 'Config Success!');
+        $classes = Classes::where('user_id', auth()->id())->get();
+        $exams = auth()->user()->exams;
+        return view('exams.index', ['exams' => $exams, 'classes' => $classes]);
     }
 }

@@ -60,7 +60,8 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label style="float: left" class="form-control-label">Duration</label><br>
-                                                            <input name="duration" class="form-control" type="number" value="25"
+                                                            <input name="duration" class="form-control" type="number"
+                                                                   value="25"
                                                                    id="example-number-input">
                                                         </div>
                                                     </div>
@@ -70,7 +71,8 @@
                                                         <div class="form-group">
                                                             <label style="float: left" class="form-control-label">Start
                                                                 date</label>
-                                                            <input name="start_time" class="form-control" placeholder="Start date"
+                                                            <input name="start_time" class="form-control"
+                                                                   placeholder="Start date"
                                                                    type="text" value="{{now()->format('m/d/Y')}}">
                                                         </div>
                                                     </div>
@@ -78,7 +80,8 @@
                                                         <div class="form-group">
                                                             <label style="float: left" class="form-control-label">End
                                                                 date</label>
-                                                            <input name="end_time" class="form-control" placeholder="End date"
+                                                            <input name="end_time" class="form-control"
+                                                                   placeholder="End date"
                                                                    type="text" required="required">
                                                         </div>
                                                     </div>
@@ -145,8 +148,13 @@
                             <td class="next_line">{{$exam->end_time}}</td>
                             <td class="next_line">{{$exam->updated_at}}</td>
                             <td>
-                                <a data-toggle="tooltip" data-original-title="Config" class="btn btn-info btn-sm"
-                                   href="{{route('configs.index',$exam->id)}}"><i class="ni ni-settings"></i></a>
+                                @if ($exam->status == "close")
+                                    <a data-toggle="tooltip" data-original-title="Config" class="btn btn-info btn-sm"
+                                       href="{{route('configs.index',$exam->id)}}"><i class="ni ni-settings"></i></a>
+                                @else
+                                    <a disabled="disabled" data-toggle="tooltip" data-original-title="This exam was configed" class="btn btn-info btn-sm"
+                                       "><i class="ni ni-settings"></i></a>
+                                @endif
                                 <a data-toggle="tooltip" data-original-title="Show" class="btn btn-default btn-sm"
                                    href="{{route('exams.show',$exam->id)}}"><i class="ni ni-fat-add"></i></a>
                             </td>

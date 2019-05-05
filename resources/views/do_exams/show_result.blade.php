@@ -40,24 +40,31 @@
                     <div class="card-body">
                         @php
                             foreach ($answers as $answer){
-                                if ($answer['question_id'] == $question->id){
-                                    foreach ($selects as $select){
-                                        if ($question->id == $select->question_id){
-                                            if ($answer['is_correct'] == 1) echo '<label class="btn btn-success ans">';
-                                            else echo '<label class="btn btn-default ans">';
-                                            if ($answer['content'] == $select->user_selected){
-                                                echo '<input checked type="radio" name="ques_'.$question->id.'"
-                                                           value="'.$answer['content'].'"/>' .$answer['content'] .'</label><br>';
-                                                           break;
-                                            }else{
-                                                echo ' <input type="radio" name="ques_'.$question->id.'"
-                                                           value="'.$answer['content'].'"/>' .$answer['content'] .'</label><br>';
-                                                           break;
+                                    if ($answer['question_id'] == $question->id){
+                                        foreach ($selects as $select){
+
+                                            //else echo '<label class="btn btn-default ans ">';
+                                            if ($question->id == $select->question_id){
+                                                $strings  = $select->user_selected;
+                                                $nums = explode(" ", $strings);
+                                                $ans =0;
+                                                if ($answer['is_correct'] == 1) echo '<label class="btn btn-success ans ">';
+                                                else echo '<label class="btn btn-default ans ">';
+                                                for ($i = 0; $i < count($nums); $i++){
+                                                    if ($answer['id'] == $nums[$i]){
+                                                        echo '<input disabled checked type="checkbox" name="ques_'.$question->id.'[]"
+                                                                   value="'.$answer['id'].'"/>' .$answer['content'] .'</label><br>';
+                                                        $ans++;
+                                                    }
+                                                }
+                                                if ($ans==0){
+                                                        echo '<input disabled type="checkbox" name="ques_'.$question->id.'[]"
+                                                                   value="'.$answer['id'].'"/>' .$answer['content'] .'</label><br>';
+                                                }
                                             }
                                         }
                                     }
                                 }
-                            }
                         @endphp
                     </div>
                 </div>
