@@ -101,7 +101,6 @@
     <div class="container-fluid mt--6">
         @php
             $count=1;
-            $num =[1,2,3,4];
         @endphp
         <form action="{{route('do_exams.successPerform')}}" method="POST" name="form">
             <input type="hidden" name="_token" value="{{csrf_token()}}"/>
@@ -114,35 +113,30 @@
                     </div>
                     <div class="card-body">
                         @php
-                            for ($i = 0; $i <= 3; $i++){
-                                if (count($num)!=0){
-                                    $ran = array_random($num);
-                                    $answer = "answer_".$ran;
-                                    $values = $question->$answer;
-                                    foreach ($selects as $select){
-                                        if ($question->id == $select->question_id){
-                                            if ($values == $select->user_selected){
-                                                echo '<label class="btn btn-default ans ">
-                                                        <input checked type="radio" name="ques_'.$question->id.'"
-                                                           value="'.$values.'"/>' .$values .'</label><br>';
-                                                           break;
-                                            }else{
-                                                echo '<label class="btn btn-default ans ">
-                                                        <input type="radio" name="ques_'.$question->id.'"
-                                                           value="'.$values.'"/>' .$values .'</label><br>';
-                                                           break;
+                                foreach ($answers as $answer){
+                                    if ($answer['question_id'] == $question->id){
+                                        foreach ($selects as $select){
+                                            if ($question->id == $select->question_id){
+                                                $strings  = $select->user_selected;
+                                                $nums = explode(" ", $strings);
+                                                $ans =0;
+                                                for ($i = 0; $i < count($nums); $i++){
+                                                    if ($answer['id'] == $nums[$i]){
+                                                        echo '<label class="btn btn-default ans ">
+                                                                <input checked type="checkbox" name="ques_'.$question->id.'[]"
+                                                                   value="'.$answer['id'].'"/>' .$answer['content'] .'</label><br>';
+                                                        $ans++;
+                                                    }
+                                                }
+                                                if ($ans==0){
+                                                        echo '<label class="btn btn-default ans ">
+                                                                <input type="checkbox" name="ques_'.$question->id.'[]"
+                                                                   value="'.$answer['id'].'"/>' .$answer['content'] .'</label><br>';
+                                                }
                                             }
                                         }
                                     }
-                                    for ($j = 0; $j < count($num) ; $j++){
-                                        if ($num[$j] == $ran){
-                                            unset($num[$j]);
-                                            $num = array_values($num);
-                                            break;
-                                        }
-                                    }
                                 }
-                            }
                         @endphp
                     </div>
                 </div>
@@ -163,7 +157,7 @@
     </div>
 @endsection
 
-{{--Ajax load chapter when choose module--}}
+{{--Countdown Script--}}
 @section('script')
     <script>
         function getTimeRemaining(endtime) {

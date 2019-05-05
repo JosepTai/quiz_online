@@ -25,7 +25,44 @@
         </div>
     </div>
     <!-- Page content -->
-    <div class="container-fluid mt--6">
-
+    <div class="container-fluid mt--6 row">
+        <div class="col-lg-3"></div>
+        <div class="card col-lg-6">
+            <div class="card-header">
+                <h1 style="text-align: center">Congratulations you completed the exam</h1>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col-8">
+                        <h2>{{$exam->title}}</h2><br>
+                        <lable>Class: &emsp; {{$exam->belongsToClass->name}}</lable>
+                        <br><br>
+                        <lable>Start at: &emsp; {{$exam_user->start_time}}</lable>
+                        <br><br>
+                        <lable>End at: &emsp; {{$exam_user->end_time}}</lable>
+                        <br>
+                    </div>
+                    <div style="text-align: center; margin-top: 40px;" class="col-3">
+                        <lable>Your Score</lable>
+                        <h1 style="margin-top: 10px; font-size: 55px;">{{$score}}</h1>
+                    </div>
+                </div>
+            </div>
+            @if ($exam->end_time > now())
+                <div class="row card-footer"  >
+                        <a href="{{route('do_exams.index')}}" style="color: #ffffff" class="btn btn-primary btn-lg btn-block">Back to all exams</a>
+                </div>
+            @else
+                <div class="row card-footer"  >
+                    <div class="col-md-6">
+                        <a href="{{route('do_exams.index')}}" style="color: #ffffff" class="btn btn-primary btn-lg btn-block">Back to all exams</a>
+                    </div>
+                    <div class="col-md-6">
+                        <a style="color: #ffffff" href="{{route('do_exams.show_result',$exam->id)}}" class="btn btn-success btn-lg btn-block">Show answer</a>
+                    </div>
+                </div>
+            @endif
+        </div>
     </div>
 @endsection

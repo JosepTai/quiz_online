@@ -21,11 +21,7 @@ class CreateQuestionsTable extends Migration
             $table->foreign('part_id')->references('id')->on('parts');
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('content');
-            $table->string('answer_1');
-            $table->string('answer_2');
-            $table->string('answer_3');
-            $table->string('answer_4');
-            $table->string('correct_answer');
+            $table->integer('amount_answer');
             $table->timestamps();
         });
     }

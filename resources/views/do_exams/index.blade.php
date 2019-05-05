@@ -79,7 +79,7 @@
                             </div>
                             <div class="card-footer bg-transparent">
                                 @if ($type =="danger")
-                                    <a href="{{route('do_exams.index')}}" class=" btn btn-outline-danger btn-block">Show
+                                    <a href="{{route('do_exams.result',$exam['id'])}}" class=" btn btn-outline-danger btn-block">Show
                                         result</a>
                                 @elseif ($type == "default")
                                         <div class="row">

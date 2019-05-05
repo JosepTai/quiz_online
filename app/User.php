@@ -40,10 +40,6 @@ class User extends Authenticatable
         return $this->hasMany('App\Classes','user_id','id');
     }
 
-    public function exam_user()
-    {
-        return $this->hasMany('App\Exam_User','user_id','id');
-    }
 
     public function modules()
     {

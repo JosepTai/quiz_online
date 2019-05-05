@@ -17,7 +17,7 @@ class Configs extends Model
     public function questions(){
         return $this->belongsToMany('App\Questions','config_question','config_id','question_id')->withPivot('config_id','user_id');
     }
-    public  function getRandom($part_id, $level, $amount){
+    public function getRandom($part_id, $level, $amount){
         $question = DB::table('questions')
             ->where('part_id',$part_id)
             ->where('level',$level)

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Chapters;
 use App\Classes;
+use App\Exam_User;
 use App\Exams;
 use App\Modules;
 use App\Parts;
@@ -47,5 +48,22 @@ class ExamsController extends Controller
         $exam->save();
 
         return redirect('exams')->with('message', 'Add new exam success');
+    }
+
+    public function show($exam_id)
+    {
+        $exam = Exams::where('id', $exam_id)->first();
+        $title = $exam->title;
+        $class = $exam->belongsToClass;
+        $users = $class->students;
+        $infors = array();
+        foreach ($users as $user){
+            $arr = Exam_User::where(['exam_id'=>$exam_id, 'user_id'=>$user->id])->get()->toArray();
+            $infors = array_merge($infors, $arr);
+        }
+
+//        print_r($infors);
+//        die();
+       return view('exams.show',['users'=>$users,'infors'=>$infors,'title'=>$title]);
     }
 }

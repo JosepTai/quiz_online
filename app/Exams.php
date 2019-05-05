@@ -32,9 +32,7 @@ class Exams extends Model
             ->join('config_question', 'configs.id', '=', 'config_question.config_id')
             ->join('questions', 'config_question.question_id', '=', 'questions.id')
             ->where('exams.id', $exam_id)
-            ->select('questions.id as id', 'questions.content as content', 'questions.answer_1 as answer_1',
-            'questions.answer_2 as answer_2', 'questions.answer_3 as answer_3', 'questions.answer_4 as answer_4',
-            'questions.correct_answer as correct_answer', 'config_question.id as config_id',  'config_question.user_selected as selected')
+            ->select('questions.id as id', 'questions.content as content', 'questions.amount_answer as amount_answer', 'config_question.user_selected as selected')
             ->get();
         return $questions;
     }

@@ -19,7 +19,7 @@
                                     <li class="breadcrumb-item"><a href="{{route('modules.index')}}">Modules</a></li>
                                     <li class="breadcrumb-item"><a>{{$title->name}}</a></li>
                                 @endif
-                                <li class="breadcrumb-item"><a >Questions</a></li>
+                                <li class="breadcrumb-item"><a>Questions</a></li>
                                 {{--                                <li class="breadcrumb-item active" aria-current="page">Parts</li>--}}
                             </ol>
                         </nav>
@@ -70,7 +70,8 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <br>
+                                                {{--                                                --}}
+                                                <label style="float: left">Content</label><br>
                                                 <textarea rows="3" placeholder="content" class="form-control"
                                                           name="content" required="required"></textarea><br>
                                                 <label style="float: left">Level</label>
@@ -78,27 +79,34 @@
                                                     <option value="easy">Easy</option>
                                                     <option value="hard">Hard</option>
                                                 </select><br>
-                                                <label style="float: left">Answer 1</label>
-                                                <input rows="3" placeholder="answer_1" class="form-control"
-                                                       name="answer_1" required="required"><br>
-                                                <label style="float: left">Answer 2</label>
-                                                <input rows="3" placeholder="answer_2" class="form-control"
-                                                       name="answer_2" required="required"><br>
-                                                <label style="float: left">Answer 3</label>
-                                                <input rows="3" placeholder="answer_3" class="form-control"
-                                                       name="answer_3" required="required"><br>
-                                                <label style="float: left">Answer 4</label>
-                                                <input rows="3" placeholder="answer_4" class="form-control"
-                                                       name="answer_4" required="required"><br>
-                                                <label style="float: left">Correct Answer</label>
-                                                <input rows="3" placeholder="correct_answer" class="form-control"
-                                                       name="correct_answer" required="required"><br>
+                                                <br>
+
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <lable style="padding-top: 10px;float: left">Amount Answers
+                                                        </lable>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input name="amount" class="form-control" type="number" min="2"
+                                                               max="9"
+                                                               id="amount" value="2">
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <a class="btn-outline-success btn" id="add"
+                                                           onclick="add_answer()">Add
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div id="input_answer"></div>
 
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-outline-secondary"
                                                             data-dismiss="modal">Close
                                                     </button>
-                                                    <button type="submit" class="btn btn-success">Add</button>
+                                                    <button id="submit" disabled type="submit" class="btn btn-success">
+                                                        Add
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>
@@ -167,6 +175,7 @@
     </div>
     </div>
 
+
 @endsection
 
 {{--Ajax load chapter when choose module--}}
@@ -224,6 +233,34 @@
         });
     </script>
     <script type="text/javascript">
-
+        function add_answer() {
+            var x = document.getElementById("amount").value;
+            x = parseInt(x);
+            if (x < 2 || x > 10)
+                alert('Amount answer must between 2 and 10');
+            else {
+                var html = '<div style="text-align: center" class="row">' +
+                                '<div class="col-md-11">' +
+                                    '<lable>Answer Content</lable>' +
+                                '</div>' +
+                                '<div class="col-md-1">' +
+                                    '<lable>True</lable>' +
+                                '</div>' +
+                            '</div>';;
+                for (var i = 1; i <= x; i++) {
+                    html += '' +
+                        '<div class="row">' +
+                            '<div class="col-md-11">' +
+                                '<textarea rows="2" placeholder="Answer ' + i + '" class="form-control" name="answer_' + i + '" required="required"></textarea><br>' +
+                            '</div>' +
+                            '<div class="col-md-1">' +
+                                '<input style="width: 40px;" type="checkbox" name="is_answer[]" value="' + i + '">' +
+                            '</div>' +
+                        '</div>';
+                }
+                document.getElementById('input_answer').innerHTML = html;
+                document.getElementById('submit').disabled = false;
+            }
+        }
     </script>
 @endsection
