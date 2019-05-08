@@ -8,6 +8,7 @@ use App\Exams;
 use App\Parts;
 use App\Questions;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ConfigsController extends Controller
 {

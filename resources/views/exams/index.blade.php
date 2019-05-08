@@ -42,8 +42,10 @@
                                         <div class="modal-body">
                                             <form action="{{route('exams.create')}}" method="POST" name="form">
                                                 <input type="hidden" name="_token" value="{{csrf_token()}}"/>
-                                                <input placeholder="Title Exams" class="form-control" name="title"
+                                                <input placeholder="Title Exams" class="form-control"
+                                                       name="title"
                                                        required="required"/><br>
+
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
@@ -54,7 +56,7 @@
                                                                 @foreach($classes as $class)
                                                                     <option value="{{$class->id}}">{{$class->name}}</option>
                                                                 @endforeach
-                                                            </select><br>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -66,23 +68,45 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row input-daterange datepicker align-items-center">
+                                                <div id="div_date"
+                                                     class="row input-daterange datepicker align-items-center">
                                                     <div class="col">
                                                         <div class="form-group">
                                                             <label style="float: left" class="form-control-label">Start
                                                                 date</label>
-                                                            <input name="start_time" class="form-control"
+                                                            <input id="start" name="start_time" class="form-control "
                                                                    placeholder="Start date"
                                                                    type="text" value="{{now()->format('m/d/Y')}}">
+                                                            <input hidden disabled id="start_hidden" name="start_time" type="text" >
                                                         </div>
                                                     </div>
                                                     <div class="col">
                                                         <div class="form-group">
                                                             <label style="float: left" class="form-control-label">End
                                                                 date</label>
-                                                            <input name="end_time" class="form-control"
+                                                            <input id="end" name="end_time" class="form-control"
                                                                    placeholder="End date"
                                                                    type="text" required="required">
+                                                            <input hidden disabled id="end_hidden" name="end_time" type="text" >
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div style="padding-right: 50px;">
+                                                            <span>Is Test</span>
+                                                            <label onclick="check()"
+                                                                   class="custom-toggle custom-toggle-info">
+                                                                <input id="is_test" type="checkbox" name="is_test">
+                                                                <span class="custom-toggle-slider rounded-circle"
+                                                                      data-label-off="No" data-label-on="Yes"></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <div id="show_time" style="display: none">
+                                                            <input name="time" id="time" class="form-control"
+                                                                   type="time" value="10:30" id="example-time-input">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -152,8 +176,9 @@
                                     <a data-toggle="tooltip" data-original-title="Config" class="btn btn-info btn-sm"
                                        href="{{route('configs.index',$exam->id)}}"><i class="ni ni-settings"></i></a>
                                 @else
-                                    <a disabled="disabled" data-toggle="tooltip" data-original-title="This exam was configed" class="btn btn-info btn-sm"
-                                       "><i class="ni ni-settings"></i></a>
+                                    <a disabled="disabled" data-toggle="tooltip"
+                                       data-original-title="This exam was configed" class="btn btn-info btn-sm"
+                                    ><i class="ni ni-settings"></i></a>
                                 @endif
                                 <a data-toggle="tooltip" data-original-title="Show" class="btn btn-default btn-sm"
                                    href="{{route('exams.show',$exam->id)}}"><i class="ni ni-fat-add"></i></a>
@@ -172,27 +197,28 @@
 {{--Ajax load chapter when choose module--}}
 @section('script')
     <script type="text/javascript">
-        var url = "{{ url('ajax/parts') }}";
-        console.log(url);
-        $("select[name='module']").change(function () {
-            var module_id = $(this).val();
-            var token = $("input[name='_token']").val();
-            $.ajax({
-                url: url,
-                method: 'POST',
-                data: {
-                    module_id: module_id,
-                    _token: token
-                },
-                success: function (data) {
-                    $("select[name='chapter']").html('');
-                    $.each(data, function (key, value) {
-                        $("select[name='chapter']").append(
-                            "<option value=" + value.id + ">" + value.name + "</option>"
-                        );
-                    });
-                }
-            });
-        });
+        function check() {
+            var checkBox = document.getElementById('is_test');
+            var show_time = document.getElementById('show_time');
+            var start = document.getElementById('start');
+            var end = document.getElementById('end');
+            if (checkBox.checked == true) {
+                show_time.style.display = "block";
+                end.value = start.value;
+                end.disabled = true;
+                start.disabled = true;
+                document.getElementById('start_hidden').disabled=false;
+                document.getElementById('start_hidden').value = start.value;
+                document.getElementById('end_hidden').disabled=false;
+                document.getElementById('end_hidden').value = start.value;
+            } else {
+                show_time.style.display = "none";
+                end.disabled = false;
+                start.disabled = false;
+                document.getElementById('start_hidden').disabled=true;
+                document.getElementById('end_hidden').disabled=true;
+
+            }
+        }
     </script>
 @endsection

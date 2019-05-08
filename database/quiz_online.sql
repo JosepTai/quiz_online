@@ -49,14 +49,6 @@ CREATE TABLE `exam_user`
   `updated_at` timestamp
 );
 
-CREATE TABLE `exam_user_status`
-(
-  `status_id` int,
-  `exam_user_id` int,
-  `created_at` timestamp,
-  `updated_at` timestamp
-);
-
 CREATE TABLE `modules`
 (
   `id` int,
@@ -82,29 +74,6 @@ CREATE TABLE `questions`
   `part_id` int,
   `user_id` int,
   `content` varchar(255),
-  `answer_1` varchar(255),
-  `answer_2` varchar(255),
-  `answer_3` varchar(255),
-  `answer_4` varchar(255),
-  `correct_answer` varchar(255),
-  `created_at` timestamp,
-  `updated_at` timestamp
-);
-
-CREATE TABLE `results`
-(
-  `id` int,
-  `exam_user_id` int,
-  `question_id` int,
-  `user_selected` varchar(255),
-  `created_at` timestamp,
-  `updated_at` timestamp
-);
-
-CREATE TABLE `status`
-(
-  `id` int,
-  `name` varchar(255),
   `created_at` timestamp,
   `updated_at` timestamp
 );
@@ -142,15 +111,17 @@ CREATE TABLE `config_question`
   `updated_at` timestamp
 );
 
+CREATE TABLE `answer`
+(
+  `id` int,
+  `question_id` int,
+  `content` varchar(255),
+  `is_correct` bool,
+  `created_at` timestamp,
+  `updated_at` timestamp
+);
+
 ALTER TABLE `questions` ADD FOREIGN KEY (`id`) REFERENCES `config_question` (`question_id`);
-
-ALTER TABLE `questions` ADD FOREIGN KEY (`id`) REFERENCES `results` (`question_id`);
-
-ALTER TABLE `status` ADD FOREIGN KEY (`id`) REFERENCES `exam_user_status` (`status_id`);
-
-ALTER TABLE `exam_user` ADD FOREIGN KEY (`id`) REFERENCES `results` (`exam_user_id`);
-
-ALTER TABLE `exam_user` ADD FOREIGN KEY (`id`) REFERENCES `exam_user_status` (`exam_user_id`);
 
 ALTER TABLE `users` ADD FOREIGN KEY (`id`) REFERENCES `classes` (`user_id`);
 
@@ -179,3 +150,5 @@ ALTER TABLE `parts` ADD FOREIGN KEY (`id`) REFERENCES `questions` (`part_id`);
 ALTER TABLE `configs` ADD FOREIGN KEY (`id`) REFERENCES `config_question` (`config_id`);
 
 ALTER TABLE `parts` ADD FOREIGN KEY (`id`) REFERENCES `configs` (`part_id`);
+
+ALTER TABLE `questions` ADD FOREIGN KEY (`id`) REFERENCES `answer` (`question_id`);

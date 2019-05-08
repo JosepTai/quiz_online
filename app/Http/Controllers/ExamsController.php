@@ -11,6 +11,7 @@ use App\Parts;
 use App\Configs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class ExamsController extends Controller
 {
@@ -30,14 +31,22 @@ class ExamsController extends Controller
 
     public function store(Request $request)
     {
-        $start_time = substr($request->start_time, 6, 4) . '-' . substr($request->start_time, 0, 2) . '-' . substr($request->start_time, 3, 2) . ' 00:00:00';
-        $end_time = substr($request->end_time, 6, 4) . '-' . substr($request->end_time, 0, 2) . '-' . substr($request->end_time, 3, 2) . ' 23:59:59';
-        $this->validate($request, [
-            'title' => 'string|min:3'
-        ],
-            [
-                'title.min' => 'This name too shot'
-            ]);
+        $time="";
+        $start_time = substr($request->start_time, 6, 4) . '-' . substr($request->start_time, 0, 2) . '-' . substr($request->start_time, 3, 2);
+        $end_time = substr($request->end_time, 6, 4) . '-' . substr($request->end_time, 0, 2) . '-' . substr($request->end_time, 3, 2);
+        if ($request->is_test =="on"){
+            $time=$request->time;
+            $hours = substr($time,0,2);
+            $minutes = substr($time,3,5);
+            $start_time = $start_time.' '.$hours.':'.$minutes.':00';
+            $duration = $request->duration;
+            $hours = $hours + round($duration/60);
+            $minutes = $minutes + round($duration%60);
+            $end_time = $end_time.' '.$hours.':'.$minutes.':00';
+        }else{
+            $start_time = $start_time.' 00:00:00';
+            $end_time = $end_time. ' 23:59:59';
+        }
         $exam = new Exams();
         $exam->title = $request->get('title', '');
         $exam->class_id = $request->get('class', '');
