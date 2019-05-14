@@ -55,8 +55,9 @@ class ExamsController extends Controller
         $exam->start_time = $start_time;
         $exam->end_time = $end_time;
         $exam->save();
-
-        return redirect('exams')->with('message', 'Add new exam success');
+        $this_exam = DB::table('exams')
+            ->max('id');
+        return redirect()->route('configs.index',$this_exam);
     }
 
     public function show($exam_id)
@@ -71,8 +72,6 @@ class ExamsController extends Controller
             $infors = array_merge($infors, $arr);
         }
 
-//        print_r($infors);
-//        die();
        return view('exams.show',['users'=>$users,'infors'=>$infors,'title'=>$title]);
     }
 }

@@ -31,7 +31,7 @@ class Exams extends Model
             ->join('configs', 'exams.id', '=', 'configs.exam_id')
             ->join('config_question', 'configs.id', '=', 'config_question.config_id')
             ->join('questions', 'config_question.question_id', '=', 'questions.id')
-            ->where('exams.id', $exam_id)
+            ->where(['exams.id'=>$exam_id,'config_question.user_id'=>auth()->id()])
             ->select('questions.id as id', 'questions.content as content', 'questions.amount_answer as amount_answer', 'config_question.user_selected as selected')
             ->get();
         return $questions;

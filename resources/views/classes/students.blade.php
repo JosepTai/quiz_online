@@ -40,8 +40,10 @@
                                                 class</h4>
                                         </div>
                                         <div class="card-body px-lg-7">
-                                            <div class="display-2 text-white"><label
-                                                        id="code">{{$classes->code}}</label></div>
+                                            <div class="display-2 text-white">
+                                                <label >{{$classes->code}}</label>
+                                                <input id="code" hidden type="text" value="{{$classes->code}}">
+                                            </div>
                                         </div>
                                         <div class="card-footer bg-transparent">
                                             <button onclick="copy()" class=" btn btn-outline-success text-white">Click
@@ -105,4 +107,14 @@
         </div>
     </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        // function copy() {
+        //     var copyText = document.getElementById("code");
+        //     copyText.select();
+        //     document.execCommand('copy');
+        //     alert("Copied the text: " + copyText.value);
+        // }
+    </script>
 @endsection

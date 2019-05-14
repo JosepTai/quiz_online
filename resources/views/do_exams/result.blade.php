@@ -29,7 +29,12 @@
         <div class="col-lg-3"></div>
         <div class="card col-lg-6">
             <div class="card-header">
-                <h1 style="text-align: center">Congratulations you completed the exam</h1>
+                @php
+                if (empty($exam_user)){
+                    echo '<h1 style="text-align: center">Sorry, you have not done this exercise yet!</h1>';
+                }
+                else echo '<h1 style="text-align: center">Congratulations you completed the exam!</h1>';
+                @endphp
             </div>
             <div class="card-body">
                 <div class="row">
@@ -37,11 +42,15 @@
                     <div class="col-8">
                         <h2>{{$exam->title}}</h2><br>
                         <lable>Class: &emsp; {{$exam->belongsToClass->name}}</lable>
-                        <br><br>
-                        <lable>Start at: &emsp; {{$exam_user->start_time}}</lable>
-                        <br><br>
-                        <lable>End at: &emsp; {{$exam_user->end_time}}</lable>
-                        <br>
+                        @php
+                            if (!empty($exam_user)){
+                            echo "<br><br>
+                            <lable>Start at: &emsp; {$exam_user->start_time}</lable>
+                            <br><br>
+                            <lable>End at: &emsp; {$exam_user->end_time}</lable>
+                            <br>";
+                        }
+                        @endphp
                     </div>
                     <div style="text-align: center; margin-top: 40px;" class="col-3">
                         <lable>Your Score</lable>
@@ -49,7 +58,7 @@
                     </div>
                 </div>
             </div>
-            @if ($exam->end_time > now())
+            @if (!empty($exam_user))
                 <div class="row card-footer"  >
                         <a href="{{route('do_exams.index')}}" style="color: #ffffff" class="btn btn-primary btn-lg btn-block">Back to all exams</a>
                 </div>

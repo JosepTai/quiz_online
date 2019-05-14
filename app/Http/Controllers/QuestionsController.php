@@ -22,7 +22,8 @@ class QuestionsController extends Controller
         $chapters = Chapters::all();
         $parts = auth()->user()->parts();
         $questions = Questions::where('user_id',auth()->id())->get();
-        return view('questions.index',['modules'=>$modules,'chapters'=>$chapters,'parts'=>$parts,'questions'=>$questions]);
+        $active ="questions";
+        return view('questions.index',['modules'=>$modules,'chapters'=>$chapters,'parts'=>$parts,'questions'=>$questions,'active'=>$active]);
     }
     //postAdd
     public function store(Request $request){

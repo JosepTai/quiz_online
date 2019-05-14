@@ -67,7 +67,11 @@
                                         <td>{{$infor['end_time']}}</td>
                                         <td>0</td>
                                     @else
-                                        <td>Complete</td>
+                                        @if ($infor['start_time'] == $infor['end_time'] )
+                                            <td>Not do</td>
+                                        @else
+                                            <td>Complete</td>
+                                        @endif
                                         <td>{{$infor['start_time']}}</td>
                                         <td>{{$infor['end_time']}}</td>
                                         <td>{{$infor['score']}}</td>

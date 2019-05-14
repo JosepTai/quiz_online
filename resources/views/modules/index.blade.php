@@ -101,8 +101,6 @@
                             <td>
                                 <a data-toggle="tooltip" data-original-title="Show" class="btn btn-info btn-sm"
                                    href="{{route('modules.show',$module->id)}}"><i class="ni ni-fat-add"></i></a>
-                                <a data-toggle="tooltip" data-original-title="Delete" class="btn btn-danger btn-sm"
-                                   href="modules"><i class="ni ni-fat-remove"></i></a>
                                 <a data-toggle="tooltip" data-original-title="Edit" class="btn btn-primary btn-sm"
                                    href="modules"><i class="ni ni-settings"></i></a>
                             </td>

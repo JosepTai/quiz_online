@@ -26,9 +26,10 @@ class ConfigsController extends Controller
         else {
             $chapters = $exam->belongsToClass->module->chapters;
             $parts = Parts::all();
+            $questions = Questions::where('user_id',auth()->id())->get();
             $configs = Configs::where('exam_id', $exam_id)->get();
             $count = Configs::where('exam_id', $exam_id)->count();
-            return view('exams.config', ['chapters' => $chapters, 'parts' => $parts, 'exam' => $exam, 'configs' => $configs, 'count' => $count]);
+            return view('exams.config', ['chapters' => $chapters, 'parts' => $parts,'questions'=> $questions, 'exam' => $exam, 'configs' => $configs, 'count' => $count]);
         }
 
     }
@@ -87,8 +88,18 @@ class ConfigsController extends Controller
                 }
             }
         }
-        $classes = Classes::where('user_id', auth()->id())->get();
+        $class = $exam->belongsToClass;
+        $students = $class->students;
         $exams = auth()->user()->exams;
+        foreach ($students as $student){
+            $emails[] = $student->email;
+        }
+        $emails['data'] = $emails;
+        Mail::send('exams.mail',['exam'=>$exam], function ($mail) use($emails) {
+            $mail->to('jostai7597@gmail.com')->subject('You have a new exam')
+                ->bcc($emails['data']);
+        });
+        $classes = Classes::where('user_id',auth()->id())->get();
         return view('exams.index', ['exams' => $exams, 'classes' => $classes]);
     }
 }

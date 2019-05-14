@@ -40,4 +40,7 @@ class ModulesController extends Controller
 
         return redirect('modules')->with('message','Add new question success');
     }
+    public function edit($module_id){
+
+    }
 }

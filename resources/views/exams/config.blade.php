@@ -42,6 +42,16 @@
                         </div>
                         <br><br>
                         @foreach($chapter->parts as $part)
+                            @php
+                                $easy_max = 0;
+                                $hard_max = 0;
+                                foreach ($questions as $question){
+                                    if ($question->part_id == $part->id){
+                                        if ($question->level == "easy") $easy_max++;
+                                        else $hard_max++;
+                                    }
+                                }
+                            @endphp
                             <div class="row">
                                 <div class="col-md-1"></div>
                                 <div class="col-md-2"><label for="example-text-input"
@@ -61,14 +71,14 @@
                                         @foreach($configs as $config)
                                             @if ($part->id == $config->part_id && $config->level == "easy")
                                                 <input name="part[]" class="form-control" value="{{$config->amount}}"
-                                                       type='number' min='0' max='50' onkeypress='return false;'/>
+                                                       type='number' min='0' max="{{$easy_max}}" onkeypress='return false;'/>
                                                 @php( $countEasy = 1)
                                                 @break
                                             @endif
                                         @endforeach
                                         @if($countEasy == 0)
                                             <input name="part[]" class="form-control" value="0" type='number'
-                                                   min='0' max='50' onkeypress='return false;'/>
+                                                   min='0' max='{{$easy_max}}' onkeypress='return false;'/>
                                         @endif
                                     </div>
                                 </div>
@@ -84,14 +94,14 @@
                                         @foreach($configs as $config)
                                             @if ($part->id == $config->part_id && $config->level == "hard")
                                                 <input name="part[]" class="form-control" value="{{$config->amount}}"
-                                                       type='number' min='0' max='50' onkeypress='return false;'/>
+                                                       type='number' min='0' max='{{$hard_max}}' onkeypress='return false;'/>
                                                 @php( $countHard = 1)
                                                 @break
                                             @endif
                                         @endforeach
                                         @if($countHard == 0)
                                             <input name="part[]" class="form-control" value="0" type='number'
-                                                   min='0' max='50' onkeypress='return false;'/>
+                                                   min='0' max='{{$hard_max}}' onkeypress='return false;'/>
                                         @endif
                                     </div>
                                 </div>
@@ -102,7 +112,6 @@
                     </div>
                 @endforeach
                 <div style="float: right">
-                    <button type="submit" class="btn btn-dark">Cancel</button>
                     <button type="submit" class="btn btn-success">Apply</button>
                 </div>
                 <br><br>

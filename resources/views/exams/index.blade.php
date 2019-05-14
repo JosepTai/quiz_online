@@ -77,20 +77,20 @@
                                                             <input id="start" name="start_time" class="form-control "
                                                                    placeholder="Start date"
                                                                    type="text" value="{{now()->format('m/d/Y')}}">
-                                                            <input hidden disabled id="start_hidden" name="start_time" type="text" >
+
                                                         </div>
                                                     </div>
                                                     <div class="col">
                                                         <div class="form-group">
                                                             <label style="float: left" class="form-control-label">End
                                                                 date</label>
-                                                            <input id="end" name="end_time" class="form-control"
-                                                                   placeholder="End date"
-                                                                   type="text" required="required">
-                                                            <input hidden disabled id="end_hidden" name="end_time" type="text" >
+                                                            <input id="end" name="end_time" class="form-control" placeholder="End date" type="text" value="{{now()->format('m/d/Y')}}">
+
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <input hidden disabled id="start_hidden" name="start_time" type="text" >
+                                                <input hidden disabled id="end_hidden" name="end_time" type="text" >
                                                 <div class="row">
                                                     <div class="col-md-3">
                                                         <div style="padding-right: 50px;">
@@ -106,7 +106,7 @@
                                                     <div class="col-md-9">
                                                         <div id="show_time" style="display: none">
                                                             <input name="time" id="time" class="form-control"
-                                                                   type="time" value="10:30" id="example-time-input">
+                                                                   type="time" value="08:30" id="example-time-input">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -207,7 +207,7 @@
                 end.value = start.value;
                 end.disabled = true;
                 start.disabled = true;
-                document.getElementById('start_hidden').disabled=false;
+                document.getElementById('start_hidden').disabled = false;
                 document.getElementById('start_hidden').value = start.value;
                 document.getElementById('end_hidden').disabled=false;
                 document.getElementById('end_hidden').value = start.value;

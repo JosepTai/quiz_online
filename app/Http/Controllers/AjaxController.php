@@ -6,6 +6,7 @@ use App\Chapters;
 use App\Classes;
 use App\Modules;
 use App\Parts;
+use App\User;
 use Illuminate\Http\Request;
 
 class AjaxController extends Controller

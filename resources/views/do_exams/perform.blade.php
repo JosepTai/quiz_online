@@ -68,7 +68,9 @@
                 <button onclick="clickSave()" type="submit" class="btn btn-primary "> Save</button>
             </div>
             <div class="col-md-6">
-                <button onclick="clickSubmit()" type="submit" class="btn btn-success "> End Test</button>
+                <button  id="click_submit" onclick="clickSubmit()" type="submit" class="btn btn-success "> End
+                    Test
+                </button>
             </div>
         </div>
     </div>
@@ -104,7 +106,7 @@
         @endphp
         <form action="{{route('do_exams.successPerform')}}" method="POST" name="form">
             <input type="hidden" name="_token" value="{{csrf_token()}}"/>
-            <input hidden type="text" id="time_end" name="end_time" value="{{$end_time}}">
+            <input hidden type="text" id="time_end" name="end_test" value="no">
             <input hidden type="text" name="exam" value="{{$exam->id}}">
             @foreach($questions as $question)
                 <div class="card">
@@ -113,44 +115,44 @@
                     </div>
                     <div class="card-body">
                         @php
-                                foreach ($answers as $answer){
-                                    if ($answer['question_id'] == $question->id){
-                                        foreach ($selects as $select){
-                                            if ($question->id == $select->question_id){
-                                                $strings  = $select->user_selected;
-                                                $nums = explode(" ", $strings);
-                                                $ans =0;
-                                                for ($i = 0; $i < count($nums); $i++){
+                            foreach ($answers as $answer){
+                                if ($answer['question_id'] == $question->id){
+                                 $ans =0;
+                                    foreach ($selects as $select){
+                                        if ($question->id == $select->question_id){
+                                            $strings  = $select->user_selected;
+                                            $nums = explode(" ", $strings);
+                                            if (count($nums)>1){
+                                                for ($i = 1; $i < count($nums); $i++){
                                                     if ($answer['id'] == $nums[$i]){
                                                         echo '<label class="btn btn-default ans ">
                                                                 <input checked type="checkbox" name="ques_'.$question->id.'[]"
                                                                    value="'.$answer['id'].'"/>' .$answer['content'] .'</label><br>';
                                                         $ans++;
+                                                        break;
                                                     }
-                                                }
-                                                if ($ans==0){
-                                                        echo '<label class="btn btn-default ans ">
-                                                                <input type="checkbox" name="ques_'.$question->id.'[]"
-                                                                   value="'.$answer['id'].'"/>' .$answer['content'] .'</label><br>';
                                                 }
                                             }
                                         }
+                                        if ($ans==1) break;
+                                    }
+                                    if ($ans==0){
+                                        echo '<label class="btn btn-default ans ">
+                                                <input type="checkbox" name="ques_'.$question->id.'[]"
+                                                   value="'.$answer['id'].'"/>' .$answer['content'] .'</label><br>';
                                     }
                                 }
+                            }
                         @endphp
                     </div>
                 </div>
-                @php
-                    $count++;
-                    $num =[1,2,3,4];
-                @endphp
             @endforeach
             <div hidden class="btndiv row">
                 <div class="col-md-6">
-                    <button id="btnSave" type="submit" class="btn btn-success "> Sadfve</button>
+                    <button id="btnSave" type="submit" class="btn btn-success "></button>
                 </div>
                 <div class="col-md-6">
-                    <button id="btnSubmit" type="submit" class="btn btn-success "> End tedfdfst</button>
+                    <button id="btnSubmit" type="submit" class="btn btn-success "></button>
                 </div>
             </div>
         </form>
@@ -160,6 +162,10 @@
 {{--Countdown Script--}}
 @section('script')
     <script>
+        setTimeout(function () {
+            document.getElementById('click_submit').disabled = false;
+        }, 10000);
+
         function getTimeRemaining(endtime) {
             var t = Date.parse(endtime) - Date.parse(new Date());
             var seconds = Math.floor((t / 1000) % 60);
@@ -204,7 +210,7 @@
         }
 
         function clickSubmit() {
-            document.getElementById("time_end").value = '<?= now()?>';
+            document.getElementById("time_end").value = 'yes';
             document.getElementById("btnSubmit").click();
         }
 

@@ -16,7 +16,7 @@
                             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                                 <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
                                 @if (isset($title))
-                                    <li class="breadcrumb-item"><a href="{{route('modules.index')}}">Modules</a></li>
+                                    <li class="breadcrumb-item"><a href="{{route('modules.index')}}">Parts</a></li>
                                     <li class="breadcrumb-item"><a>{{$title->name}}</a></li>
                                 @endif
                                 <li class="breadcrumb-item"><a>Questions</a></li>

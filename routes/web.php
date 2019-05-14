@@ -74,3 +74,5 @@ Route::group(['prefix'=>'ajax', 'as'=>'ajax.'],function(){
     Route::post('class','AjaxController@getClass');
     Route::post('parts','AjaxController@getPart');
 });
+//Profile
+Route::post('/','UserController@profile')->name('profile');
