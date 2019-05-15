@@ -73,15 +73,15 @@ class DoExamsController extends Controller
 
         $questions = $exam->questions($exam_id);
         $answers = Answers::all();
-        $arr = array();
+        $answ = array();
         foreach ($questions as $question) {
             foreach ($answers as $answer) {
                 if ($question->id == $answer->question_id) {
-                    $arr[] = $answer->toArray();
+                    $answ[] = $answer->toArray();
                 }
             }
         }
-        shuffle($arr);
+        shuffle($answ);
         $exam_user = Exam_User::where(['exam_id' => $exam_id, 'user_id' => auth()->id()])->first();
         $end_time = $exam_user->end_time;
         $title = $exam->title;
@@ -90,7 +90,7 @@ class DoExamsController extends Controller
             ->join('exams', 'exams.id', '=', 'configs.exam_id')
             ->where(['exams.id' => $exam->id, 'config_question.user_id' => auth()->id()])
             ->select('config_question.question_id as question_id', 'config_question.user_selected as user_selected')->get();
-        return view('do_exams.perform', ['exam' => $exam, 'questions' => $questions, 'answers' => $arr, 'title' => $title, 'selects' => $selects, 'end_time' => $end_time]);
+        return view('do_exams.perform', ['exam' => $exam, 'questions' => $questions, 'answers' => $answ, 'title' => $title, 'selects' => $selects, 'end_time' => $end_time]);
     }
 
 
@@ -119,26 +119,26 @@ class DoExamsController extends Controller
             }
             $questions = $exam->questions($exam->id);
             $answers = Answers::all();
-            $arr = array();
+            $answ = array();
             foreach ($questions as $question) {
                 foreach ($answers as $answer) {
                     if ($question->id == $answer->question_id) {
-                        $arr[] = $answer->toArray();
+                        $answ[] = $answer->toArray();
                     }
                 }
             }
-            shuffle($arr);
+            shuffle($answ);
             $selects = DB::table('config_question')
                 ->join('configs', 'config_question.config_id', '=', 'configs.id')
                 ->join('exams', 'exams.id', '=', 'configs.exam_id')
                 ->where(['exams.id' => $exam->id, 'config_question.user_id' => auth()->id()])
                 ->select('config_question.question_id as question_id', 'config_question.user_selected as user_selected')->get();
             $title = $exam->title;
-            if($request->end_test == "yes"){
+            if ($request->end_test == "yes") {
                 $exam_user->end_time = now();
                 $exam_user->save();
             }
-            return view('do_exams.perform', ['exam' => $exam, 'questions' => $questions, 'answers' => $arr, 'title' => $title, 'selects' => $selects, 'end_time' => $exam_user->end_time]);
+            return view('do_exams.perform', ['exam' => $exam, 'questions' => $questions, 'answers' => $answ, 'title' => $title, 'selects' => $selects, 'end_time' => $exam_user->end_time]);
         }
     }
 
@@ -158,11 +158,11 @@ class DoExamsController extends Controller
                 ->select('config_question.question_id as question_id', 'config_question.user_selected as user_selected')->get();
             $count = 0;
             $answers = Answers::all();
-            $arrs = array();
+            $answs = array();
             foreach ($questions as $question) {
                 foreach ($answers as $answer) {
                     if ($question->id == $answer->question_id) {
-                        $arrs[] = $answer->toArray();
+                        $answs[] = $answer->toArray();
                     }
                 }
             }
@@ -171,15 +171,15 @@ class DoExamsController extends Controller
                 $nums = explode(" ", $strings);
                 $ans = 0;
                 $sec = 0;
-                foreach ($arrs as $arr) {
-                    if ($arr['question_id'] == $select->question_id) {
-                        if ($arr['is_correct'] == 1) $ans++;
+                foreach ($answs as $answ) {
+                    if ($answ['question_id'] == $select->question_id) {
+                        if ($answ['is_correct'] == 1) $ans++;
                     }
                 }
                 for ($i = 0; $i < count($nums); $i++) {
-                    foreach ($arrs as $arr) {
-                        if ($arr['id'] == $nums[$i]) {
-                            if ($arr['is_correct'] == 1) $sec++;
+                    foreach ($answs as $answ) {
+                        if ($answ['id'] == $nums[$i]) {
+                            if ($answ['is_correct'] == 1) $sec++;
                         }
                     }
                 }
@@ -197,22 +197,26 @@ class DoExamsController extends Controller
     public function show_result($exam_id)
     {
         $exam = Exams::where('id', $exam_id)->first();
-        $questions = $exam->questions($exam->id);
-        $answers = Answers::all();
-        $arr = array();
-        foreach ($questions as $question) {
-            foreach ($answers as $answer) {
-                if ($question->id == $answer->question_id) {
-                    $arr[] = $answer->toArray();
+        if ($exam->end_time > now()) return $this->result($exam_id);
+        else {
+            $questions = $exam->questions($exam->id);
+            $answers = Answers::all();
+            $arr = array();
+            foreach ($questions as $question) {
+                foreach ($answers as $answer) {
+                    if ($question->id == $answer->question_id) {
+                        $arr[] = $answer->toArray();
+                    }
                 }
             }
+            shuffle($arr);
+            $title = $exam->title;
+            $selects = DB::table('config_question')
+                ->join('configs', 'config_question.config_id', '=', 'configs.id')
+                ->where(['configs.exam_id' => $exam->id])
+                ->select('config_question.question_id as question_id', 'config_question.user_selected as user_selected')->get();
+            return view('do_exams.show_result', ['exam' => $exam, 'questions' => $questions, 'answers' => $answers, 'selects' => $selects, 'title' => $title]);
         }
-        shuffle($arr);
-        $title = $exam->title;
-        $selects = DB::table('config_question')
-            ->join('configs', 'config_question.config_id', '=', 'configs.id')
-            ->where(['configs.exam_id' => $exam->id])
-            ->select('config_question.question_id as question_id', 'config_question.user_selected as user_selected')->get();
-        return view('do_exams.show_result', ['exam' => $exam, 'questions' => $questions, 'answers' => $answers, 'selects' => $selects, 'title' => $title]);
+
     }
 }

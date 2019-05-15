@@ -58,7 +58,7 @@
                     </div>
                 </div>
             </div>
-            @if (!empty($exam_user))
+            @if (empty($exam_user) || $exam->end_time > now())
                 <div class="row card-footer"  >
                         <a href="{{route('do_exams.index')}}" style="color: #ffffff" class="btn btn-primary btn-lg btn-block">Back to all exams</a>
                 </div>

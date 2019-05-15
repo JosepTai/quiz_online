@@ -44,10 +44,11 @@ Route::group(['prefix' => 'participated','as'=>'participated.'], function () {
     Route::post('join', 'ParticipatedController@joinClass')->name('join');
     Route::get('leave/{class_id}','ParticipatedController@leaveClass')->name('leave');
 });
-//Question
+//Questions
 Route::group(['prefix' => 'questions','as'=>'questions.'], function () {
     Route::get('/', 'QuestionsController@index')->name('index');
     Route::post('create', 'QuestionsController@store')->name('create');
+    Route::post('import','QuestionsController@import')->name('import');
 });
 //Exams
 Route::group(['prefix' => 'exams','as'=>'exams.'], function () {

@@ -28,7 +28,10 @@
                     <div class="col-lg-6 col-5 text-right">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 fix-top">
                             <h1 class="page-header">
-                                <a class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
+                                <a onclick="check()" class="btn btn-success">
+                                    Join Class
+                                </a>
+                                <a id="join" hidden class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
                                     Join Class
                                 </a>
                             </h1>
@@ -126,6 +129,11 @@
 
 @section('script')
     <script type="text/javascript">
+        function check() {
+            var id_student = '{{auth()->user()->id_student}}';
+            if (id_student == "") alert("Please change your Id Student to Join class");
+            else document.getElementById('join').click();
+        }
         var url = "{{ url('ajax/class') }}";
 
         function class_info() {

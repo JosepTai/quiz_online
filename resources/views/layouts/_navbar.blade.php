@@ -81,8 +81,8 @@
                                         <lable>ID student</lable>
                                     </div>
                                     <div class="col-md-9">
-                                        <input name="name_profile" class="form-control" type="text"
-                                               value="151201621">
+                                        <input name="id_student" class="form-control" type="text"
+                                               value="{{auth()->user()->id_student}}" placeholder="Please enter your ID Student" required>
                                     </div>
                                 </div>
                                 <br>

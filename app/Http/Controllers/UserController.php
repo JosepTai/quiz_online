@@ -15,6 +15,7 @@ class UserController extends Controller
     public function profile(Request $request){
         $user =User::where('id',auth()->id())->first();
         $user->name = $request->name_profile;
+        $user->id_student = $request->id_student;
         $user->email = $request->email_profile;
         if ($request->new_password != ""){
             $user->password = bcrypt($request->new_password);

@@ -31,8 +31,11 @@
                                     Add new Question
                                 </a>
 
+                                <a class="btn btn-success" data-toggle="modal" data-target="#import">
+                                    Import Questions
+                                </a>
                             </h1>
-                            {{--                        modal--}}
+                            {{--                        modal new question--}}
                             <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
                                  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                 <div class="modal-dialog modal-lg" role="document">
@@ -106,6 +109,61 @@
                                                     </button>
                                                     <button id="submit" disabled type="submit" class="btn btn-success">
                                                         Add
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            {{--                           modal import --}}
+                            <div class="modal fade" id="import" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="import">Import Question</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="{{route('questions.import')}}"  method="POST" enctype="multipart/form-data">
+                                                <input type="hidden" name="_token" value="{{csrf_token()}}"/>
+                                                <div class="form-row">
+                                                    <div class="col-md-4 mb-3">
+                                                        <label style="float: left">Module</label>
+                                                        <select class="form-control" name="module" id="module"
+                                                                required="required">
+                                                            <option value="">-- Choose Module --</option>
+                                                            @foreach($modules as $module)
+                                                                <option value="{{$module->id}}">{{$module->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4 mb-3">
+                                                        <label style="float: left">Chapter</label>
+                                                        <select class="form-control" name="chapter" id="chapter"
+                                                                required="required">
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4 mb-3">
+                                                        <label style="float: left">Part</label>
+                                                        <select class="form-control" name="part" id="part"
+                                                                required="required">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <input type="file" name="file" class="form-control">
+                                                {{--                                                --}}
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-outline-secondary"
+                                                            data-dismiss="modal">Close
+                                                    </button>
+                                                    <button id="submit"  type="submit" class="btn btn-success">
+                                                        Import
                                                     </button>
                                                 </div>
                                             </form>

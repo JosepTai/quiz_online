@@ -50,6 +50,7 @@
                                                        required="required"/><br>
                                                 <label style="float: left">Module</label>
                                                 <select class="form-control" name="module" required="required">
+                                                    <option value="">-- Choose Module --</option>
                                                     @foreach($modules as $module)
                                                         <option value="{{$module->id}}">{{$module->name}}</option>
                                                     @endforeach

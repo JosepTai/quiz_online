@@ -68,7 +68,8 @@
                     <tr>
                         <th>Id</th>
                         <th>Name</th>
-                        <th>Module</th>
+                        <th>Id Student</th>
+                        <th>Email</th>
                         <th>Joined At</th>
                         <th></th>
 
@@ -78,6 +79,7 @@
                     <tr>
                         <th>Id</th>
                         <th>Name</th>
+                        <th>Id Student</th>
                         <th>Email</th>
                         <th>Joined At</th>
                         <th></th>
@@ -89,6 +91,7 @@
                         <tr>
                             <td>{{$user->id}}</td>
                             <td class="next_line">{{$user->name}}</td>
+                            <td class="next_line">{{$user->id_student}}</td>
                             <td class="next_line">{{$user->email}}</td>
                             <td>{{$user->pivot->updated_at}} </td>
                             <td>

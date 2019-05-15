@@ -25,6 +25,20 @@
                             </div>
                         </div>
 
+{{--                        <div class="form-group row">--}}
+{{--                            <label for="id_student" class="col-md-4 col-form-label text-md-right">{{ __('id_student') }}</label>--}}
+
+{{--                            <div class="col-md-6">--}}
+{{--                                <input id="id_student" type="text" class="form-control{{ $errors->has('id_student') ? ' is-invalid' : '' }}" name="id_student" value="{{ old('id_student') }}" required>--}}
+
+{{--                                @if ($errors->has('id_student'))--}}
+{{--                                    <span class="invalid-feedback" role="alert">--}}
+{{--                                        <strong>{{ $errors->first('id_student') }}</strong>--}}
+{{--                                    </span>--}}
+{{--                                @endif--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
