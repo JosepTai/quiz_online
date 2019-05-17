@@ -1,19 +1,10 @@
 @extends('layouts.index')
 @section('content')
     @if(session('message'))
-        <div class="toast">
-            <div class="toast-header">
-                Toast Header
-            </div>
-            <div class="toast-body">
-                Some text inside the toast body
-            </div>
-        </div>
         <div class="alert alert-success" id="message">
             {{session('message')}}
         </div>
     @endif
-
     <div class="header bg-primary pb-6">
         <div class="container-fluid">
             <div class="header-body">
@@ -114,15 +105,5 @@
 
     </div>
     </div>
-
-
-
-
-
-
-
-
-
-
 
 @endsection

@@ -127,7 +127,7 @@
                                                     if ($answer['id'] == $nums[$i]){
                                                         echo '<label class="btn btn-default ans ">
                                                                 <input checked type="checkbox" name="ques_'.$question->id.'[]"
-                                                                   value="'.$answer['id'].'"/>' .$answer['content'] .'</label><br>';
+                                                                   value="'.$answer['id'].'"/>' .htmlentities($answer['content']).'</label><br>';
                                                         $ans++;
                                                         break;
                                                     }
@@ -139,10 +139,11 @@
                                     if ($ans==0){
                                         echo '<label class="btn btn-default ans ">
                                                 <input type="checkbox" name="ques_'.$question->id.'[]"
-                                                   value="'.$answer['id'].'"/>' .$answer['content'] .'</label><br>';
+                                                   value="'.$answer['id'].'"/>' .htmlentities($answer['content']).'</label><br>';
                                     }
                                 }
                             }
+                        $count++;
                         @endphp
                     </div>
                 </div>

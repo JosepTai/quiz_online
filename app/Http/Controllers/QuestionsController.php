@@ -26,8 +26,7 @@ class QuestionsController extends Controller
         $chapters = Chapters::all();
         $parts = auth()->user()->parts();
         $questions = Questions::where('user_id', auth()->id())->get();
-        $active = "questions";
-        return view('questions.index', ['modules' => $modules, 'chapters' => $chapters, 'parts' => $parts, 'questions' => $questions, 'active' => $active]);
+        return view('questions.index', ['modules' => $modules, 'chapters' => $chapters, 'parts' => $parts, 'questions' => $questions]);
     }
 
     //postAdd
@@ -105,6 +104,6 @@ class QuestionsController extends Controller
                 }
             }
         }
-        return $this->index()->with('message', 'Add new questions from file success');
+        return redirect()->back()->with('message', 'Add new question success');
     }
 }

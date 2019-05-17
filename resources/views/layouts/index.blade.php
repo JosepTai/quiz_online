@@ -35,6 +35,8 @@
     <!-- Page plugins -->
     <link rel="stylesheet" href="../../assets/vendor/animate.css/animate.min.css">
     <link rel="stylesheet" href="../../assets/vendor/sweetalert2/dist/sweetalert2.min.css">
+    <!-- alert plugins -->
+    <link rel="stylesheet" href="assets/vendor/sweetalert2/dist/sweetalert2.min.css">
     <!-- Google Tag Manager -->
     <script>(function (w, d, s, l, i) {
             w[l] = w[l] || [];
@@ -86,6 +88,7 @@
 <!-- Optional JS -->
 <script src="../../assets/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
 <script src="../../assets/vendor/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="assets/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
 {{----}}
 <script>
     setTimeout(function () {

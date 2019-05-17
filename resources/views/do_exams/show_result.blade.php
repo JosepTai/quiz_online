@@ -52,7 +52,7 @@
                                                 for ($i = 1; $i < count($nums); $i++){
                                                     if ($answer['id'] == $nums[$i]){
                                                         echo '<input disabled checked type="checkbox" name="ques_'.$question->id.'[]"
-                                                                   value="'.$answer['id'].'"/>' .$answer['content'] .'</label><br>';
+                                                                   value="'.$answer['id'].'"/>' .htmlentities($answer['content']).'</label><br>';
                                                         $ans++;
                                                         break;
                                                     }
@@ -63,7 +63,7 @@
                                     }
                                     if ($ans==0){
                                         echo '<input disabled type="checkbox" name="ques_'.$question->id.'[]"
-                                                   value="'.$answer['id'].'"/>' .$answer['content'] .'</label><br>';
+                                                   value="'.$answer['id'].'"/>' .htmlentities($answer['content']).'</label><br>';
                                     }
                                 }
                             }

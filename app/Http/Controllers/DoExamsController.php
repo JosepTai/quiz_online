@@ -168,22 +168,25 @@ class DoExamsController extends Controller
             }
             foreach ($selects as $select) {
                 $strings = $select->user_selected;
-                $nums = explode(" ", $strings);
-                $ans = 0;
-                $sec = 0;
-                foreach ($answs as $answ) {
-                    if ($answ['question_id'] == $select->question_id) {
-                        if ($answ['is_correct'] == 1) $ans++;
-                    }
-                }
-                for ($i = 0; $i < count($nums); $i++) {
+                if ($strings =="") continue;
+                else {
+                    $nums = explode(" ", $strings);
+                    $ans = 0;
+                    $sec = 0;
                     foreach ($answs as $answ) {
-                        if ($answ['id'] == $nums[$i]) {
-                            if ($answ['is_correct'] == 1) $sec++;
+                        if ($answ['question_id'] == $select->question_id) {
+                            if ($answ['is_correct'] == 1) $ans++;
                         }
                     }
+                    for ($i = 0; $i < count($nums); $i++) {
+                        foreach ($answs as $answ) {
+                            if ($answ['id'] == $nums[$i]) {
+                                if ($answ['is_correct'] == 1) $sec++;
+                            }
+                        }
+                    }
+                    if ($ans == $sec) $count++;
                 }
-                if ($ans == $sec) $count++;
             }
             if ($count == 0) $score = 0;
             else $score = round((10 / count($selects) * $count), 2);
