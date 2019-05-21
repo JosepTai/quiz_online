@@ -17,9 +17,8 @@ class PartsController extends Controller
     //
     public function index(){
         $modules = Modules::where('user_id',auth()->id())->get();
-        $chapters = Chapters::all();
         $parts = auth()->user()->parts();
-        return view('parts.index',['modules'=>$modules,'chapters'=>$chapters,'parts'=>$parts]);
+        return view('parts.index',['modules'=>$modules,'parts'=>$parts]);
     }
     public function store(Request $request){
         $this->validate($request,[
@@ -43,5 +42,11 @@ class PartsController extends Controller
         $chapters = Chapters::all();
         $parts = auth()->user()->parts();
         return view('questions.index',['modules'=>$modules,'chapters'=>$chapters,'parts'=>$parts,'questions'=>$questions,'title'=>$title]);
+    }
+    public function update(Request $request){
+        $part = Parts::where('id', $request->id_update)->first();
+        $part->name = $request->name_update;
+        $part->save();
+        return redirect()->back();
     }
 }

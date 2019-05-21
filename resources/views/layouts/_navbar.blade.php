@@ -119,7 +119,7 @@
                                             data-dismiss="modal">Close
                                     </button>
                                     <button style="color: #ffffff" class="btn btn-success">
-                                        Add
+                                        Update
                                     </button>
                                 </div>
                             </form>

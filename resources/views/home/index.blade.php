@@ -4,7 +4,7 @@
         <div class="container-fluid">
         </div>
     </div>
-{{--    main--}}<br>
+    {{--    main--}}<br>
     <div class="container-fluid mt--6">
         <div class="card">
             <div class="row card-body">
@@ -95,4 +95,17 @@
             </div>
         </div>
     </div>
+
+@endsection
+@section('script')
+    <script>
+        function abc() {
+            Swal.fire({
+                title: 'Error!',
+                text: 'Do you want to continue',
+                type: 'error',
+                confirmButtonText: 'Cool'
+            })
+        }
+    </script>
 @endsection

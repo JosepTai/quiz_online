@@ -107,10 +107,9 @@
                             <td>
                                 <a data-toggle="tooltip" data-original-title="Show" class="btn btn-info btn-sm"
                                    href="{{route('chapters.show',$chapter->id)}}"><i class="ni ni-fat-add"></i></a>
-                                <a data-toggle="tooltip" data-original-title="Delete" class="btn btn-danger btn-sm"
-                                   href="chapters"><i class="ni ni-fat-remove"></i></a>
-                                <a data-toggle="tooltip" data-original-title="Edit" class="btn btn-primary btn-sm"
-                                   href="chapters"><i class="ni ni-settings"></i></a>
+                                <a data-toggle="modal" data-target="#update"
+                                   onclick="update('{{$chapter->id}}', '{{$chapter->name}}')" data-original-title="Edit"
+                                   class="btn btn-primary btn-sm"><i class="ni ni-settings"></i></a>
                             </td>
                         </tr>
                     @endforeach
@@ -118,19 +117,49 @@
                 </table>
             </div>
         </div>
-        {{--    --}}
+        {{--            --}}
+        <div class="modal fade" id="update" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog " role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Update</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{route('chapters.update')}}" method="POST" name="form">
+                            @method('PUT')
+                            <input type="hidden" name="_token" value="{{csrf_token()}}"/>
+                            <input id="name_update" class="form-control" name="name_update"
+                                   required="required"/><br>
+                            <input hidden id="id_update" class="form-control" name="id_update"
+                                   required="required"/><br>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary"
+                                        data-dismiss="modal">Close
+                                </button>
+                                <button type="submit" class="btn btn-success">Update</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {{--    --}}
 
     </div>
     </div>
 
-
-
-
-
-
-
-
-
-
-
+@endsection
+@section('script')
+    <script>
+        function update(id, name) {
+            document.getElementById('name_update').value = name;
+            document.getElementById('id_update').value = id;
+        }
+    </script>
 @endsection

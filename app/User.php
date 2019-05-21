@@ -56,11 +56,11 @@ class User extends Authenticatable
     }
     public function parts()
     {
-        $parts =DB::table('parts')
+        $parts = Parts::query()
             ->join('chapters', 'parts.chapter_id', '=', 'chapters.id')
             ->join('modules', 'chapters.module_id', '=', 'modules.id')
-            ->join('users', 'modules.user_id', '=', 'users.id')
-            ->where('users.id',auth()->id())
+//            ->join('users', 'modules.user_id', '=', 'users.id')
+            ->where('modules.user_id',auth()->id())
             ->select('parts.id as id','parts.name as name','parts.chapter_id','parts.created_at','parts.updated_at', 'chapters.name as chapter_name','modules.name as module_name')
             ->get();
         return $parts;

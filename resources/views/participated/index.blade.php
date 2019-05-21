@@ -56,7 +56,7 @@
                                                         <div class="col-2">
                                                             <a onclick="class_info()" class=" btn btn-info text-white">Check</a>
                                                         </div>
-                                                    </div>
+                                                    </div>q
                                                     <br>
                                                     <select class="form-control" name="class" id="class"
                                                             required="required">
@@ -135,7 +135,6 @@
             else document.getElementById('join').click();
         }
         var url = "{{ url('ajax/class') }}";
-
         function class_info() {
             var code = $("input[name='code']").val();
             var token = $("input[name='_token']").val();

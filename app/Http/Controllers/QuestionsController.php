@@ -106,4 +106,14 @@ class QuestionsController extends Controller
         }
         return redirect()->back()->with('message', 'Add new question success');
     }
+    public function destroy($question_id){
+        $question = Questions::where('id',$question_id)->first();
+        $answers = Answers::all();
+        foreach ($answers as $answer){
+            if ($answer->question_id == $question->id)
+                $answer->delete();
+        }
+        $question->delete();
+        return redirect()->back();
+    }
 }

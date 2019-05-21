@@ -21,9 +21,22 @@
                             </ol>
                         </nav>
                     </div>
+                    <div class="col-lg-6 col-5 text-right">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 fix-top">
+                            <h1 class="page-header">
+                                <form method="GET" action="{{route('exams.export',$exam_id)}}">
+                                    <button class="btn btn-success" type="submit">
+                                        Export to Excel
+                                    </button>
+                                </form>
+
+                            </h1>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <!-- Page content -->
     <div class="container-fluid mt--6">

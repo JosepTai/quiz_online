@@ -6,12 +6,14 @@ use App\Chapters;
 use App\Classes;
 use App\Exam_User;
 use App\Exams;
+use App\Exports\Exam_UserExport;
 use App\Modules;
 use App\Parts;
 use App\Configs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ExamsController extends Controller
 {
@@ -72,6 +74,20 @@ class ExamsController extends Controller
             $infors = array_merge($infors, $arr);
         }
 
-       return view('exams.show',['users'=>$users,'infors'=>$infors,'title'=>$title]);
+       return view('exams.show',['users'=>$users,'infors'=>$infors,'title'=>$title,'exam_id'=>$exam_id]);
+    }
+    public function export($exam_id){
+        Excel::create('Filename', function($excel) {
+
+            $excel->sheet('Sheetname', function($sheet) {
+
+                $sheet->fromArray(array(
+                    array('data1', 'data2'),
+                    array('data3', 'data4')
+                ));
+
+            });
+
+        })->export($ext);
     }
 }

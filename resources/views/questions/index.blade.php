@@ -129,7 +129,8 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="{{route('questions.import')}}"  method="POST" enctype="multipart/form-data">
+                                            <form action="{{route('questions.import')}}" method="POST"
+                                                  enctype="multipart/form-data">
                                                 <input type="hidden" name="_token" value="{{csrf_token()}}"/>
                                                 <div class="form-row">
                                                     <div class="col-md-4 mb-3">
@@ -162,7 +163,7 @@
                                                     <button type="button" class="btn btn-outline-secondary"
                                                             data-dismiss="modal">Close
                                                     </button>
-                                                    <button id="submit"  type="submit" class="btn btn-success">
+                                                    <button id="submit" type="submit" class="btn btn-success">
                                                         Import
                                                     </button>
                                                 </div>
@@ -219,10 +220,14 @@
                             <td class="next_line">{{$question->part->chapter->module->name}}</td>
                             <td>{{$question->updated_at}} </td>
                             <td>
-                                <a data-toggle="tooltip" data-original-title="Show" class="btn btn-info btn-sm"
-                                   href="#"><i class="ni ni-fat-add"></i></a>
-                                <a data-toggle="tooltip" data-original-title="Delete" class="btn btn-danger btn-sm"
-                                   href="#"><i class="ni ni-fat-remove"></i></a>
+                                <a onclick="show_detail('{{$question->id}}','{{$question->content}}','{{$question->level}}')"
+                                   data-toggle="modal"
+                                   data-target="#show_detail" data-original-title="Show" class="btn btn-info btn-sm"
+                                ><i class="ni ni-fat-add"></i></a>
+                                <a onclick="check_delete('{{$question->id}}')"
+                                   id="delete_{{$question->id}}" data-toggle="tooltip"
+                                   data-original-title="Delete" class="btn btn-danger btn-sm"
+                                ><i class="ni ni-fat-remove"></i></a>
                             </td>
                         </tr>
                     @endforeach
@@ -230,6 +235,32 @@
                 </table>
             </div>
         </div>
+        {{--            --}}
+        <div class="modal fade" id="show_detail" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Detail</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="show">
+
+                        </div>
+                        <button type="button" class="btn btn-outline-secondary"
+                                data-dismiss="modal">Close
+                        </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {{--    --}}
     </div>
     </div>
 
@@ -239,12 +270,12 @@
 {{--Ajax load chapter when choose module--}}
 @section('script')
     <script type="text/javascript">
-        var url1 = "{{ url('ajax/chapters') }}";
+        var url_chapter = "{{ url('ajax/chapters') }}";
         $("select[name='module']").change(function () {
             var module_id = $(this).val();
             var token = $("input[name='_token']").val();
             $.ajax({
-                url: url1,
+                url: url_chapter,
                 method: 'POST',
                 data: {
                     module_id: module_id,
@@ -262,12 +293,12 @@
                         );
                     });
                     //
-                    var url2 = "{{ url('ajax/parts') }}";
+                    var url_part = "{{ url('ajax/parts') }}";
                     $("select[name='chapter']").change(function () {
                         var chapter_id = $(this).val();
                         var token = $("input[name='_token']").val();
                         $.ajax({
-                            url: url2,
+                            url: url_part,
                             method: 'POST',
                             data: {
                                 chapter_id: chapter_id,
@@ -290,6 +321,7 @@
             });
         });
     </script>
+    {{--    / add many answer--}}
     <script type="text/javascript">
         function add_answer() {
             var x = document.getElementById("amount").value;
@@ -298,27 +330,110 @@
                 alert('Amount answer must between 2 and 10');
             else {
                 var html = '<div style="text-align: center" class="row">' +
-                                '<div class="col-md-11">' +
-                                    '<lable>Answer Content</lable>' +
-                                '</div>' +
-                                '<div class="col-md-1">' +
-                                    '<lable>True</lable>' +
-                                '</div>' +
-                            '</div>';;
+                    '<div class="col-md-11">' +
+                    '<lable>Answer Content</lable>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<lable>True</lable>' +
+                    '</div>' +
+                    '</div>';
+                ;
                 for (var i = 1; i <= x; i++) {
                     html += '' +
                         '<div class="row">' +
-                            '<div class="col-md-11">' +
-                                '<textarea rows="2" placeholder="Answer ' + i + '" class="form-control" name="answer_' + i + '" required="required"></textarea><br>' +
-                            '</div>' +
-                            '<div class="col-md-1">' +
-                                '<input style="width: 40px;" type="checkbox" name="is_answer[]" value="' + i + '">' +
-                            '</div>' +
+                        '<div class="col-md-11">' +
+                        '<textarea rows="2" placeholder="Answer ' + i + '" class="form-control" name="answer_' + i + '" required="required"></textarea><br>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<input style="width: 40px;" type="checkbox" name="is_answer[]" value="' + i + '">' +
+                        '</div>' +
                         '</div>';
                 }
                 document.getElementById('input_answer').innerHTML = html;
                 document.getElementById('submit').disabled = false;
             }
         }
+    </script>
+    {{--    check question exit in config_question--}}
+    <script>
+        var url_check = "{{ url('ajax/check_question') }}";
+
+        function check_delete(id) {
+            var can_delete = 1;
+            var token = $("input[name='_token']").val();
+            $.ajax({
+                url: url_check,
+                method: 'POST',
+                data: {
+                    question_id: id,
+                    _token: token
+                },
+                success: function (data) {
+                    if (data > 0) {
+                        can_delete = 0;
+                        Swal.fire({
+                            title: 'Warning!',
+                            text: 'This question is exit in exam!',
+                            type: 'warning',
+                            confirmButtonText: 'OK'
+                        })
+                    } else {
+                        Swal.fire({
+                            title: 'Are you want to delete this question?',
+                            type: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#d33',
+                            cancelButtonColor: '#3085d6',
+                            confirmButtonText: 'Yes, delete it!'
+                        }).then((result) => {
+                            if (result.value) {
+                                let timerInterval
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Your file has been deleted.',
+                                    'success'
+                                )
+                                setTimeout(function () {
+                                    window.location = "{{url('questions/')}}/" + id + "/destroy";
+                                }, 1000);
+                            }
+                        })
+                    };
+                }
+            });
+        };
+    </script>
+    {{--    show detail question--}}
+    <script>
+        var url_show_detail = "{{ url('ajax/show_detail') }}";
+        function show_detail(id, content, level) {
+            var question_id = id;
+            var token = $("input[name='_token']").val();
+            $.ajax({
+                url: url_show_detail,
+                method: 'POST',
+                data: {
+                    question_id: question_id,
+                    _token: token
+
+                },
+                success: function (data) {
+                    $("div[id='show']").html('');
+                    $("div[id='show']").append(
+                        "<h3> Question:   " + content + "</h3> " +
+                        "<lable>Level:   " + level + "</lable><hr> "
+                    );
+                    var dem = 1;
+                    $.each(data, function (key, value) {
+                        $("div[id='show']").append(
+                            "<lable> Answer " + dem + " :" +
+                                value.content
+                            +"</lable><br><br>"
+                        );
+                        dem++;
+                    });
+                }
+            });
+        };
     </script>
 @endsection

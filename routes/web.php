@@ -17,19 +17,22 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::group(['prefix' => 'modules','as'=>'modules.'], function () {
     Route::get('/', 'ModulesController@index')->name('index');
     Route::post('create', 'ModulesController@store')->name('create');
-    Route::get('/{module_id}/chapters','ModulesController@show')->name('show');
+    Route::get('{module_id}/chapters','ModulesController@show')->name('show');
+    Route::put('update', 'ModulesController@update')->name('update');
 });
 //  Chapters
 Route::group(['prefix' => 'chapters','as'=>'chapters.'], function () {
     Route::get('/', 'ChaptersController@index')->name('index');
     Route::post('create', 'ChaptersController@store')->name('create');
     Route::get('/{chapter_id}/parts','ChaptersController@show')->name('show');
+    Route::put('update', 'ChaptersController@update')->name('update');
 });
 //  Parts
 Route::group(['prefix' => 'parts','as'=>'parts.'], function () {
     Route::get('/', 'PartsController@index')->name('index');
     Route::post('create', 'PartsController@store')->name('create');
     Route::get('{part_id}/questions', 'PartsController@show')->name('show');
+    Route::put('update', 'PartsController@update')->name('update');
 });
 //Classes
 Route::group(['prefix' => 'classes','as'=>'classes.'], function () {
@@ -49,12 +52,14 @@ Route::group(['prefix' => 'questions','as'=>'questions.'], function () {
     Route::get('/', 'QuestionsController@index')->name('index');
     Route::post('create', 'QuestionsController@store')->name('create');
     Route::post('import','QuestionsController@import')->name('import');
+    Route::get('{question_id}/destroy','QuestionsController@destroy')->name('destroy');
 });
 //Exams
 Route::group(['prefix' => 'exams','as'=>'exams.'], function () {
     Route::get('/', 'ExamsController@index')->name('index');
     Route::post('create', 'ExamsController@store')->name('create');
     Route::get('{exam_id}/show', 'ExamsController@show')->name('show');
+    Route::get('{exam_id}/export', 'ExamsController@export')->name('export');
 });
 // Config exam
 Route::group(['prefix' => 'configs','as'=>'configs.'], function () {
@@ -74,6 +79,8 @@ Route::group(['prefix'=>'ajax', 'as'=>'ajax.'],function(){
     Route::post('chapters','AjaxController@getChapter');
     Route::post('class','AjaxController@getClass');
     Route::post('parts','AjaxController@getPart');
+    Route::post('check_question','AjaxController@check_question');
+    Route::post('show_detail','AjaxController@show_detail');
 });
 //Profile
 Route::post('/','UserController@profile')->name('profile');
