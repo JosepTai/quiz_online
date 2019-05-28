@@ -38,14 +38,15 @@ Route::group(['prefix' => 'parts','as'=>'parts.'], function () {
 Route::group(['prefix' => 'classes','as'=>'classes.'], function () {
     Route::get('/', 'ClassesController@index')->name('index');
     Route::post('create', 'ClassesController@store')->name('create');
-    Route::get('{class_id}/students', 'ClassesController@show')->name('show');
+    Route::get('{class_id}/students', 'ClassesController@students')->name('students');
+    Route::get('students/{id}', 'ClassesController@show_exam')->name('show_exam');
 });
 //Participated
 Route::group(['prefix' => 'participated','as'=>'participated.'], function () {
     Route::get('/', 'ParticipatedController@index')->name('index');
     Route::get('{participate_id}/students', 'ParticipatedController@show')->name('show');
     Route::post('join', 'ParticipatedController@joinClass')->name('join');
-    Route::get('leave/{class_id}','ParticipatedController@leaveClass')->name('leave');
+    Route::get('{class_id}/show','ParticipatedController@show')->name('show');
 });
 //Questions
 Route::group(['prefix' => 'questions','as'=>'questions.'], function () {

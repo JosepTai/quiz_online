@@ -16,27 +16,22 @@
                             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                                 <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
                                 <li class="breadcrumb-item"><a href="{{route('exams.index')}}">Exams</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">My Exams</li>
-                                <li class="breadcrumb-item active" aria-current="page">{{$title}}</li>
+                                <li class="breadcrumb-item active" aria-current="page">{{$exam->name}}</li>
                             </ol>
                         </nav>
                     </div>
                     <div class="col-lg-6 col-5 text-right">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 fix-top">
                             <h1 class="page-header">
-                                <form method="GET" action="{{route('exams.export',$exam_id)}}">
-                                    <button class="btn btn-success" type="submit">
-                                        Export to Excel
-                                    </button>
-                                </form>
-
+                                <a href="{{route('exams.export',$exam->id)}}" class="btn btn-success">
+                                   Export to Excel
+                                </a>
                             </h1>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
     <!-- Page content -->
     <div class="container-fluid mt--6">
@@ -47,6 +42,7 @@
                     <tr>
                         <th>Id</th>
                         <th>Name</th>
+                        <th>Student ID</th>
                         <th>Email</th>
                         <th>Status</th>
                         <th>Start time</th>
@@ -58,6 +54,7 @@
                     <tr>
                         <th>Id</th>
                         <th>Name</th>
+                        <th>Student ID</th>
                         <th>Email</th>
                         <th>Status</th>
                         <th>Start time</th>
@@ -70,6 +67,7 @@
                         <tr>
                             <td>{{$user->id}}</td>
                             <td>{{$user->name}}</td>
+                            <td>{{$user->id_student}}</td>
                             <td>{{$user->email}}</td>
                             @php($count=0)
                             @foreach($infors as $infor)

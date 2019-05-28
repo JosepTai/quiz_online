@@ -32,9 +32,23 @@ class Exams extends Model
             ->join('config_question', 'configs.id', '=', 'config_question.config_id')
             ->join('questions', 'config_question.question_id', '=', 'questions.id')
             ->where(['exams.id'=>$exam_id,'config_question.user_id'=>auth()->id()])
-            ->select('questions.id as id', 'questions.content as content', 'config_question.user_selected as selected')
+            ->select('questions.id as id','questions.kind as kind','questions.content as content', 'config_question.user_selected as selected')
             ->get();
         return $questions;
     }
+
+//    public function export($exam_id){
+//        $result = DB::table('exam_user')
+//            ->join('exams','exams.id','=','exam_user.exam_id')
+//            ->join('classes','exams.class_id',"=","classes.id")
+//            ->join('class_user',"classes.id","=","class_user.class_id")
+//            ->join('users',"class_user.user_id","=","users.id")
+//            ->where(['exam_user.exam_id'=>$exam_id])
+//            ->select(['users.name as name','users.id_student as id_student','users.email as email',
+//                    'exam_user.start_time as start_time','exam_user.end_time as end_time','exam_user.score as score'])
+//            ->orderBy("users.name",'=','asc')
+//            ->get();
+//        return $result;
+//    }
 
 }

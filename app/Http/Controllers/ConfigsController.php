@@ -100,6 +100,6 @@ class ConfigsController extends Controller
                 ->bcc($emails['data']);
         });
         $classes = Classes::where('user_id',auth()->id())->get();
-        return view('exams.index', ['exams' => $exams, 'classes' => $classes]);
+        return \Redirect::route('exams.index');
     }
 }

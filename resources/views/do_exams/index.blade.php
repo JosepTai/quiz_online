@@ -20,6 +20,20 @@
                             </ol>
                         </nav>
                     </div>
+                    <div class="col-lg-6 col-5 text-right">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 fix-top">
+                            <h1 class="page-header">
+                                <button style="float:right;" onclick="show()" class=" btn btn-success">Fillter</button>
+                                <select style="width: 200px; float: right;margin-right: 10px" class="form-control" id="show">
+                                    <option value="0">Show All</option>
+                                    <option value="1">Time has not yet arrived</option>
+                                    <option value="2">Happening</option>
+                                    <option value="3">Finished</option>
+                                </select>
+
+                            </h1>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -35,10 +49,10 @@
                 @else
                     @php($type = "success")
                 @endif
-                <div class="col-lg-3">
-                    <div class="card ">
+                <div  class="col-lg-3  is_{{$type}}">
+                    <div class="card">
                         <!-- Card header -->
-                        <div class="card-header bg-gradient-{{$type}}">
+                        <div  class=" card-header bg-gradient-{{$type}}">
                             <h3 style="color: #ffffff; text-align: center;"
                                 class="mb-0 fc-content">{{$exam['title']}}</h3>
                         </div>
@@ -79,20 +93,21 @@
                             </div>
                             <div class="card-footer bg-transparent">
                                 @if ($type =="danger")
-                                    <a href="{{route('do_exams.result',$exam['id'])}}" class=" btn btn-outline-danger btn-block">Show
+                                    <a href="{{route('do_exams.result',$exam['id'])}}"
+                                       class=" btn btn-outline-danger btn-block">Show
                                         result</a>
                                 @elseif ($type == "default")
-                                        <div class="row">
-                                            <div class="col-lg-1">
-                                                <i class="ni ni-time-alarm" >
-                                                </i>
-                                            </div>
-                                            <div class="col-lg-11">
-                                                <span>The time for exam has not started</span>
-                                            </div>
+                                    <div class="row">
+                                        <div class="col-lg-1">
+                                            <i class="ni ni-time-alarm">
+                                            </i>
                                         </div>
+                                        <div class="col-lg-11">
+                                            <span>The time for exam has not started</span>
+                                        </div>
+                                    </div>
                                 @else
-                                    <a href="{{route('do_exams.perform',$exam['id'])}}"
+                                    <a target="_blank" rel="noopener noreferrer" href="{{route('do_exams.perform',$exam['id'])}}"
                                        class=" btn btn-outline-success btn-block">Do
                                         It</a>
                                 @endif
@@ -104,4 +119,32 @@
         </div>
     </div>
 @endsection
-
+@section('script')
+    <script>
+        function show() {
+            $(document).ready(function(){
+                var x = document.getElementById('show').value;
+                if (x == 0){
+                    $(".is_danger").show();
+                    $(".is_success").show();
+                    $(".is_default").show();
+                }
+                else if(x == 1){
+                    $(".is_danger").hide();
+                    $(".is_success").hide();
+                    $(".is_default").show();
+                }
+                else if(x == 2){
+                    $(".is_danger").hide();
+                    $(".is_success").show();
+                    $(".is_default").hide();
+                }
+                else{
+                    $(".is_danger").show();
+                    $(".is_success").hide();
+                    $(".is_default").hide();
+                }
+            });
+        }
+    </script>
+@endsection

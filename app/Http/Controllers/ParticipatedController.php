@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Classes;
+use App\Exam_User;
+use App\Exams;
 use App\Http\Controllers\Auth\AuthController;
 use App\Modules;
 use App\User;
@@ -33,9 +35,12 @@ class ParticipatedController extends Controller
             return redirect('participated');
         }
     }
-    public function leaveClass($class_id){
-        Auth::user()->student()->detach($class_id);
-        $classes = auth()->user()->student;
-        return view('participated.index',['classes'=>$classes]);
+    public function show($class_id){
+        $class = Classes::where('id',$class_id)->first();
+        $user = User::where('id',auth()->id())->first();
+        $exams = $user->exam_class($class_id);
+        $all_exams = Exams::where('class_id',$class_id)->get();
+        return view('participated.show',['exams'=>$exams,'all_exams'=>$all_exams,'class'=>$class]);
     }
+
 }

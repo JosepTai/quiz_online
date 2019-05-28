@@ -33,21 +33,21 @@ class ExamsController extends Controller
 
     public function store(Request $request)
     {
-        $time="";
+        $time = "";
         $start_time = substr($request->start_time, 6, 4) . '-' . substr($request->start_time, 0, 2) . '-' . substr($request->start_time, 3, 2);
         $end_time = substr($request->end_time, 6, 4) . '-' . substr($request->end_time, 0, 2) . '-' . substr($request->end_time, 3, 2);
-        if ($request->is_test =="on"){
-            $time=$request->time;
-            $hours = substr($time,0,2);
-            $minutes = substr($time,3,5);
-            $start_time = $start_time.' '.$hours.':'.$minutes.':00';
+        if ($request->is_test == "on") {
+            $time = $request->time;
+            $hours = substr($time, 0, 2);
+            $minutes = substr($time, 3, 5);
+            $start_time = $start_time . ' ' . $hours . ':' . $minutes . ':00';
             $duration = $request->duration;
-            $hours = $hours + round($duration/60);
-            $minutes = $minutes + round($duration%60);
-            $end_time = $end_time.' '.$hours.':'.$minutes.':00';
-        }else{
-            $start_time = $start_time.' 00:00:00';
-            $end_time = $end_time. ' 23:59:59';
+            $hours = $hours + round($duration / 60);
+            $minutes = $minutes + round($duration % 60);
+            $end_time = $end_time . ' ' . $hours . ':' . $minutes . ':00';
+        } else {
+            $start_time = $start_time . ' 00:00:00';
+            $end_time = $end_time . ' 23:59:59';
         }
         $exam = new Exams();
         $exam->title = $request->get('title', '');
@@ -59,7 +59,7 @@ class ExamsController extends Controller
         $exam->save();
         $this_exam = DB::table('exams')
             ->max('id');
-        return redirect()->route('configs.index',$this_exam);
+        return redirect()->route('configs.index', $this_exam);
     }
 
     public function show($exam_id)
@@ -69,25 +69,71 @@ class ExamsController extends Controller
         $class = $exam->belongsToClass;
         $users = $class->students;
         $infors = array();
-        foreach ($users as $user){
-            $arr = Exam_User::where(['exam_id'=>$exam_id, 'user_id'=>$user->id])->get()->toArray();
+        foreach ($users as $user) {
+            $arr = Exam_User::where(['exam_id' => $exam_id, 'user_id' => $user->id])->get()->toArray();
             $infors = array_merge($infors, $arr);
         }
 
-       return view('exams.show',['users'=>$users,'infors'=>$infors,'title'=>$title,'exam_id'=>$exam_id]);
+        return view('exams.show', ['users' => $users, 'infors' => $infors, 'title' => $title, 'exam' => $exam]);
     }
-    public function export($exam_id){
-        Excel::create('Filename', function($excel) {
 
-            $excel->sheet('Sheetname', function($sheet) {
+    public function export($exam_id)
+    {
+        $exam = Exams::where("id", $exam_id)->first();
+        $array = Array(
+            0 => Array(
+                0 => $exam->title . "( " . $exam->start_time . ")",
+            ),
+            1 => Array(
+                0 => ""
+            ),
+            2 => Array(
+                0 => "Name",
+                1 => "Student ID",
+                2 => "Email",
+                3 => "Start Time",
+                4 => "End Time",
+                5 => "Score",
+            )
+        );
 
-                $sheet->fromArray(array(
-                    array('data1', 'data2'),
-                    array('data3', 'data4')
-                ));
-
-            });
-
-        })->export($ext);
+        $class = $exam->belongsToClass;
+        $users = $class->students;
+        $infors = array();
+        foreach ($users as $user) {
+            $arr = Exam_User::where(['exam_id' => $exam_id, 'user_id' => $user->id])->get()->toArray();
+            $infors = array_merge($infors, $arr);
+        }
+        foreach ($users as $user) {
+            $arr = array();
+            $arr[0] = $user->name;
+            $arr[1] = $user->id_student;
+            $arr[2] = $user->email;
+            $count = 0;
+            foreach ($infors as $infor){
+                if ($infor['user_id'] == $user->id){
+                    $arr[3] = $infor['start_time'];
+                    $arr[4] = $infor['end_time'];
+                    $arr[5] = $infor['score'];
+                    $count++;
+                }
+            }
+            if ($count == 0){
+                $arr[3] = "";
+                $arr[4] = "";
+                $arr[5] = 0;
+            }
+            array_push($array, $arr);
+        }
+        $name = $exam->title."_".$class->name."( ".$exam->start_time.").xls";
+        header("Content-Disposition: attachment; filename=\"$name\"");
+        header("Content-Type: application/vnd.ms-excel;");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        $out = fopen("php://output", 'w');
+        foreach ($array as $data) {
+            fputcsv($out, $data, "\t");
+        }
+        fclose($out);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Exams;
 use App\Modules;
 use App\User;
 use Illuminate\Http\Request;
@@ -34,9 +35,19 @@ class ClassesController extends Controller
         return redirect('classes')->with('message','Add new question success');
     }
 
-    public function show($class_id){
+    public function students($class_id){
         $classes = Classes::find($class_id);
-        $users = $classes->students;
-        return view('classes.students',['users'=>$users,'classes'=>$classes]);
+        $students = $classes->students;
+        return view('classes.students',['students'=>$students,'classes'=>$classes]);
+    }
+    public function show_exam($id){
+        $arr = explode(" ", $id);
+        $class_id = $arr[0];
+        $student_id = $arr[1];
+        $class = Classes::where('id',$class_id)->first();
+        $students = User::where('id',$student_id)->first();
+        $exams = $students->exam_class($class_id);
+        $all_exams = Exams::where('class_id',$class_id)->get();
+        return view('participated.show',['exams'=>$exams,'all_exams'=>$all_exams,'class'=>$class,'student_name'=>$students->name]);
     }
 }

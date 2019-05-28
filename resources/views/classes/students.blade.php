@@ -17,7 +17,7 @@
                                 <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
                                 <li class="breadcrumb-item"><a href="{{route('classes.index')}}">Classes</a></li>
                                 <li class="breadcrumb-item"><a>{{$classes->name}}</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Students</li>
+                                <li class="breadcrumb-item active" aria-current="page">All Students</li>
                             </ol>
                         </nav>
                     </div>
@@ -87,20 +87,16 @@
                     </tfoot>
                     <tbody>
 
-                    @foreach($users as $user)
+                    @foreach($students as $student)
                         <tr>
-                            <td>{{$user->id}}</td>
-                            <td class="next_line">{{$user->name}}</td>
-                            <td class="next_line">{{$user->id_student}}</td>
-                            <td class="next_line">{{$user->email}}</td>
-                            <td>{{$user->pivot->updated_at}} </td>
+                            <td>{{$student->id}}</td>
+                            <td class="next_line">{{$student->name}}</td>
+                            <td class="next_line">{{$student->id_student}}</td>
+                            <td class="next_line">{{$student->email}}</td>
+                            <td>{{$student->pivot->updated_at}} </td>
                             <td>
-                                <a data-toggle="tooltip" data-original-title="Show" class="btn btn-info btn-sm"
-                                   href="#"><i class="ni ni-fat-add"></i></a>
-                                <a data-toggle="tooltip" data-original-title="Delete" class="btn btn-danger btn-sm"
-                                   href="classes"><i class="ni ni-fat-remove"></i></a>
-                                <a data-toggle="tooltip" data-original-title="Edit" class="btn btn-primary btn-sm"
-                                   href="classes"><i class="ni ni-settings"></i></a>
+                                <a data-toggle="tooltip" data-original-title="Show all exams" class="btn btn-info btn-sm"
+                                   href="{{route('classes.show_exam',$classes->id." ".$student->id)}}"><i class="ni ni-fat-add"></i></a>
                             </td>
                         </tr>
                     @endforeach

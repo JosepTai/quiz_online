@@ -105,11 +105,11 @@
                             <td class="next_line">{{$chapter->module->name}}</td>
                             <td>{{$chapter->updated_at}} </td>
                             <td>
-                                <a data-toggle="tooltip" data-original-title="Show" class="btn btn-info btn-sm"
-                                   href="{{route('chapters.show',$chapter->id)}}"><i class="ni ni-fat-add"></i></a>
-                                <a data-toggle="modal" data-target="#update"
+                                <a class="btn btn-info btn-sm"
+                                   href="{{route('chapters.show',$chapter->id)}}">Show</a>
+                                <a style="color: #fff" data-toggle="modal" data-target="#update"
                                    onclick="update('{{$chapter->id}}', '{{$chapter->name}}')" data-original-title="Edit"
-                                   class="btn btn-primary btn-sm"><i class="ni ni-settings"></i></a>
+                                   class="btn btn-primary btn-sm">Edit</a>
                             </td>
                         </tr>
                     @endforeach

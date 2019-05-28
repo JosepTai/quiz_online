@@ -32,16 +32,19 @@ class QuestionsController extends Controller
     //postAdd
     public function store(Request $request)
     {
+        $arr = $request->is_answer;
         $questions = new Questions();
         $questions->content = $request->get('content', '');
         $questions->level = $request->get('level', '');
+        if (count($arr)==1) $questions->kind = 0;
+        else $questions->kind = 1;
         $questions->user_id = auth()->id();
         $questions->part_id = $request->get('part', '');
         $questions->save();
 //       add answers for question
         $ques_id = DB::table('questions')
             ->max('id');
-        $arr = $request->is_answer;
+
         for ($i = 1; $i <= $request->amount; $i++) {
             $ans = "answer_" . $i;
             $count = 0;
@@ -80,6 +83,8 @@ class QuestionsController extends Controller
                 //add question
                 $question = new Questions();
                 $question->level = $level;
+                if (count($is_correct) == 1) $question->kind = 0;
+                else $question->kind = 1;
                 $question->part_id = $part_id;
                 $question->user_id = auth()->id();
                 $question->content = $content;

@@ -220,14 +220,13 @@
                             <td class="next_line">{{$question->part->chapter->module->name}}</td>
                             <td>{{$question->updated_at}} </td>
                             <td>
-                                <a onclick="show_detail('{{$question->id}}','{{$question->content}}','{{$question->level}}')"
+                                <a style="color: #fff" onclick="show_detail('{{$question->id}}','{{$question->content}}','{{$question->level}}')"
                                    data-toggle="modal"
-                                   data-target="#show_detail" data-original-title="Show" class="btn btn-info btn-sm"
-                                ><i class="ni ni-fat-add"></i></a>
-                                <a onclick="check_delete('{{$question->id}}')"
-                                   id="delete_{{$question->id}}" data-toggle="tooltip"
-                                   data-original-title="Delete" class="btn btn-danger btn-sm"
-                                ><i class="ni ni-fat-remove"></i></a>
+                                   data-target="#show_detail"  class="btn btn-info btn-sm"
+                                >Show</a>
+                                <a style="color: #fff" onclick="check_delete('{{$question->id}}')"
+                                   id="delete_{{$question->id}}"  class="btn btn-danger btn-sm"
+                                >Delete</a>
                             </td>
                         </tr>
                     @endforeach
@@ -241,7 +240,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Detail</h5>
+                        <h2 class="modal-title" id="exampleModalLongTitle">Detail</h2>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -250,7 +249,7 @@
                         <div id="show">
 
                         </div>
-                        <button type="button" class="btn btn-outline-secondary"
+                        <button style="float:right;" type="button" class="btn btn-outline-primary"
                                 data-dismiss="modal">Close
                         </button>
                         </form>
@@ -420,13 +419,13 @@
                 success: function (data) {
                     $("div[id='show']").html('');
                     $("div[id='show']").append(
-                        "<h3> Question:   " + content + "</h3> " +
-                        "<lable>Level:   " + level + "</lable><hr> "
+                        "<h3> Question:</h3> <span>" + content +"</span> <br><br>" +
+                        "<lable><b>Level:  </b> " + level + "</lable><hr> "
                     );
                     var dem = 1;
                     $.each(data, function (key, value) {
                         $("div[id='show']").append(
-                            "<lable> Answer " + dem + " :" +
+                            "<lable class=\"next_line\"> <b>Answer " + dem + " :</b>   " +
                                 value.content
                             +"</lable><br><br>"
                         );

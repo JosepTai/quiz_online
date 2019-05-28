@@ -70,7 +70,6 @@ class DoExamsController extends Controller
             }
         }
         // get question of exam
-
         $questions = $exam->questions($exam_id);
         $answers = Answers::all();
         $answ = array();

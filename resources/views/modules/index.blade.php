@@ -90,9 +90,9 @@
                             <td class="next_line">{{$module->name}}</td>
                             <td>{{$module->updated_at}} </td>
                             <td>
-                                <a  data-toggle="tooltip" data-original-title="Show" class="btn btn-info btn-sm"
-                                   href="{{route('modules.show',$module->id)}}"><i class="ni ni-fat-add"></i></a>
-                                <a data-toggle="modal" data-target="#update" onclick="update('{{$module->id}}', '{{$module->name}}')" data-original-title="Edit" class="btn btn-primary btn-sm"><i class="ni ni-settings"></i></a>
+                                <a  class="btn btn-info btn-sm"
+                                   href="{{route('modules.show',$module->id)}}">Show</a>
+                                <a style="color: #ffffff" data-toggle="modal" data-target="#update" onclick="update('{{$module->id}}', '{{$module->name}}')" data-original-title="Edit" class="btn btn-primary btn-sm">Edit</a>
                             </td>
                         </tr>
                     @endforeach

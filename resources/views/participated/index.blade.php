@@ -56,7 +56,7 @@
                                                         <div class="col-2">
                                                             <a onclick="class_info()" class=" btn btn-info text-white">Check</a>
                                                         </div>
-                                                    </div>q
+                                                    </div>
                                                     <br>
                                                     <select class="form-control" name="class" id="class"
                                                             required="required">
@@ -111,10 +111,7 @@
                             <td>{{$class->pivot->updated_at}} </td>
                             <td>
                                 <a data-toggle="tooltip" data-original-title="Show" class="btn btn-info btn-sm"
-                                   href="#"><i class="ni ni-fat-add"></i></a>
-                                <a data-toggle="tooltip" data-original-title="Leave this class"
-                                   class="btn btn-danger btn-sm" href="{{route('participated.leave',$class->id)}}"><i
-                                            class="ni ni-fat-remove"></i></a>
+                                   href="{{route('participated.show',$class->id)}}"><i class="ni ni-fat-add"></i></a>
                             </td>
                         </tr>
                     @endforeach
