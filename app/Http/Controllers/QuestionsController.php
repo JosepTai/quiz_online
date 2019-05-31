@@ -76,46 +76,11 @@ class QuestionsController extends Controller
         }
         return redirect('questions')->with('message', 'Add new question success');
     }
-    public function download(){
-        $array = Array(
-            0 => Array(
-                0 => "Today is Sunday, what day is tomorrow?",
-                1 => "easy",
-                2 => "4",
-                3 => "2",
-                4 => "Saturday",
-                5 => "Monday",
-                6 => "Tuesday",
-                7 => "Wednesday",
-            ),
-            1 => Array(
-                0 => "How much is the square root of 4?",
-                1 => "hard",
-                2 => "5",
-                3 => "2,4",
-                4 => "4",
-                5 => "2",
-                6 => "0",
-                7 => "-2",
-                8 => "-4",
-            )
-        );
-        $name = "Sample_import_question.xlsx";
-        header("Content-Disposition: attachment; filename=\"$name\"");
-        header("Content-Type: application/vnd.ms-excel;");
-        header("Pragma: no-cache");
-        header("Expires: 0");
-        $out = fopen("php://output", 'w');
-        foreach ($array as $data) {
-            fputcsv($out, $data, "\t");
-        }
-        fclose($out);
-    }
     public function import(Request $request)
     {
         $arrays = Excel::toArray(new QuestionsImport(), request()->file('file'));
         foreach ($arrays as $array) {
-            for ($i = 0; $i < count($arrays[0]); $i++) {
+            for ($i = 1; $i < count($arrays[0]); $i++) {
                 //get value
                 $content = $array[$i][0];
                 $level = $array[$i][1];
@@ -128,6 +93,7 @@ class QuestionsController extends Controller
                 if (count($is_correct) == 1) $question->kind = 0;
                 else $question->kind = 1;
                 $question->part_id = $part_id;
+
                 $question->user_id = auth()->id();
                 $question->content = $content;
                 $question->save();

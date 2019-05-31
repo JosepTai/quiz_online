@@ -172,7 +172,7 @@
                                                         <input type="file" name="file" class="form-control" required="required">
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <a href="{{route('questions.download')}}" class="btn btn-outline-success">Download the sample file</a>
+                                                        <a href="{{asset('storage/Sample Import.xlsx')}}" class="btn btn-outline-success">Download the sample file</a>
                                                     </div>
                                                 </div>
                                                 {{--                                                --}}

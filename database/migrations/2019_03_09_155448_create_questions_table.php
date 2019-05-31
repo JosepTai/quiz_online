@@ -17,7 +17,7 @@ class CreateQuestionsTable extends Migration
             $table->increments('id');
             $table->text('level');
             $table->integer('kind');
-            $table->text('image');
+            $table->text('image')->nullable();
             $table->integer('part_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->foreign('part_id')->references('id')->on('parts');

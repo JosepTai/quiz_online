@@ -91,12 +91,9 @@
 <script src="assets/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
 {{----}}
 <script>
-    setTimeout(function () {
+
         document.getElementById('message').style.display = 'none';
-    }, 1000);
-    setTimeout(function () {
         document.getElementById('err').style.display = 'none';
-    }, 1000);
 </script>
 
 @yield('script')
