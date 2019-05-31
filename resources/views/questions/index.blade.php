@@ -27,7 +27,8 @@
                     <div class="col-lg-6 col-5 text-right">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 fix-top">
                             <h1 class="page-header">
-                                <a class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
+                                <a id="add_question" class="btn btn-success" data-toggle="modal"
+                                   data-target="#exampleModalCenter">
                                     Add new Question
                                 </a>
 
@@ -47,7 +48,8 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="{{route('questions.create')}}" method="POST" name="form">
+                                            <form action="{{route('questions.create')}}" method="POST" name="form"
+                                                  onsubmit="return check_add(false)" enctype="multipart/form-data">
                                                 <input type="hidden" name="_token" value="{{csrf_token()}}"/>
                                                 <div class="form-row">
                                                     <div class="col-md-4 mb-3">
@@ -77,13 +79,22 @@
                                                 <label style="float: left">Content</label><br>
                                                 <textarea rows="3" placeholder="content" class="form-control"
                                                           name="content" required="required"></textarea><br>
-                                                <label style="float: left">Level</label>
-                                                <select class="form-control" name="level" required="required">
-                                                    <option value="easy">Easy</option>
-                                                    <option value="hard">Hard</option>
-                                                </select><br>
-                                                <br>
-
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label style="float: left">Level</label>
+                                                        <select class="form-control" name="level" required="required">
+                                                            <option value="easy">Easy</option>
+                                                            <option value="hard">Hard</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label style="float: left">Image
+                                                            <small>(Size image small than 5Mb)</small>
+                                                        </label>
+                                                        <input id="image" type="file" name="image" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <br><br>
                                                 <div class="row">
                                                     <div class="col-md-3">
                                                         <lable style="padding-top: 10px;float: left">Amount Answers
@@ -102,12 +113,11 @@
                                                 </div>
                                                 <br>
                                                 <div id="input_answer"></div>
-
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-outline-secondary"
+                                                    <button id="close" type="button" class="btn btn-outline-secondary"
                                                             data-dismiss="modal">Close
                                                     </button>
-                                                    <button id="submit" disabled type="submit" class="btn btn-success">
+                                                    <button id="sub" disabled type="submit" class="btn btn-success">
                                                         Add
                                                     </button>
                                                 </div>
@@ -157,13 +167,20 @@
                                                     </div>
                                                 </div>
                                                 <br>
-                                                <input type="file" name="file" class="form-control">
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <input type="file" name="file" class="form-control" required="required">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <a href="{{route('questions.download')}}" class="btn btn-outline-success">Download the sample file</a>
+                                                    </div>
+                                                </div>
                                                 {{--                                                --}}
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-outline-secondary"
                                                             data-dismiss="modal">Close
                                                     </button>
-                                                    <button id="submit" type="submit" class="btn btn-success">
+                                                    <button type="submit" class="btn btn-success">
                                                         Import
                                                     </button>
                                                 </div>
@@ -220,12 +237,13 @@
                             <td class="next_line">{{$question->part->chapter->module->name}}</td>
                             <td>{{$question->updated_at}} </td>
                             <td>
-                                <a style="color: #fff" onclick="show_detail('{{$question->id}}','{{$question->content}}','{{$question->level}}')"
+                                <a style="color: #fff"
+                                   onclick="show_detail('{{$question->id}}','{{$question->content}}','{{$question->level}}')"
                                    data-toggle="modal"
-                                   data-target="#show_detail"  class="btn btn-info btn-sm"
+                                   data-target="#show_detail" class="btn btn-info btn-sm"
                                 >Show</a>
                                 <a style="color: #fff" onclick="check_delete('{{$question->id}}')"
-                                   id="delete_{{$question->id}}"  class="btn btn-danger btn-sm"
+                                   id="delete_{{$question->id}}" class="btn btn-danger btn-sm"
                                 >Delete</a>
                             </td>
                         </tr>
@@ -266,8 +284,49 @@
 
 @endsection
 
-{{--Ajax load chapter when choose module--}}
+
 @section('script')
+    {{--  Check add new question  --}}
+    <script>
+        function check_add() {
+             if ((document.getElementById('image').files[0].size / 1024 / 1024) > 5) {
+                document.getElementById('close').click();
+                Swal.fire({
+                    title: 'Warning!',
+                    text: 'File size must be less than 5Mb',
+                    type: 'warning',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.value) {
+                        document.getElementById('add_question').click();
+                    }
+                })
+                return false;
+            }
+            else if (document.getElementById('image').value.lastIndexOf(".png") > -1 || document.getElementById('image').value.lastIndexOf(".PNG") > -1
+                || document.getElementById('image').value.lastIndexOf(".jpg") > -1 || document.getElementById('image').value.lastIndexOf(".JPG") > -1
+                || document.getElementById('image').value.lastIndexOf(".jpeg") > -1 || document.getElementById('image').value.lastIndexOf(".JPEG") > -1
+                || document.getElementById('image').value.lastIndexOf(".gif") > -1 || document.getElementById('image').value.lastIndexOf(".GIF") > -1
+            ){
+                return true;
+            }
+            else {
+                document.getElementById('close').click();
+                Swal.fire({
+                    title: 'Warning!',
+                    text: 'The file must be formatted for image (.png,.jpg,.jpeg,.gif)',
+                    type: 'warning',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.value) {
+                        document.getElementById('add_question').click();
+                    }
+                })
+                return false;
+            }
+        }
+    </script>
+    {{--Ajax load chapter when choose module--}}
     <script type="text/javascript">
         var url_chapter = "{{ url('ajax/chapters') }}";
         $("select[name='module']").change(function () {
@@ -344,12 +403,12 @@
                         '<textarea rows="2" placeholder="Answer ' + i + '" class="form-control" name="answer_' + i + '" required="required"></textarea><br>' +
                         '</div>' +
                         '<div class="col-md-1">' +
-                        '<input style="width: 40px;" type="checkbox" name="is_answer[]" value="' + i + '">' +
+                        '<input style="width: 40px;"  type="checkbox" name="is_answer[]" value="' + i + '">' +
                         '</div>' +
                         '</div>';
                 }
                 document.getElementById('input_answer').innerHTML = html;
-                document.getElementById('submit').disabled = false;
+                document.getElementById('sub').disabled = false;
             }
         }
     </script>
@@ -397,7 +456,8 @@
                                 }, 1000);
                             }
                         })
-                    };
+                    }
+                    ;
                 }
             });
         };
@@ -405,6 +465,7 @@
     {{--    show detail question--}}
     <script>
         var url_show_detail = "{{ url('ajax/show_detail') }}";
+
         function show_detail(id, content, level) {
             var question_id = id;
             var token = $("input[name='_token']").val();
@@ -419,15 +480,15 @@
                 success: function (data) {
                     $("div[id='show']").html('');
                     $("div[id='show']").append(
-                        "<h3> Question:</h3> <span>" + content +"</span> <br><br>" +
+                        "<h3> Question:</h3> <span>" + content + "</span> <br><br>" +
                         "<lable><b>Level:  </b> " + level + "</lable><hr> "
                     );
                     var dem = 1;
                     $.each(data, function (key, value) {
                         $("div[id='show']").append(
                             "<lable class=\"next_line\"> <b>Answer " + dem + " :</b>   " +
-                                value.content
-                            +"</lable><br><br>"
+                            value.content
+                            + "</lable><br><br>"
                         );
                         dem++;
                     });

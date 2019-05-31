@@ -95,8 +95,8 @@
                             <td class="next_line">{{$student->email}}</td>
                             <td>{{$student->pivot->updated_at}} </td>
                             <td>
-                                <a data-toggle="tooltip" data-original-title="Show all exams" class="btn btn-info btn-sm"
-                                   href="{{route('classes.show_exam',$classes->id." ".$student->id)}}"><i class="ni ni-fat-add"></i></a>
+                                <a  class="btn btn-info btn-sm"
+                                   href="{{route('classes.show_exam',$classes->id." ".$student->id)}}">Show</a>
                             </td>
                         </tr>
                     @endforeach

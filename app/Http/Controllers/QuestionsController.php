@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Answers;
 use App\Chapters;
+use App\Exam_User;
 use App\Imports\QuestionsImport;
 use App\Modules;
 use App\Parts;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Questions;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\Console\Input\Input;
 
 class QuestionsController extends Controller
 {
@@ -32,12 +34,18 @@ class QuestionsController extends Controller
     //postAdd
     public function store(Request $request)
     {
+        if (empty($request->image)) $imageName=null;
+        else{
+            $imageName = time().'.'.request()->image->getClientOriginalExtension();
+            request()->image->move(public_path('images'), $imageName);
+        }
         $arr = $request->is_answer;
         $questions = new Questions();
         $questions->content = $request->get('content', '');
         $questions->level = $request->get('level', '');
-        if (count($arr)==1) $questions->kind = 0;
+        if (count($arr) == 1) $questions->kind = 0;
         else $questions->kind = 1;
+        $questions->image = $imageName;
         $questions->user_id = auth()->id();
         $questions->part_id = $request->get('part', '');
         $questions->save();
@@ -68,7 +76,41 @@ class QuestionsController extends Controller
         }
         return redirect('questions')->with('message', 'Add new question success');
     }
-
+    public function download(){
+        $array = Array(
+            0 => Array(
+                0 => "Today is Sunday, what day is tomorrow?",
+                1 => "easy",
+                2 => "4",
+                3 => "2",
+                4 => "Saturday",
+                5 => "Monday",
+                6 => "Tuesday",
+                7 => "Wednesday",
+            ),
+            1 => Array(
+                0 => "How much is the square root of 4?",
+                1 => "hard",
+                2 => "5",
+                3 => "2,4",
+                4 => "4",
+                5 => "2",
+                6 => "0",
+                7 => "-2",
+                8 => "-4",
+            )
+        );
+        $name = "Sample_import_question.xlsx";
+        header("Content-Disposition: attachment; filename=\"$name\"");
+        header("Content-Type: application/vnd.ms-excel;");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        $out = fopen("php://output", 'w');
+        foreach ($array as $data) {
+            fputcsv($out, $data, "\t");
+        }
+        fclose($out);
+    }
     public function import(Request $request)
     {
         $arrays = Excel::toArray(new QuestionsImport(), request()->file('file'));
@@ -79,7 +121,7 @@ class QuestionsController extends Controller
                 $level = $array[$i][1];
                 $part_id = $request->part;
                 $amount = $array[$i][2];
-                $is_correct = explode(",",$array[$i][3]);
+                $is_correct = explode(",", $array[$i][3]);
                 //add question
                 $question = new Questions();
                 $question->level = $level;
@@ -92,13 +134,13 @@ class QuestionsController extends Controller
                 //add answer
                 $ques_id = DB::table('questions')
                     ->max('id');
-                for ($j = 1; $j<=$amount; $j++){
+                for ($j = 1; $j <= $amount; $j++) {
                     $answer = new Answers();
                     $answer->question_id = $ques_id;
-                    $answer->content = $array[$i][$j+3];
-                    $dem=0;
-                    for ($k = 0; $k<count($is_correct); $k++){
-                        if ($is_correct[$k] == $j){
+                    $answer->content = $array[$i][$j + 3];
+                    $dem = 0;
+                    for ($k = 0; $k < count($is_correct); $k++) {
+                        if ($is_correct[$k] == $j) {
                             $answer->is_correct = 1;
                             $dem++;
                             break;
@@ -111,10 +153,12 @@ class QuestionsController extends Controller
         }
         return redirect()->back()->with('message', 'Add new question success');
     }
-    public function destroy($question_id){
-        $question = Questions::where('id',$question_id)->first();
+
+    public function destroy($question_id)
+    {
+        $question = Questions::where('id', $question_id)->first();
         $answers = Answers::all();
-        foreach ($answers as $answer){
+        foreach ($answers as $answer) {
             if ($answer->question_id == $question->id)
                 $answer->delete();
         }

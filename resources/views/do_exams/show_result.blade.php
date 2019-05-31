@@ -11,6 +11,14 @@
             text-align: left;
             padding-left: 5px;
         }
+        .answer{
+            border: 1px solid #172b4d;
+            border-radius: 5px ;
+        }
+        .answer:hover{
+            background: #ffffff;
+            color: #172b4d;
+        }
         .ans input{
             float: left;
             padding-top: 10px;
@@ -55,7 +63,7 @@
                             if ($question->kind == 0){
                                 foreach ($answers as $answer){
                                     if ($answer['question_id'] == $question->id){
-                                     $ans =0;
+                                     $ans = 0;
                                         foreach ($selects as $select){
                                             if ($question->id == $select->question_id){
                                                 $strings  = $select->user_selected;
@@ -63,7 +71,7 @@
                                                 if (count($nums)>1){
                                                     for ($i = 1; $i < count($nums); $i++){
                                                         if ($answer['id'] == $nums[$i]){
-                                                        if($answer['is_correct']==1) echo '<label  class="btn btn-success ans ">';
+                                                        if($answer['is_correct'] == 1) echo '<label  class="btn btn-success ans ">';
                                                         else echo '<label  class="btn btn-danger ans ">';
                                                         echo '<input disabled checked type="radio" name="ques_'.$question->id.'[]"
                                                                    value="'.$answer['id'].'"/>&nbsp;' .htmlentities($answer['content']).'</label><br>';
@@ -78,11 +86,11 @@
                                         if ($ans==0){
                                             if($answer['is_correct']==1){
                                                 echo '<label  class="btn btn-success ans ">';
-                                                echo '<input disabled checked type="radio" name="ques_'.$question->id.'[]"
+                                                echo '<input disabled  type="radio" name="ques_'.$question->id.'[]"
                                                            value="'.$answer['id'].'"/>&nbsp;' .htmlentities($answer['content']).'</label><br>';
                                             }
                                             else{
-                                                echo '<label  class="btn btn-outline-default ans ">';
+                                                echo '<label  class="btn btn-outline-default ans answer">';
                                                 echo '<input disabled type="radio" name="ques_'.$question->id.'[]"
                                                        value="'.$answer['id'].'"/>&nbsp;' .htmlentities($answer['content']).'</label><br>';
                                             }
@@ -116,11 +124,11 @@
                                         if ($ans==0){
                                             if($answer['is_correct']==1){
                                                 echo '<label  class="btn btn-success ans ">';
-                                                echo '<input disabled checked type="checkbox" name="ques_'.$question->id.'[]"
+                                                echo '<input disabled  type="checkbox" name="ques_'.$question->id.'[]"
                                                            value="'.$answer['id'].'"/>&nbsp;' .htmlentities($answer['content']).'</label><br>';
                                             }
                                             else{
-                                                echo '<label  class="btn btn-outline-default ans ">';
+                                                echo '<label  class="btn btn-outline-default ans answer">';
                                                 echo '<input disabled type="checkbox" name="ques_'.$question->id.'[]"
                                                        value="'.$answer['id'].'"/>&nbsp;' .htmlentities($answer['content']).'</label><br>';
                                             }

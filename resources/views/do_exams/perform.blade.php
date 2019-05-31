@@ -121,10 +121,16 @@
             <input type="hidden" name="_token" value="{{csrf_token()}}"/>
             <input hidden type="text" id="time_end" name="end_test" value="no">
             <input hidden type="text" name="exam" value="{{$exam->id}}">
+            <img src="../../../public/images/1559054469.jpg" alt="">
             @foreach($questions as $question)
                 <div class="card ">
                     <div class="card-header ">
-                        <h3 class="mb-0">Question {{$count}} : {{$question->content}}</h3>
+                        <h3 class="mb-0">Question {{$count}} : {{$question->content}}</h3><br>
+                        @if ($question->image != null)
+                            @php
+                                echo'<img src="../../../public/images/'.$question->image.'" width="300px" height="300px">';
+                            @endphp
+                        @endif
                     </div>
                     <div class="card-body">
                         @php

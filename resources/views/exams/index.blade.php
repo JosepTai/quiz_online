@@ -172,16 +172,15 @@
                             <td class="next_line">{{$exam->end_time}}</td>
                             <td class="next_line">{{$exam->updated_at}}</td>
                             <td>
+                                <a class="btn btn-info btn-sm"
+                                   href="{{route('exams.show',$exam->id)}}">Show</a>
                                 @if ($exam->status == "close")
-                                    <a data-toggle="tooltip" data-original-title="Config" class="btn btn-info btn-sm"
-                                       href="{{route('configs.index',$exam->id)}}"><i class="ni ni-settings"></i></a>
+                                    <a style="color: #fff" class="btn btn-default btn-sm"
+                                       href="{{route('configs.index',$exam->id)}}">Config</a>
                                 @else
-                                    <a disabled="disabled" data-toggle="tooltip"
-                                       data-original-title="This exam was configed" class="btn btn-info btn-sm"
-                                    ><i class="ni ni-settings"></i></a>
+                                    <a style="color: #fff" disabled="disabled" class="btn btn-default btn-sm"
+                                    >Configed</a>
                                 @endif
-                                <a data-toggle="tooltip" data-original-title="Show" class="btn btn-default btn-sm"
-                                   href="{{route('exams.show',$exam->id)}}"><i class="ni ni-fat-add"></i></a>
                             </td>
                         </tr>
                     @endforeach

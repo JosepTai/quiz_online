@@ -92,7 +92,6 @@ class DoExamsController extends Controller
         return view('do_exams.perform', ['exam' => $exam, 'questions' => $questions, 'answers' => $answ, 'title' => $title, 'selects' => $selects, 'end_time' => $end_time]);
     }
 
-
     public function successPerform(Request $request)
     {
         $exam_user = Exam_User::where(['exam_id' => $request->exam, 'user_id' => auth()->id()])->first();
@@ -167,7 +166,7 @@ class DoExamsController extends Controller
             }
             foreach ($selects as $select) {
                 $strings = $select->user_selected;
-                if ($strings =="") continue;
+                if ($strings == "") continue;
                 else {
                     $nums = explode(" ", $strings);
                     $ans = 0;

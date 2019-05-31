@@ -100,12 +100,10 @@
                             <td class="next_line">{{$class->module->name}}</td>
                             <td>{{$class->updated_at}} </td>
                             <td>
-                                <a data-toggle="tooltip" data-original-title="Show all students" class="btn btn-info btn-sm"
-                                   href="{{route('classes.students',$class->id)}}"><i class="ni ni-fat-add"></i></a>
-                                <a data-toggle="tooltip" data-original-title="Delete" class="btn btn-danger btn-sm"
-                                   href="classes"><i class="ni ni-fat-remove"></i></a>
-                                <a data-toggle="tooltip" data-original-title="Edit" class="btn btn-primary btn-sm"
-                                   href="classes"><i class="ni ni-settings"></i></a>
+                                <a  class="btn btn-info btn-sm"
+                                   href="{{route('classes.students',$class->id)}}">Show</a>
+{{--                                <a data-toggle="tooltip" data-original-title="Delete" class="btn btn-danger btn-sm"--}}
+{{--                                   href="classes"><i class="ni ni-fat-remove"></i></a>--}}
                             </td>
                         </tr>
                     @endforeach
