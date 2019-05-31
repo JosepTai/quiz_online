@@ -237,10 +237,9 @@
                             <td class="next_line">{{$question->part->chapter->module->name}}</td>
                             <td>{{$question->updated_at}} </td>
                             <td>
-                                <a style="color: #fff"
-                                   onclick="show_detail('{{$question->id}}','{{$question->content}}','{{$question->level}}')"
-                                   data-toggle="modal"
-                                   data-target="#show_detail" class="btn btn-info btn-sm"
+                                <a style="color: #fff" href="{{route('questions.show',$question->id)}}"
+{{--                                   onclick="show_detail('{{$question->id}}','{{$question->content}}','{{$question->level}}')"--}}
+                                   class="btn btn-info btn-sm"
                                 >Show</a>
                                 <a style="color: #fff" onclick="check_delete('{{$question->id}}')"
                                    id="delete_{{$question->id}}" class="btn btn-danger btn-sm"
@@ -252,30 +251,31 @@
                 </table>
             </div>
         </div>
-        {{--            --}}
-        <div class="modal fade" id="show_detail" tabindex="-1" role="dialog"
-             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2 class="modal-title" id="exampleModalLongTitle">Detail</h2>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div id="show">
+        {{--     show detail       --}}
+{{--        <div class="modal fade" id="show_detail" tabindex="-1" role="dialog"--}}
+{{--             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">--}}
+{{--            <div class="modal-dialog modal-lg" role="document">--}}
+{{--                <div class="modal-content">--}}
+{{--                    <div class="modal-header">--}}
+{{--                        <h2 class="modal-title" id="exampleModalLongTitle">Detail</h2>--}}
+{{--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
+{{--                            <span aria-hidden="true">&times;</span>--}}
+{{--                        </button>--}}
+{{--                    </div>--}}
+{{--                    <div class="modal-body">--}}
+{{--                        <div id="show">--}}
 
-                        </div>
-                        <button style="float:right;" type="button" class="btn btn-outline-primary"
-                                data-dismiss="modal">Close
-                        </button>
-                        </form>
-                    </div>
+{{--                        </div>--}}
+{{--                        <button style="float:right;" type="button" class="btn btn-outline-primary"--}}
+{{--                                data-dismiss="modal">Close--}}
+{{--                        </button>--}}
+{{--                        </form>--}}
+{{--                    </div>--}}
 
-                </div>
-            </div>
-        </div>
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+
     </div>
     {{--    --}}
     </div>
@@ -463,37 +463,37 @@
         };
     </script>
     {{--    show detail question--}}
-    <script>
-        var url_show_detail = "{{ url('ajax/show_detail') }}";
+{{--    <script>--}}
+{{--        var url_show_detail = "{{ url('ajax/show_detail') }}";--}}
 
-        function show_detail(id, content, level) {
-            var question_id = id;
-            var token = $("input[name='_token']").val();
-            $.ajax({
-                url: url_show_detail,
-                method: 'POST',
-                data: {
-                    question_id: question_id,
-                    _token: token
+{{--        function show_detail(id, content, level) {--}}
+{{--            var question_id = id;--}}
+{{--            var token = $("input[name='_token']").val();--}}
+{{--            $.ajax({--}}
+{{--                url: url_show_detail,--}}
+{{--                method: 'POST',--}}
+{{--                data: {--}}
+{{--                    question_id: question_id,--}}
+{{--                    _token: token--}}
 
-                },
-                success: function (data) {
-                    $("div[id='show']").html('');
-                    $("div[id='show']").append(
-                        "<h3> Question:</h3> <span>" + content + "</span> <br><br>" +
-                        "<lable><b>Level:  </b> " + level + "</lable><hr> "
-                    );
-                    var dem = 1;
-                    $.each(data, function (key, value) {
-                        $("div[id='show']").append(
-                            "<lable class=\"next_line\"> <b>Answer " + dem + " :</b>   " +
-                            value.content
-                            + "</lable><br><br>"
-                        );
-                        dem++;
-                    });
-                }
-            });
-        };
-    </script>
+{{--                },--}}
+{{--                success: function (data) {--}}
+{{--                    $("div[id='show']").html('');--}}
+{{--                    $("div[id='show']").append(--}}
+{{--                        "<h3> Question:</h3> <span>" + content + "</span> <br><br>" +--}}
+{{--                        "<lable><b>Level:  </b> " + level + "</lable><hr> "--}}
+{{--                    );--}}
+{{--                    var dem = 1;--}}
+{{--                    $.each(data, function (key, value) {--}}
+{{--                        $("div[id='show']").append(--}}
+{{--                            "<lable class=\"next_line\"> <b>Answer " + dem + " :</b>   " +--}}
+{{--                            value.content--}}
+{{--                            + "</lable><br><br>"--}}
+{{--                        );--}}
+{{--                        dem++;--}}
+{{--                    });--}}
+{{--                }--}}
+{{--            });--}}
+{{--        };--}}
+{{--    </script>--}}
 @endsection

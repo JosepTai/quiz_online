@@ -54,6 +54,7 @@ Route::group(['prefix' => 'questions','as'=>'questions.'], function () {
     Route::post('create', 'QuestionsController@store')->name('create');
     Route::post('import','QuestionsController@import')->name('import');
     Route::get('{question_id}/destroy','QuestionsController@destroy')->name('destroy');
+    Route::get('{question_id}/show','QuestionsController@show')->name('show');
     Route::get('download','QuestionsController@download')->name('download');
 });
 //Exams

@@ -57,6 +57,12 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="mb-0">Question {{$count}} : {{$question->content}}</h3>
+                        <div>
+                            @if ($question->image != null)
+                                <img style="max-width: 700px; max-height: 700px;margin: auto; display: block"
+                                     src="{{url('/images/'.$question->image)}}">
+                            @endif
+                        </div>
                     </div>
                     <div class="card-body">
                         @php

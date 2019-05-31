@@ -154,6 +154,15 @@ class QuestionsController extends Controller
         return redirect()->back()->with('message', 'Add new question success');
     }
 
+    public function show($question_id){
+        $question = Questions::where('id',$question_id)->first();
+        $answers = Answers::where('question_id',$question_id)->get();
+        $count = DB::table('config_question')
+                    ->where('question_id',$question_id)
+                    ->count();
+        return view('questions.show',['question'=>$question, 'answers'=>$answers,'count'=>$count]);
+    }
+
     public function destroy($question_id)
     {
         $question = Questions::where('id', $question_id)->first();
