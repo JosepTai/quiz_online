@@ -1,10 +1,5 @@
 @extends('layouts.index')
 @section('content')
-    @if(session('message'))
-        <div class="alert alert-success" id="message">
-            {{session('message')}}
-        </div>
-    @endif
 
     <div class="header bg-primary pb-6">
         <div class="container-fluid">
@@ -169,10 +164,12 @@
                                                 <br>
                                                 <div class="row">
                                                     <div class="col-md-8">
-                                                        <input type="file" name="file" class="form-control" required="required">
+                                                        <input type="file" name="file" class="form-control"
+                                                               required="required">
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <a href="{{asset('storage/Sample Import.xlsx')}}" class="btn btn-outline-success">Download the sample file</a>
+                                                        <a href="{{asset('storage/Sample Import.xlsx')}}"
+                                                           class="btn btn-outline-success">Download the sample file</a>
                                                     </div>
                                                 </div>
                                                 {{--                                                --}}
@@ -237,8 +234,9 @@
                             <td class="next_line">{{$question->part->chapter->module->name}}</td>
                             <td>{{$question->updated_at}} </td>
                             <td>
-                                <a style="color: #fff" href="{{route('questions.show',$question->id)}}"
-{{--                                   onclick="show_detail('{{$question->id}}','{{$question->content}}','{{$question->level}}')"--}}
+                                <a style="color: #fff"
+                                   {{--                                   href="{{route('questions.show',$question->id)}}"--}}
+                                   onclick="show_detail('{{$question->id}}','{{$question->content}}','{{$question->level}}','{{$question->image}}')"
                                    class="btn btn-info btn-sm"
                                 >Show</a>
                                 <a style="color: #fff" onclick="check_delete('{{$question->id}}')"
@@ -251,30 +249,33 @@
                 </table>
             </div>
         </div>
-        {{--     show detail       --}}
-{{--        <div class="modal fade" id="show_detail" tabindex="-1" role="dialog"--}}
-{{--             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">--}}
-{{--            <div class="modal-dialog modal-lg" role="document">--}}
-{{--                <div class="modal-content">--}}
-{{--                    <div class="modal-header">--}}
-{{--                        <h2 class="modal-title" id="exampleModalLongTitle">Detail</h2>--}}
-{{--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
-{{--                            <span aria-hidden="true">&times;</span>--}}
-{{--                        </button>--}}
-{{--                    </div>--}}
-{{--                    <div class="modal-body">--}}
-{{--                        <div id="show">--}}
+        {{--             show detail       --}}
+        <a hidden id="hidden_btn" class="btn btn-success" data-toggle="modal" data-target="#show_detail">
+            Import Questions
+        </a>
+        <div class="modal fade" id="show_detail" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="exampleModalLongTitle">Detail</h2>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="show">
 
-{{--                        </div>--}}
-{{--                        <button style="float:right;" type="button" class="btn btn-outline-primary"--}}
-{{--                                data-dismiss="modal">Close--}}
-{{--                        </button>--}}
-{{--                        </form>--}}
-{{--                    </div>--}}
+                        </div>
+                        <button style="float:right;" type="button" class="btn btn-outline-primary"
+                                data-dismiss="modal">Close
+                        </button>
+                        </form>
+                    </div>
 
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
+                </div>
+            </div>
+        </div>
 
     </div>
     {{--    --}}
@@ -289,7 +290,7 @@
     {{--  Check add new question  --}}
     <script>
         function check_add() {
-             if ((document.getElementById('image').files[0].size / 1024 / 1024) > 5) {
+            if ((document.getElementById('image').files[0].size / 1024 / 1024) > 5) {
                 document.getElementById('close').click();
                 Swal.fire({
                     title: 'Warning!',
@@ -302,15 +303,13 @@
                     }
                 })
                 return false;
-            }
-            else if (document.getElementById('image').value.lastIndexOf(".png") > -1 || document.getElementById('image').value.lastIndexOf(".PNG") > -1
+            } else if (document.getElementById('image').value.lastIndexOf(".png") > -1 || document.getElementById('image').value.lastIndexOf(".PNG") > -1
                 || document.getElementById('image').value.lastIndexOf(".jpg") > -1 || document.getElementById('image').value.lastIndexOf(".JPG") > -1
                 || document.getElementById('image').value.lastIndexOf(".jpeg") > -1 || document.getElementById('image').value.lastIndexOf(".JPEG") > -1
                 || document.getElementById('image').value.lastIndexOf(".gif") > -1 || document.getElementById('image').value.lastIndexOf(".GIF") > -1
-            ){
+            ) {
                 return true;
-            }
-            else {
+            } else {
                 document.getElementById('close').click();
                 Swal.fire({
                     title: 'Warning!',
@@ -384,9 +383,19 @@
         function add_answer() {
             var x = document.getElementById("amount").value;
             x = parseInt(x);
-            if (x < 2 || x > 10)
-                alert('Amount answer must between 2 and 10');
-            else {
+            if (x < 2 || x > 10) {
+                document.getElementById('close').click();
+                Swal.fire({
+                    title: 'Warning!',
+                    text: 'Amount answer must between 2 and 10',
+                    type: 'warning',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.value) {
+                        document.getElementById('add_question').click();
+                    }
+                })
+            } else {
                 var html = '<div style="text-align: center" class="row">' +
                     '<div class="col-md-11">' +
                     '<lable>Answer Content</lable>' +
@@ -403,7 +412,10 @@
                         '<textarea rows="2" placeholder="Answer ' + i + '" class="form-control" name="answer_' + i + '" required="required"></textarea><br>' +
                         '</div>' +
                         '<div class="col-md-1">' +
-                        '<input style="width: 40px;"  type="checkbox" name="is_answer[]" value="' + i + '">' +
+                        '<div style="margin-top: 10px; margin-left: 10px" class="custom-control custom-checkbox mb-3">\n' +
+                        '       <input  class="custom-control-input" id="customCheck_' + i + '" type="checkbox"  name="is_answer[]" value="' + i + '">\n' +
+                        '       <label  class="custom-control-label" for="customCheck_' + i + '"></label>\n' +
+                        '    </div>' +
                         '</div>' +
                         '</div>';
                 }
@@ -463,37 +475,54 @@
         };
     </script>
     {{--    show detail question--}}
-{{--    <script>--}}
-{{--        var url_show_detail = "{{ url('ajax/show_detail') }}";--}}
+    <script>
+        var url = "{{url('')}}";
+        var url_show_detail = "{{ url('ajax/show_detail') }}";
 
-{{--        function show_detail(id, content, level) {--}}
-{{--            var question_id = id;--}}
-{{--            var token = $("input[name='_token']").val();--}}
-{{--            $.ajax({--}}
-{{--                url: url_show_detail,--}}
-{{--                method: 'POST',--}}
-{{--                data: {--}}
-{{--                    question_id: question_id,--}}
-{{--                    _token: token--}}
+        function show_detail(id, content, level,image) {
+            var question_id = id;
+            var token = $("input[name='_token']").val();
+            $.ajax({
+                url: url_show_detail,
+                method: 'POST',
+                data: {
+                    question_id: question_id,
+                    _token: token
 
-{{--                },--}}
-{{--                success: function (data) {--}}
-{{--                    $("div[id='show']").html('');--}}
-{{--                    $("div[id='show']").append(--}}
-{{--                        "<h3> Question:</h3> <span>" + content + "</span> <br><br>" +--}}
-{{--                        "<lable><b>Level:  </b> " + level + "</lable><hr> "--}}
-{{--                    );--}}
-{{--                    var dem = 1;--}}
-{{--                    $.each(data, function (key, value) {--}}
-{{--                        $("div[id='show']").append(--}}
-{{--                            "<lable class=\"next_line\"> <b>Answer " + dem + " :</b>   " +--}}
-{{--                            value.content--}}
-{{--                            + "</lable><br><br>"--}}
-{{--                        );--}}
-{{--                        dem++;--}}
-{{--                    });--}}
-{{--                }--}}
-{{--            });--}}
-{{--        };--}}
-{{--    </script>--}}
+                },
+                success: function (data) {
+                    document.getElementById('hidden_btn').click();
+                    $("div[id='show']").html('');
+                    $("div[id='show']").append(
+                        "<div class=\"row\">\n" +
+                        "        <div class=\"col-md-8\">\n" +
+                        "           <h3> Question:</h3> <span>" + content + "</span> <br><br>" +
+                        "           <lable><b>Level:  </b> " + level + "</lable>"+
+                        "        </div>\n" +
+                        "        <div class=\"col-md-4\">\n" +
+                        "            <img style=\"max-width:220px; max-height:220px\" src=\"" + url + "/images/"+image+"\" >" +
+                        "        </div>\n" +
+                        "    </div><hr> "
+                    );
+                    var dem = 1;
+                    $.each(data, function (key, value) {
+                        if (value.is_correct == 1) {
+                            $("div[id='show']").append(
+                                "<lable style=\"width:100%; text-align: left\" class=\"next_line btn btn-success\"> <b>Answer " + dem + " :</b>   " +
+                                value.content
+                                + "</lable><br><br>"
+                            );
+                        } else {
+                            $("div[id='show']").append(
+                                "<lable style=\"width:100%; text-align: left\" class=\"next_line btn btn-outline-default\"> <b>Answer " + dem + " :</b>   " +
+                                value.content
+                                + "</lable><br><br>"
+                            );
+                        }
+                        dem++;
+                    });
+                }
+            });
+        };
+    </script>
 @endsection

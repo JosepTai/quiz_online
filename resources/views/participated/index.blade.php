@@ -128,7 +128,18 @@
     <script type="text/javascript">
         function check() {
             var id_student = '{{auth()->user()->id_student}}';
-            if (id_student == "") alert("Please change your Id Student to Join class");
+            if (id_student == ""){
+                Swal.fire({
+                    title: 'Warning!',
+                    text: 'Please change your Id Student to Join class',
+                    type: 'warning',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.value) {
+                        document.getElementById('profile').click();
+                    }
+                })
+            }
             else document.getElementById('join').click();
         }
         var url = "{{ url('ajax/class') }}";

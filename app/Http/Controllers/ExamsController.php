@@ -127,7 +127,8 @@ class ExamsController extends Controller
         }
         $name = $exam->title."_".$class->name."( ".$exam->start_time.").xls";
         header("Content-Disposition: attachment; filename=\"$name\"");
-        header("Content-Type: application/vnd.ms-excel;");
+        header('Content-Encoding: UTF-8');
+        header("Content-Type: application/vnd.ms-excel;charset=UTF-8");
         header("Pragma: no-cache");
         header("Expires: 0");
         $out = fopen("php://output", 'w');

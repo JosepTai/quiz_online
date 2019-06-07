@@ -24,13 +24,12 @@
 
         /**/
         .countdown {
-            opacity: 0.5;
+            opacity: 1;
             z-index: 999;
             overflow: hidden;
             float: right;
             position: fixed;
-            margin-left: 78%;
-            margin-right: 3%;
+            margin-left: 82%;
             border-radius: 5px;
         }
 
@@ -148,7 +147,7 @@
                                                 if (count($nums)>1){
                                                     for ($i = 1; $i < count($nums); $i++){
                                                         if ($answer['id'] == $nums[$i]){
-                                                            echo '<label class="btn btn-outline-default ans ">
+                                                            echo '<label class="btn btn-outline-default ans o">
                                                                     <input checked type="radio" name="ques_'.$question->id.'[]"
                                                                        value="'.$answer['id'].'"/>&nbsp;   ' .htmlentities($answer['content']).'</label><br>';
                                                             $ans++;

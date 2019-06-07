@@ -27,7 +27,7 @@ class DoExamsController extends Controller
         $classes = auth()->user()->classes;
         $exams = array();
         foreach ($classes as $class) {
-            $arr = Exams::where('class_id', $class->id)->get()->toArray();
+            $arr = Exams::where(['class_id'=>$class->id,'status'=>"configed"])->get()->toArray();
             $exams = array_merge($exams, $arr);
         }
         return view('do_exams.index', ['exams' => $exams, 'classes' => $classes]);

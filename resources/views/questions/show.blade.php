@@ -21,15 +21,15 @@
                             </ol>
                         </nav>
                     </div>
-                    <div class="col-lg-6 col-5 text-right">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 fix-top">
-                            <h1 class="page-header">
-                                <a id="add_question" class="btn btn-success">
-                                    Edit this question
-                                </a>
-                            </h1>
-                        </div>
-                    </div>
+{{--                    <div class="col-lg-6 col-5 text-right">--}}
+{{--                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 fix-top">--}}
+{{--                            <h1 class="page-header">--}}
+{{--                                <a id="add_question" class="btn btn-success">--}}
+{{--                                    Edit this question--}}
+{{--                                </a>--}}
+{{--                            </h1>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
                 </div>
             </div>
         </div>
@@ -79,7 +79,7 @@
             <div class="card-body">
                 <div style="text-align: center" class="row">
                     <div class="col-md-11">Answer content</div>
-                    <div class="col-md-1">Is correct answer</div>
+                    <div class="col-md-1">Is correct</div>
                 </div>
                 <br>
                 @foreach($answers as $answer)
@@ -89,9 +89,15 @@
                         </div>
                         <div class="col-md-1">
                             @if ($answer->is_correct == 1)
-                                <input style="margin-left: 30px" class="checkbox_answer" disabled style="margin: auto" checked type="checkbox" name="is_correct_{{$answer->id}}">
+                                <div style="margin-top: 10px; margin-left: 15px" class="custom-control custom-checkbox mb-3">
+                                    <input disabled class="custom-control-input" id="customCheck_{{$answer->id}}" type="checkbox" checked="checked" name="is_correct_{{$answer->id}}">
+                                    <label disabled="" class="custom-control-label" for="customCheck_{{$answer->id}}"></label>
+                                </div>
                             @else
-                                <input style="margin-left: 30px" class="checkbox_answer" disabled style="margin: auto" type="checkbox" name="is_correct_{{$answer->id}}">
+                                <div style="margin-top: 10px; margin-left: 15px" class="custom-control custom-checkbox mb-3">
+                                    <input disabled class="custom-control-input" id="customCheck_{{$answer->id}}" type="checkbox"  name="is_correct_{{$answer->id}}">
+                                    <label disabled="" class="custom-control-label" for="customCheck_{{$answer->id}}"></label>
+                                </div>
                             @endif
                         </div>
                     </div><br>

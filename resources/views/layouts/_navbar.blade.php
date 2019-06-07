@@ -38,7 +38,7 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a onclick="reset_profile()" class="dropdown-item" href="" data-toggle="modal"
+                        <a onclick="reset_profile()" id="profile" class="dropdown-item" href="" data-toggle="modal"
                            data-target="#navbarModell">Profile</a>
                         <a class="dropdown-item" href="{{ route('logout') }}"
                            onclick="event.preventDefault();

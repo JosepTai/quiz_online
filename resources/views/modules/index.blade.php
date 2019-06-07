@@ -1,10 +1,5 @@
 @extends('layouts.index')
 @section('content')
-    @if(session('message'))
-        <div class="alert alert-success" id="message">
-            {{session('message')}}
-        </div>
-    @endif
     <div class="header bg-primary pb-6">
         <div class="container-fluid">
             <div class="header-body">
